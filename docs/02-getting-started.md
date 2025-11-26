@@ -1,7 +1,7 @@
-```# Getting Started with RHYTHM Method
+# Getting Started with RHYTHM Method
 
-**Version:** 1.0.0
-**Last Updated:** 2025-11-26
+**Version:** 1.0.0  
+**Last Updated:** 2025-11-26  
 **Status:** Initial Draft - For Review
 
 ## Overview
@@ -389,37 +389,26 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 
 ## Examples and Case Studies
 
-**Note:** Comprehensive examples and case studies are planned for future documentation. The following examples would be valuable:
+**End-to-End Workflow Example:**
+- **[Workflow Example](14-workflow-example.md)** - Complete walkthrough of User Authentication System feature from specification to deployment, showing actual content and decisions at each step
 
-**Planned Examples:**
-- **Example Project Manifest**: Complete Project Manifest for a sample project
-- **Example Feature Specification**: Detailed Feature specification with validation criteria
-- **Example Work Unit Breakdown**: Complete Work Unit breakdown with Agent Tasks
-- **Example Dependency Graph**: Visual dependency graph with multiple Work Units
-- **Example Token Estimation**: Complete token estimation for a real Feature
-- **End-to-End Workflow**: Complete workflow example from Feature Specification to deployment
-
-**Example Location:**
-Examples will be provided in an `examples/` directory with:
-- Real-world project examples
-- Complete workflow walkthroughs
-- Case studies of RHYTHM Method adoption
-- Template files for Project Manifest, Features, Work Units
-
-**For Now:**
+**Additional Examples:**
 - See [Estimation](08-estimation.md) for token estimation examples
 - See [Dependency Management](09-dependency-management.md) for dependency examples
 - See [Work Breakdown Structure](07-work-breakdown-structure.md) for WBS examples
+- See [Quick Reference](15-quick-reference.md) for formulas and decision trees
 
 ## Next Steps
 
 After getting started:
 
-1. **Understand Key Terms**: See [Dictionary](03-dictionary.md) for key terms and concepts
-2. **Learn Best Practices**: See [Best Practices](10-best-practices.md) for detailed guidance
-3. **Explore Tooling**: See [Tooling](11-tooling.md) for tool integrations
-4. **Review Common Challenges**: See [Common Challenges](12-common-challenges.md) for solutions
-5. **Understand Error Handling**: See [Error Handling](13-error-handling.md) for failure recovery
+1. **See a Complete Example**: Review the [Workflow Example](14-workflow-example.md) to see RHYTHM Method in practice
+2. **Understand Key Terms**: See [Dictionary](03-dictionary.md) for key terms and concepts
+3. **Quick Reference**: Use the [Quick Reference](15-quick-reference.md) for formulas and decision trees
+4. **Learn Best Practices**: See [Best Practices](10-best-practices.md) for detailed guidance
+5. **Explore Tooling**: See [Tooling](11-tooling.md) for tool integrations
+6. **Review Common Challenges**: See [Common Challenges](12-common-challenges.md) for solutions and FAQ
+7. **Understand Error Handling**: See [Error Handling](13-error-handling.md) for failure recovery
 
 ---
 
@@ -435,4 +424,3 @@ After getting started:
 | Version | Date       | Author  | Description                   |
 | ------- | ---------- | ------- | ----------------------------- |
 | 1.0.0   | 2025-11-24 | Initial | Initial getting started guide |
-```
