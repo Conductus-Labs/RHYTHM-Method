@@ -41,6 +41,35 @@ The top-level container for all work in a RHYTHM Method project.
 - **Project Manifest**: Includes decision tracking (similar to ADRs)
 - **Project Manifest**: Serves as the project information repository
 
+**Implementation Details:**
+
+**Storage:**
+- The Project Manifest is stored as a markdown file: `.baton/project.manifest.md`
+- The `.baton/` directory is typically in `.gitignore`, so the Project Manifest is **not committed** to the repository
+- The Project Manifest is local to each developer/agent environment
+
+**Relationship to Project Management Tools:**
+
+The Project Manifest markdown file is the **single source of truth**. Features are tracked in project management tools (GitHub Issues, Azure DevOps, Jira, etc.), but the parent-child relationship is **conceptual**, not a direct link in the PM tool.
+
+**Important:** To avoid sync issues, the Project Manifest should **NOT** be duplicated in PM tools (e.g., as a GitHub Issue). Instead:
+
+- **Project Manifest** = Markdown file (`.baton/project.manifest.md`) - source of truth
+- **Features** = Tracked in PM tools (e.g., GitHub Issues), conceptually parented to Project Manifest
+- **Relationship** = Conceptual parent-child relationship, not a direct PM tool link
+
+**Why Not Both Places?**
+
+Creating a Project Manifest in both the markdown file AND a PM tool (e.g., GitHub Issue) would create:
+- **Sync problems**: Two sources of truth that can diverge
+- **Maintenance overhead**: Changes must be made in two places
+- **Confusion**: Which one is authoritative?
+
+**Best Practice:**
+- Project Manifest = Markdown file only (single source of truth)
+- Features in PM tools reference the Project Manifest conceptually
+- The markdown file can link to Features in PM tools, but doesn't duplicate PM tool data
+
 ### Level 2: Feature
 
 A required deliverable unit of functionality that provides business value.
