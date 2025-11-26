@@ -21,4 +21,4 @@ npm-debug.log*
 tmp/
 temp/
 *.tmp
-.baton
+.baton/**/*
