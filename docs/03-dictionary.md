@@ -6,6 +6,13 @@
 
 This dictionary defines key terms and concepts used throughout RHYTHM Method documentation.
 
+**Terminology Standardization:**
+RHYTHM Method uses specific terminology consistently throughout all documentation. When referring to these concepts, use the standardized terms defined in this dictionary:
+- **"User"** (not "customer" or "stakeholder") - The human stakeholder in RHYTHM Method
+- **"Agent Task"** (not "Task" or "Work Item") - The smallest unit of executable work
+- **"Work Unit"** (not "Unit of Work") - A specific piece of work completed in an execution cycle
+- **"Execution Cycle"** (not "Cycle") - A focused work period up to 8 hours
+
 ## Core Concepts
 
 ### Agent
