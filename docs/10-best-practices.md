@@ -199,6 +199,50 @@ This document provides best practices for implementing and using RHYTHM Method e
 
 **Benefits**: Comprehensive token accounting ensures accurate estimates.
 
+### Start with Agent Tasks
+
+**Practice**: Always estimate at the Agent Task level first, then roll up to higher levels.
+
+- **Direct Estimation**: Estimate Agent Tasks directly using specifications
+- **Roll-Up**: Automatically roll up to Work Units and Features
+- **Accuracy**: Task-level estimation provides most accurate estimates
+- **Validation**: Validate roll-up estimates against similar work
+
+**Benefits**: Task-level estimation provides accurate, measurable estimates that roll up reliably.
+
+### Track and Use Historical Data
+
+**Practice**: Track actual token usage and leverage historical data to improve accuracy.
+
+- **Track Actuals**: Track actual token usage during every execution cycle
+- **Historical Lookup**: Query historical data for similar tasks
+- **Pattern Recognition**: Use patterns from completed work
+- **Continuous Improvement**: Refine estimates based on actual vs. estimated variance
+
+**Benefits**: Historical data enables data-driven estimation improvement and pattern recognition.
+
+### Let Agents Auto-Estimate
+
+**Practice**: Let agents auto-estimate by default, review only high-value/high-risk work.
+
+- **Automated Estimation**: Agents automatically estimate from specifications
+- **Minimal Review**: Review estimates for high-value or high-risk work only
+- **Trust Automation**: Trust automated estimation for routine, well-defined work
+- **Estimation Time**: Estimation time is included in Analysis Tokens (not separate overhead)
+
+**Benefits**: Automated estimation reduces overhead while maintaining accuracy for routine work.
+
+### Validate Estimates Continuously
+
+**Practice**: Regularly validate estimates by comparing to actual token usage.
+
+- **Track Actual Tokens**: Track actual tokens during execution cycles
+- **Compare Estimates**: Compare estimated vs. actual tokens for each completed task
+- **Analyze Patterns**: Analyze estimation accuracy patterns
+- **Refine Models**: Refine estimation models based on actual data
+
+**Benefits**: Continuous validation improves estimation accuracy over time.
+
 ## Dependency Management Best Practices
 
 ### Identify Dependencies Early
@@ -222,6 +266,28 @@ This document provides best practices for implementing and using RHYTHM Method e
 - **Resolution Status**: Track resolution status
 
 **Benefits**: Visualization enables better dependency management and planning.
+
+### Minimize Dependencies
+
+**Practice**: Design work to minimize dependencies.
+
+- **Independent Features**: Design independent features where possible
+- **Parallel Work Units**: Enable parallel Work Units
+- **Clear Interfaces**: Clear interfaces reduce coupling
+- **Dependency Analysis**: Analyze and minimize dependencies during design
+
+**Benefits**: Minimizing dependencies enables parallel execution and faster delivery.
+
+### Track Dependencies Continuously
+
+**Practice**: Continuously track dependencies throughout the project.
+
+- **Real-Time Updates**: Dependency graph updates in real-time
+- **Automatic Detection**: New dependencies automatically detected
+- **Manual Identification**: Humans can manually identify strategic dependencies
+- **Resolution Tracking**: Track dependency resolution status
+
+**Benefits**: Continuous tracking ensures accurate dependency management and prioritization.
 
 ## Quality Assurance Best Practices
 
@@ -247,9 +313,64 @@ This document provides best practices for implementing and using RHYTHM Method e
 
 **Benefits**: Appropriate HITL maintains quality while allowing fast execution.
 
+## Workflow Best Practices
+
+### Optimize Workflow Flow
+
+**Practice**: Configure workflows to reduce approval bottlenecks while maintaining control.
+
+- **TEMPO-Based Streamlining**: Use TEMPO level to determine approval requirements
+- **Parallel Processing**: Enable parallel review and breakdown when dependencies allow
+- **Auto-Approval**: Enable auto-approval for well-defined, low-risk work
+- **Batch Approvals**: Batch approve multiple items to reduce overhead
+- **Start Moderate**: Start with Moderate TEMPO and adjust based on team experience
+
+**Benefits**: Optimized workflows maintain fast TEMPO while ensuring appropriate control.
+
+### Use Automated Estimation
+
+**Practice**: Let agents auto-estimate by default, review only when needed.
+
+- **Trust Automation**: Agents automatically estimate from specifications
+- **Minimal Review**: Review estimates for high-value/high-risk work only
+- **Estimation Included**: Estimation time is included in Analysis Tokens
+- **Parallel Estimation**: Multiple tasks can be estimated simultaneously
+
+**Benefits**: Automated estimation reduces overhead and maintains accuracy.
+
+## Bug Handling Best Practices
+
+### Understand Bug Relationships
+
+**Practice**: Clearly distinguish between parented bugs (development) and related bugs (production).
+
+- **Development Bugs**: Parented to Work Unit, fixed within current cycle
+- **Production Bugs**: Related to Feature, requires new Work Unit
+- **Automatic Classification**: Classification based on when/where bug is found
+- **No Debates**: Clear rules eliminate "is it a bug?" and priority debates
+
+**Benefits**: Clear bug relationships eliminate friction and prevent scope creep.
+
+### Prevent Scope Creep
+
+**Practice**: Use clear boundaries to prevent scope creep from bugs.
+
+- **Parented Bugs**: Part of Work Unit scope, fixed within current cycle
+- **Related Bugs**: Separate Work Unit, follows normal prioritization
+- **New Requests**: Always separate Work Unit, never disguised as bugs
+- **Decision Criteria**: Automatic classification based on when/where found
+
+**Benefits**: Clear boundaries prevent scope creep and maintain work integrity.
+
 ## Summary
 
 RHYTHM Method best practices focus on leveraging agent capabilities (TEMPO, Flow, Coordination, Precision) while maintaining human control (Control, HITL). By following these practices, teams can achieve fast execution cycles while ensuring quality, coordination, and strategic alignment. Continuous improvement through adaptive practices ensures the methodology evolves and improves over time.
+
+**Note**: For detailed information on specific topics, see the relevant documentation:
+- **Estimation**: See [Estimation](08-estimation.md) for detailed token estimation methodology
+- **Workflows**: See [Workflows](06-workflows.md) for detailed workflow processes
+- **Dependency Management**: See [Dependency Management](09-dependency-management.md) for dependency-driven prioritization
+- **Work Breakdown Structure**: See [Work Breakdown Structure](07-work-breakdown-structure.md) for WBS hierarchy
 
 ---
 
@@ -264,4 +385,4 @@ RHYTHM Method best practices focus on leveraging agent capabilities (TEMPO, Flow
 
 | Version | Date       | Author  | Description                  |
 | ------- | ---------- | ------- | ---------------------------- |
-| 1.0.0   | 2025-01-XX | Initial | Initial best practices guide |
+| 1.0.0   | 2025-11-24 | Initial | Initial best practices guide |
