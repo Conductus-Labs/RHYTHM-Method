@@ -2,6 +2,20 @@
 
 Complete documentation for the RHYTHM Method project management methodology.
 
+## Using RHYTHM Method
+
+**The best way to use RHYTHM Method is through the Baton Framework**, available via:
+- **Baton CLI**: Command-line interface for RHYTHM Method workflows
+- **Baton Platform**: Web-based platform for RHYTHM Method project management
+
+The Baton Framework provides:
+- **Consistent Communication**: Standardized Agent-to-Agent (A2A) and Agent-to-User (A2U) message formats
+- **Message Templates**: Pre-defined templates for Features, Work Units, Agent Tasks, and Bugs
+- **Workflow Automation**: Automated RHYTHM Method workflows and processes
+- **Integration Support**: Integration with project management tools (GitHub, Azure DevOps, Jira)
+
+See [Message Formats](../message-format/README.md) for all A2A and A2U message templates.
+
 ## Documentation Index
 
 ### Getting Started

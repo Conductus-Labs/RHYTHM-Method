@@ -367,6 +367,7 @@ This document provides best practices for implementing and using RHYTHM Method e
 RHYTHM Method best practices focus on leveraging agent capabilities (TEMPO, Flow, Coordination, Precision) while maintaining human control (Control, HITL). By following these practices, teams can achieve fast execution cycles while ensuring quality, coordination, and strategic alignment. Continuous improvement through adaptive practices ensures the methodology evolves and improves over time.
 
 **Note**: For detailed information on specific topics, see the relevant documentation:
+
 - **Estimation**: See [Estimation](08-estimation.md) for detailed token estimation methodology
 - **Workflows**: See [Workflows](06-workflows.md) for detailed workflow processes
 - **Dependency Management**: See [Dependency Management](09-dependency-management.md) for dependency-driven prioritization

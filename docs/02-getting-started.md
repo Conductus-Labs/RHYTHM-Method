@@ -14,10 +14,20 @@ This guide will help you get started with RHYTHM Method in your project. Whether
 
 Before adopting RHYTHM Method, ensure you have:
 
+- **Baton Framework**: Install Baton CLI or access Baton Platform (recommended)
 - **AI Agents**: Access to AI agents capable of development work
-- **Project Management Tool**: GitHub, Azure DevOps, Jira, or similar tool
+- **Project Management Tool**: GitHub, Azure DevOps, Jira, or similar tool (optional, Baton Framework can manage)
 - **Team Understanding**: Team members understand RHYTHM Method concepts
-- **Tool Integration**: Setup scripts for your project management tool (see [Tooling](11-tooling.md))
+
+**Recommended: Use Baton Framework**
+
+The **Baton Framework** is the recommended way to use RHYTHM Method. It provides:
+- Consistent Agent-to-Agent (A2A) and Agent-to-User (A2U) communication
+- Standardized message templates for all work items
+- Automated RHYTHM Method workflows
+- Integration with project management tools
+
+See [Message Formats](../message-format/README.md) for communication templates.
 
 ## Adoption Paths
 
