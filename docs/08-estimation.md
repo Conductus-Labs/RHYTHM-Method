@@ -634,12 +634,84 @@ Estimation improves over time:
 
 ### Automated Estimation
 
-Agents can automatically estimate work:
+**Estimation is primarily automated** in RHYTHM Method. Agents automatically estimate work based on specifications, with minimal human intervention required.
 
-- Analyze specifications
-- Identify complexity factors
-- Calculate token components
-- Provide roll-up estimates
+**Automation Level:**
+
+**Fully Automated (Agent-Driven):**
+- **Specification Analysis**: Agents analyze specifications automatically
+- **Complexity Assessment**: Agents identify complexity factors from specifications
+- **Token Calculation**: Agents calculate all token components automatically
+- **Roll-Up Estimates**: Agents automatically roll up from Agent Tasks → Work Units → Features
+- **Pattern Matching**: Agents match work to historical patterns for estimation
+- **Estimation Time**: The time agents spend estimating is **included in Analysis Tokens**
+
+**Human Involvement (Minimal):**
+- **Validation**: Humans review estimates for high-value or high-risk work
+- **Calibration**: Humans adjust multipliers based on project learnings
+- **Override**: Humans can override estimates when needed (rare)
+
+**How Agents Auto-Estimate:**
+
+1. **Specification Parsing**: Agents parse specifications (YAML/JSON/Markdown) automatically
+2. **Pattern Recognition**: Agents match specifications to historical patterns
+3. **Complexity Analysis**: Agents assess complexity from specification content
+4. **Token Calculation**: Agents apply formulas and multipliers automatically
+5. **Historical Lookup**: Agents query historical data for similar tasks
+6. **Roll-Up**: Agents automatically aggregate estimates up the WBS hierarchy
+
+**Estimation Time Included in Tokens:**
+
+The time agents spend performing estimation is **included in Analysis Tokens**:
+- **Requirements Analysis**: Includes time to analyze specifications for estimation
+- **Dependency Analysis**: Includes time to identify dependencies for estimation
+- **Design Work**: Includes time to understand design requirements for estimation
+- **Architecture Decisions**: Includes time to understand architectural context for estimation
+
+**Example**: If an agent spends 10 minutes analyzing a specification to estimate tokens, that analysis time is included in the Analysis Tokens component of the estimate.
+
+**Tools Supporting Token Estimation:**
+
+**Agent Capabilities:**
+- **LLM-Based Analysis**: Agents use LLM capabilities to analyze specifications
+- **Code Analysis Tools**: Static analysis tools help estimate code complexity
+- **Pattern Matching**: Historical data databases for pattern matching
+- **Dependency Analyzers**: Tools that help identify dependencies for estimation
+
+**Estimation Automation Tools:**
+- **Specification Parsers**: Parse structured specifications (YAML/JSON/Markdown)
+- **Historical Data Queries**: Query databases of completed work for similar patterns
+- **Complexity Analyzers**: Analyze code patterns, dependencies, integrations
+- **Token Calculators**: Automated calculation engines applying formulas and multipliers
+
+**Estimation Workflow:**
+
+1. **Agent receives specification** → Automatically parses and analyzes
+2. **Agent identifies patterns** → Matches to historical data
+3. **Agent calculates tokens** → Applies formulas automatically
+4. **Agent provides estimate** → Includes all components and roll-ups
+5. **Human reviews (if needed)** → Only for high-value/high-risk work
+6. **Estimate approved** → Ready for execution
+
+**Estimation Overhead:**
+
+**Minimal Overhead:**
+- Estimation is automated, so overhead is low
+- Estimation time is included in Analysis Tokens (not separate overhead)
+- Agents can estimate multiple tasks in parallel
+- Historical data lookup is fast (automated queries)
+
+**Estimation Performance:**
+- **Single Agent Task**: Typically estimated in seconds to minutes
+- **Work Unit (4-5 tasks)**: Estimated in minutes
+- **Feature (multiple Work Units)**: Estimated in minutes to hours (depending on complexity)
+- **Parallel Estimation**: Multiple tasks can be estimated simultaneously
+
+**Best Practice:**
+- Let agents auto-estimate by default
+- Review estimates for high-value/high-risk work only
+- Trust automated estimation for routine, well-defined work
+- Use historical data to improve estimation accuracy over time
 
 ### Estimation Dashboards
 
@@ -649,6 +721,7 @@ Real-time visibility into:
 - Estimation accuracy metrics (calculated from historical actual token data)
 - Throughput rate tracking (based on actual token usage over time)
 - Capacity planning (based on user availability and HITL checkpoints)
+- Estimation automation metrics (how often estimates are auto-approved vs. require review)
 
 **Note:** Estimation dashboards require actual token usage data from execution cycles. Without tracking actual tokens, dashboards cannot display meaningful comparisons or accuracy metrics.
 
