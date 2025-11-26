@@ -196,6 +196,81 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 6. Bug fixed in new execution cycle
 7. Bug resolved when Work Unit completes
 
+### How RHYTHM Reduces Bug-Related Friction
+
+Traditional project management (Scrum, Kanban, etc.) often creates friction around bugs through debates about:
+- **"Is it even a bug?"** - Is this a defect or a feature request?
+- **"What's the severity?"** - How bad is it? (Critical, High, Medium, Low)
+- **"What's the priority?"** - When do we fix it? (Now, Later, Never?)
+
+RHYTHM Method significantly reduces this friction through clear rules and automated prioritization:
+
+#### 1. Eliminates "Is it a bug?" Debate for Development Bugs
+
+**Traditional PM Problem:**
+- Teams debate whether something is a bug or a feature request
+- Ambiguous cases cause delays and confusion
+- Scope creep from treating bugs as features or vice versa
+
+**RHYTHM Solution:**
+- **Development bugs (parented)**: If found during active work → It's a bug, parented to Work Unit, must fix. No debate.
+- **Production bugs (related)**: If found after deployment → Related to Feature, requires new Work Unit. Clear distinction from feature requests.
+- **Decision is automatic**: Based on when/where bug is found, not subjective judgment
+
+#### 2. Eliminates Severity/Priority Debate for Development Bugs
+
+**Traditional PM Problem:**
+- Teams debate bug severity (Critical, High, Medium, Low)
+- Teams debate priority (fix now vs. later)
+- High-severity bugs may still be deprioritized
+- Low-severity bugs may block releases
+
+**RHYTHM Solution:**
+- **Development bugs (parented)**: No severity or priority debate needed
+  - **Priority**: Always highest (must fix before Work Unit completion)
+  - **Severity**: Irrelevant (all parented bugs must be fixed)
+  - **Impact**: Work Unit cannot be marked complete until all parented bugs are fixed
+- **No meetings or debates**: The rule is automatic and enforced
+
+#### 3. Reduces Priority Debate for Production Bugs
+
+**Traditional PM Problem:**
+- Teams debate priority: Should we fix this bug or work on new features?
+- Business value vs. technical debt arguments
+- Priority changes based on who complains loudest
+
+**RHYTHM Solution:**
+- **Production bugs (related)**: Follow dependency-driven prioritization
+  - **Dependencies first**: Bugs that block other work are prioritized automatically
+  - **Business value second**: Within same dependency level, severity determines order
+  - **Automated prioritization**: Reduces subjective debates
+- **Clear rules**: Critical bugs (system down) → Highest priority, but still follow dependency rules
+
+#### 4. Prevents Scope Creep Through Clear Boundaries
+
+**Traditional PM Problem:**
+- Bugs used to add scope ("while we're fixing this, let's also...")
+- Feature requests disguised as bugs
+- Unclear boundaries between bugs and enhancements
+
+**RHYTHM Solution:**
+- **Parented bugs**: Part of Work Unit scope, fixed within current cycle
+- **Related bugs**: Separate Work Unit, follows normal prioritization
+- **New requests**: Always separate Work Unit, never disguised as bugs
+- **Clear decision criteria**: Automatic classification based on when/where found
+
+#### Summary: RHYTHM's Bug Friction Reduction
+
+| Traditional PM Friction | RHYTHM Solution |
+|-------------------------|-----------------|
+| **"Is it a bug?" debate** | Automatic: Found during work = parented bug, found after = related bug |
+| **Severity debate (dev bugs)** | Eliminated: All parented bugs must be fixed, severity irrelevant |
+| **Priority debate (dev bugs)** | Eliminated: Parented bugs always highest priority, block completion |
+| **Priority debate (prod bugs)** | Reduced: Dependency-driven prioritization removes subjective debates |
+| **Scope creep from bugs** | Prevented: Clear boundaries between bugs (parented/related) and new requests |
+
+**Key Insight:** RHYTHM eliminates most bug-related friction by making decisions automatic based on when/where bugs are found, rather than requiring human judgment and debate for every bug.
+
 ### Preventing Scope Creep
 
 RHYTHM Method prevents scope creep by clearly distinguishing:
