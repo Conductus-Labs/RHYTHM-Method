@@ -370,7 +370,7 @@ Execution Cycle:
 
 2. **Dynamic Replanning**
 
-   - Instant replanning when priorities change
+   - Replanning triggered by significant changes (not every minor change)
    - Dependency resolution updates
    - Work queue reordering
    - Human notification of major changes
@@ -381,18 +381,104 @@ Execution Cycle:
    - Work queue prioritization
    - Human review of capacity plans
 
+**Replanning Triggers and Frequency:**
+
+**Immediate Replanning (High Priority Changes):**
+- **Critical Dependency Resolution**: Prerequisite work completes, unblocking critical path
+- **High-Priority Work Added**: New high-priority work item added to queue
+- **Work Unit Failure**: Work Unit fails and requires replanning
+- **Major Scope Change**: Significant scope change affecting multiple work items
+
+**Batched Replanning (Medium Priority Changes):**
+- **Multiple Dependency Changes**: Multiple dependencies resolved within time window (e.g., 5 minutes)
+- **Priority Adjustments**: Multiple priority changes batched together
+- **Capacity Changes**: Agent capacity changes (batched with other changes)
+- **Frequency**: Replanning occurs every N minutes (configurable, default: 5-15 minutes) or when batch threshold reached
+
+**Scheduled Replanning (Low Priority Changes):**
+- **Periodic Validation**: Full plan validation at scheduled intervals (e.g., hourly, daily)
+- **Trend Analysis**: Analysis of planning trends and patterns
+- **Optimization**: Plan optimization based on historical data
+
+**Stability Mechanisms:**
+
+**1. Change Thresholds:**
+- **Minimum Change Threshold**: Replanning only triggered if change exceeds threshold (e.g., > 5% impact)
+- **Impact Assessment**: Assess impact of change before triggering replanning
+- **Stability Window**: Ignore changes within stability window (e.g., 1-2 minutes) to prevent thrashing
+
+**2. Batching Strategies:**
+- **Time-Based Batching**: Batch changes within time window (e.g., 5-15 minutes)
+- **Change Count Batching**: Batch until N changes accumulate (e.g., 5-10 changes)
+- **Priority-Based Batching**: High-priority changes trigger immediate replanning, low-priority batched
+
+**3. Plan Locking:**
+- **In-Progress Work Protection**: Work currently executing is not replanned (locked)
+- **Approved Work Protection**: Human-approved work is not automatically replanned
+- **Critical Path Protection**: Critical path work is not replanned without human approval
+
+**4. Incremental Updates:**
+- **Partial Replanning**: Only replan affected portions of plan, not entire plan
+- **Queue Reordering**: Reorder work queue without full replanning
+- **Dependency Updates**: Update dependency status without full replanning
+
+**Impact on In-Progress Work:**
+
+**Work in Progress (WIP) Protection:**
+- **No Interruption**: Work currently executing is not interrupted by replanning
+- **Status Preservation**: In-progress work maintains its status and priority
+- **Completion First**: In-progress work completes before replanning affects it
+- **Post-Completion Update**: Replanning occurs after work completes, incorporating results
+
+**Approved Work Protection:**
+- **Human-Approved Work**: Work approved by humans is not automatically replanned
+- **Override Required**: Replanning of approved work requires human override
+- **Notification**: Humans notified if replanning would affect approved work
+
+**Replanning Impact Levels:**
+- **No Impact**: Replanning doesn't affect in-progress or approved work
+- **Low Impact**: Replanning affects future work only (queue reordering)
+- **Medium Impact**: Replanning affects approved but not started work (requires notification)
+- **High Impact**: Replanning affects in-progress or approved work (requires human approval)
+
+**Planning Overhead Management:**
+
+**Overhead Reduction:**
+- **Incremental Planning**: Only replan changed portions, not entire plan
+- **Cached Calculations**: Cache capacity calculations, dependency levels, critical path
+- **Background Processing**: Non-critical planning in background
+- **Lazy Evaluation**: Calculate plan details on-demand, not continuously
+
+**Performance Targets:**
+- **Small Projects (< 100 work items)**: Replanning < 5 seconds
+- **Medium Projects (100-500 work items)**: Replanning < 15 seconds
+- **Large Projects (500-1000 work items)**: Replanning < 60 seconds (with batching)
+- **Very Large Projects (1000+ work items)**: Replanning < 5 minutes (with batching and partitioning)
+
+**Best Practices:**
+
+1. **Use Batching**: Batch replanning for medium/low priority changes
+2. **Protect WIP**: Never interrupt in-progress work
+3. **Set Thresholds**: Use change thresholds to prevent unnecessary replanning
+4. **Monitor Overhead**: Track planning overhead and adjust batching/triggers
+5. **Human Oversight**: Require human approval for high-impact replanning
+6. **Incremental Updates**: Use incremental planning to reduce overhead
+
 **Human Involvement:**
 
 - Review major plan changes
 - Approve priority adjustments
+- Approve replanning of approved work
 - Strategic guidance
+- Override replanning when needed
 
 **Agent Involvement:**
 
 - Automated plan updates
 - Dependency analysis
 - Capacity calculations
-- Real-time replanning
+- Batched replanning
+- Impact assessment
 
 ### 8. Dependency Management
 
