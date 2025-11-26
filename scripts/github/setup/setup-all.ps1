@@ -196,12 +196,11 @@ function Invoke-SetupScript {
     # Note: Individual scripts handle retry logic for transient failures (rate limits, network issues)
     try {
         # Capture output and errors, then process them
-        $output = Invoke-Expression $cmd 2>&1
-        $hasError = $false
-        $output | ForEach-Object {
+        $script:hasError = $false
+        Invoke-Expression $cmd 2>&1 | ForEach-Object {
             if ($_ -is [System.Management.Automation.ErrorRecord]) {
                 Write-Error $_
-                $hasError = $true
+                $script:hasError = $true
             } else {
                 Write-Output $_
             }
@@ -209,7 +208,7 @@ function Invoke-SetupScript {
 
         # Check exit code from the subprocess (primary indicator)
         $exitCode = $LASTEXITCODE
-        if ($hasError -and $exitCode -eq 0) {
+        if ($script:hasError -and $exitCode -eq 0) {
             $exitCode = 1
         }
 
