@@ -45,8 +45,14 @@ The top-level container for all work in a RHYTHM Method project.
 
 **Storage:**
 - The Project Manifest is stored as a markdown file: `.baton/project.manifest.md`
-- The `.baton/` directory is typically in `.gitignore`, so the Project Manifest is **not committed** to the repository
-- The Project Manifest is local to each developer/agent environment
+- **Recommended**: Add exceptions to `.gitignore` to commit Project Manifest and Project Config:
+  ```
+  .baton/
+  !.baton/project.manifest.md
+  !.baton/project.config.yml
+  ```
+- This ensures the Project Manifest is **committed to source control** and shared across the team
+- Other `.baton/` files (agent contexts, notes, etc.) remain gitignored
 
 **Relationship to Project Management Tools:**
 
