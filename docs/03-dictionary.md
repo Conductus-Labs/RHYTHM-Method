@@ -40,6 +40,23 @@ The top-level container for all [Features](#feature) in a RHYTHM Method project.
 - **Traditional Epics**: Only serve as top-level containers
 - **Project Manifest**: Serves three roles: (1) top-level container for all Features, (2) project information repository (similar to Constitutions in SDD), and (3) decision log tracking architectural decisions and requirement changes (similar to ADRs)
 
+**Implementation and Storage:**
+
+The Project Manifest is stored as a markdown file (`.baton/project.manifest.md`) in the repository. This file serves as the **single source of truth** for project information.
+
+**Relationship to Project Management Tools:**
+
+The Project Manifest markdown file is the authoritative source. Features may be tracked in project management tools (GitHub Issues, Azure DevOps, Jira, etc.), but the Project Manifest file maintains the conceptual parent-child relationship.
+
+**Important Considerations:**
+- **Single Source of Truth**: The markdown file (`.baton/project.manifest.md`) is the source of truth
+- **PM Tool Integration**: Features tracked in PM tools (e.g., GitHub Issues) reference the Project Manifest conceptually, not through direct links
+- **Sync Concerns**: To avoid sync issues, the Project Manifest should **not** be duplicated in PM tools. Instead:
+  - Project Manifest = Markdown file (source of truth)
+  - Features = Tracked in PM tools, conceptually parented to Project Manifest
+  - The markdown file links to or references Features, but doesn't duplicate PM tool data
+- **Git Ignore**: The `.baton/` directory (containing the Project Manifest) is typically in `.gitignore`, meaning the Project Manifest is local to each developer/agent environment, not committed to the repository
+
 This creates a single source of truth that both [Users](#user) and [Agents](#agent) can reference to understand project requirements and their evolution.
 
 ### Execution Cycle
