@@ -628,14 +628,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 - Post-approval review after execution
 - Used sparingly for true emergencies
 
-**Best Practices for Workflow Optimization:**
-
-1. **Start with Moderate TEMPO** and adjust based on team experience
-2. **Enable auto-approval** for well-defined, low-risk work
-3. **Use parallel processing** where dependencies allow
-4. **Batch approvals** to reduce human overhead
-5. **Monitor approval bottlenecks** and adjust TEMPO/HITL gates accordingly
-6. **Increase automation** as team gains experience with RHYTHM Method
+**For detailed workflow best practices, see [Best Practices](10-best-practices.md#workflow-best-practices).**
 
 ### Continuous Improvement
 

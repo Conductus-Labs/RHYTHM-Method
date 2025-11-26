@@ -427,27 +427,13 @@ Regular dependency reports:
 
 ## Best Practices
 
-### 1. Identify Dependencies Early
+For comprehensive dependency management best practices, see [Best Practices](10-best-practices.md#dependency-management-best-practices).
 
-Identify dependencies as early as possible:
-
-- During Feature Specification
-- During Work Unit Creation
-- During Work Unit Breakdown
-
-### 2. Minimize Dependencies
-
-Design work to minimize dependencies:
-
-- Independent Features where possible
-- Parallel Work Units where possible
-- Clear interfaces to reduce coupling
-
-### 3. Track Dependencies Continuously
-
-Continuously track dependencies:
-
-- Real-time dependency graph updates
+**Key Practices:**
+- Identify Dependencies Early: Identify during Feature Specification, Work Unit Creation, and Breakdown
+- Minimize Dependencies: Design independent Features and parallel Work Units where possible
+- Visualize Dependencies: Use real-time dependency graphs and critical path visualization
+- Track Dependencies Continuously: Real-time dependency graph updates
 - Automatic dependency detection
 - Manual dependency identification
 

@@ -590,45 +590,15 @@ See [Work Unit Duration Guidelines](#work-unit-duration-guidelines) for detailed
 
 ## Estimation Best Practices
 
-### 1. Start with Agent Tasks
+For comprehensive estimation best practices, see [Best Practices](10-best-practices.md#estimation-best-practices).
 
-Always estimate at the Agent Task level first, then roll up to higher levels.
-
-### 2. Track and Use Historical Data
-
-**Track actual token usage** during every execution cycle, then leverage historical data to improve accuracy:
-
-- Similar tasks completed previously (with actual token counts)
-- Agent performance patterns (from actual throughput data)
-- Complexity factor adjustments (based on actual vs. estimated variance)
+**Key Practices:**
+- Start with Agent Tasks: Always estimate at the Agent Task level first, then roll up
+- Track and Use Historical Data: Track actual token usage and leverage historical data
+- Let Agents Auto-Estimate: Let agents auto-estimate by default, review only high-value/high-risk work
+- Validate Estimates Continuously: Regularly validate estimates by comparing to actual token usage
 
 **See [Tracking Actual Token Usage](#tracking-actual-token-usage) section for detailed tracking requirements.**
-
-### 3. Account for Dependencies
-
-Dependencies can affect estimation:
-
-- Blocked work may have different estimates
-- Dependency resolution adds overhead
-- Parallel work reduces total duration
-
-### 4. Validate Estimates
-
-Regularly validate estimates by comparing to actual token usage:
-
-- **Track actual tokens** during execution cycles (see [Tracking Actual Token Usage](#tracking-actual-token-usage))
-- Compare estimated vs. actual tokens for each completed task
-- Analyze estimation accuracy patterns
-- Refine estimation models based on actual data
-
-### 5. Continuous Improvement
-
-Estimation improves over time:
-
-- Learn from each execution cycle
-- Update complexity factors
-- Refine throughput rates
-- Improve pattern recognition
 
 ## Estimation Tools
 
@@ -707,11 +677,7 @@ The time agents spend performing estimation is **included in Analysis Tokens**:
 - **Feature (multiple Work Units)**: Estimated in minutes to hours (depending on complexity)
 - **Parallel Estimation**: Multiple tasks can be estimated simultaneously
 
-**Best Practice:**
-- Let agents auto-estimate by default
-- Review estimates for high-value/high-risk work only
-- Trust automated estimation for routine, well-defined work
-- Use historical data to improve estimation accuracy over time
+**For detailed best practices, see [Best Practices](10-best-practices.md#estimation-best-practices).**
 
 ### Estimation Dashboards
 
