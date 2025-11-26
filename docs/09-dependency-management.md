@@ -301,6 +301,118 @@ The dependency graph is automatically maintained:
 - **Resolution Tracking**: Dependencies are marked as resolved when work completes
 - **Critical Path**: Critical path is automatically identified
 
+### Graph Scalability and Performance
+
+**Update Frequency and Performance:**
+
+**Incremental Updates (Recommended):**
+- **Event-Driven Updates**: Graph updates only when dependencies change (not continuous polling)
+- **Change Detection**: Only affected nodes and edges are recalculated
+- **Lazy Evaluation**: Critical path and blocked work calculated on-demand, not continuously
+- **Update Batching**: Multiple dependency changes within a short window are batched together
+
+**Update Triggers:**
+- New work item created → Detect dependencies for new item only
+- Work item completed → Update dependent items' status only
+- Dependency added/removed → Update affected subgraph only
+- Specification changed → Re-analyze dependencies for changed item only
+
+**Performance Characteristics:**
+
+**Small Projects (< 100 work items):**
+- **Update Time**: < 1 second for full graph recalculation
+- **Query Time**: < 100ms for critical path calculation
+- **Memory**: < 10MB for graph storage
+- **Strategy**: Full graph updates acceptable
+
+**Medium Projects (100-500 work items):**
+- **Update Time**: 1-5 seconds for incremental updates
+- **Query Time**: < 500ms for critical path calculation
+- **Memory**: 10-50MB for graph storage
+- **Strategy**: Incremental updates, on-demand critical path calculation
+
+**Large Projects (500-1000 work items):**
+- **Update Time**: 5-15 seconds for incremental updates
+- **Query Time**: < 2 seconds for critical path calculation
+- **Memory**: 50-200MB for graph storage
+- **Strategy**: Incremental updates, cached critical path, periodic full validation
+
+**Very Large Projects (1000+ work items):**
+- **Update Time**: 15-60 seconds for incremental updates
+- **Query Time**: < 5 seconds for critical path calculation (with caching)
+- **Memory**: 200MB-1GB for graph storage
+- **Strategy**: 
+  - Incremental updates with change batching
+  - Cached critical path (recalculated periodically, not on every change)
+  - Graph partitioning (separate graphs for Features or Work Unit groups)
+  - Background processing for non-critical updates
+
+**Scalability Strategies:**
+
+**1. Incremental Updates:**
+- Only update affected subgraph when dependencies change
+- Avoid full graph recalculation unless necessary
+- Batch multiple changes together
+
+**2. Caching:**
+- Cache critical path calculation (recalculate every N minutes or on major changes)
+- Cache dependency level assignments
+- Cache blocked work lists
+
+**3. Graph Partitioning:**
+- Partition graph by Feature (separate subgraphs per Feature)
+- Partition graph by Work Unit groups
+- Merge partitions only when cross-partition dependencies exist
+
+**4. Background Processing:**
+- Non-critical updates processed in background
+- Critical path recalculation in background (with cached results)
+- Dependency analysis queued and processed asynchronously
+
+**5. Performance Monitoring:**
+- Track graph update times
+- Monitor query performance
+- Alert on performance degradation
+- Auto-optimize based on project size
+
+**Computational Cost Considerations:**
+
+**Dependency Detection Cost:**
+- **Per Work Item**: O(n) where n = number of code references/specification mentions
+- **Full Project Scan**: O(n²) where n = number of work items (avoid full scans)
+- **Incremental Detection**: O(k) where k = changed work items (preferred)
+
+**Graph Update Cost:**
+- **Single Dependency Change**: O(1) for simple update, O(d) where d = dependent items for status updates
+- **Critical Path Calculation**: O(V + E) where V = vertices, E = edges (cache results)
+- **Dependency Level Assignment**: O(V + E) (cache results, recalculate on major changes)
+
+**Performance Trade-offs:**
+
+**Real-Time vs. Performance:**
+- **Real-Time Updates**: Fast response, but higher computational cost
+- **Batched Updates**: Lower computational cost, slight delay in updates
+- **Recommendation**: Use batched updates for large projects, real-time for small projects
+
+**Full Recalculation vs. Incremental:**
+- **Full Recalculation**: Simple, but expensive for large projects
+- **Incremental Updates**: More complex, but scales better
+- **Recommendation**: Use incremental updates for projects > 100 work items
+
+**Caching vs. Freshness:**
+- **No Caching**: Always fresh, but slower queries
+- **Caching**: Faster queries, but may be slightly stale
+- **Recommendation**: Cache critical path and dependency levels, recalculate periodically
+
+**Best Practices for Large Projects:**
+
+1. **Enable Incremental Updates**: Only update affected subgraph
+2. **Use Caching**: Cache critical path and dependency levels
+3. **Batch Changes**: Batch multiple dependency changes together
+4. **Partition Graph**: Consider partitioning by Feature for very large projects
+5. **Monitor Performance**: Track update times and optimize as needed
+6. **Background Processing**: Process non-critical updates in background
+
 ## Dependency Resolution
 
 ### Resolution Process
