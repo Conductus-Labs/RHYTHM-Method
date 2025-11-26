@@ -34,7 +34,7 @@ The top-level container for all [Features](#feature) in a RHYTHM Method project.
 
 ### Execution Cycle
 
-A focused work period in RHYTHM Method, typically 2-8 hours, that replaces traditional 2-week sprints. Execution cycles focus on single [features](#feature), [dependency](#dependency) chains, or project objectives and result in deployed, tested, validated code.
+A focused work period in RHYTHM Method, up to 8 hours (some cycles may be less than 2 hours), that replaces traditional 2-week sprints. Execution cycles focus on single [features](#feature), [dependency](#dependency) chains, or project objectives and result in deployed, tested, validated code.
 
 ### Feature
 

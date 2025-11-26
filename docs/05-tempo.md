@@ -39,7 +39,7 @@ Agents work at computational speeds that are fundamentally different from human 
 
 **Fast Execution:**
 
-- Work that takes human teams 2 weeks can be completed by agents in 2-8 hours
+- Work that takes human teams 2 weeks can be completed by agents in up to 8 hours (some cycles may be less than 2 hours)
 - Continuous execution cycles instead of discrete sprints
 - Real-time status updates and validation
 
@@ -63,7 +63,7 @@ Agents work at computational speeds that are fundamentally different from human 
 | ----------------------- | ---------------------------- | ----------------------------- |
 | **Time Scale**          | Weeks, months                | Hours, days                   |
 | **Planning**            | Sprint planning (days)       | Continuous planning (minutes) |
-| **Execution**           | 2-week sprints               | 2-8 hour execution cycles     |
+| **Execution**           | 2-week sprints               | Up to 8 hour execution cycles (some < 2 hours) |
 | **Replanning**          | Sprint retrospective (weeks) | Instant replanning (minutes)  |
 | **Dependency Analysis** | Manual, risk-based           | Automated, precise            |
 | **Estimation**          | Story points (abstract)      | Token estimation (precise)    |
@@ -97,7 +97,7 @@ RHYTHM Method ensures that fast TEMPO is controlled and coordinated:
 
 ### Execution Cycles
 
-Instead of 2-week sprints, RHYTHM Method uses **execution cycles** (2-8 hours):
+Instead of 2-week sprints, RHYTHM Method uses **execution cycles** (up to 8 hours, some cycles may be less than 2 hours):
 
 - **Fast TEMPO**: Work is completed in hours, not weeks
 - **RHYTHM Control**: Each cycle has clear dependencies, validation, and HITL checkpoints
@@ -126,6 +126,7 @@ Instead of daily standups, RHYTHM Method uses **real-time coordination**:
 RHYTHM Method provides three TEMPO levels, each with different HITL gate configurations:
 
 **High TEMPO:**
+
 - **Speed**: Maximum agent autonomy, minimal human intervention
 - **HITL Gates**: Only critical decision points
 - **Use Case**: Well-defined, low-risk work where specifications are clear and stable
@@ -135,6 +136,7 @@ RHYTHM Method provides three TEMPO levels, each with different HITL gate configu
 - **Gate Count**: ~3-5 gates per feature cycle
 
 **Moderate TEMPO (Default):**
+
 - **Speed**: Balanced agent autonomy with strategic human input
 - **HITL Gates**: Key decision points and validation checkpoints
 - **Use Case**: Standard projects with some complexity, evolving requirements
@@ -144,6 +146,7 @@ RHYTHM Method provides three TEMPO levels, each with different HITL gate configu
 - **Gate Count**: ~8-12 gates per feature cycle
 
 **Controlled TEMPO:**
+
 - **Speed**: More human oversight, slower agent autonomy
 - **HITL Gates**: Comprehensive checkpoints at multiple stages
 - **Use Case**: Critical, high-risk work, new domains, complex integrations
@@ -157,6 +160,7 @@ RHYTHM Method provides three TEMPO levels, each with different HITL gate configu
 RHYTHM Method provides the following HITL gates/checkpoints:
 
 **Planning & Preparation Phase Gates:**
+
 - Project Initialization: Project Manifest validation, Project Configuration approval, Project Boundaries review
 - Feature Specification: Feature specification approval, Critical dependencies review
 - Work Unit Creation: Work unit breakdown validation, Work unit priorities approval
@@ -164,6 +168,7 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 - Work Unit Breakdown: Task breakdown validation, Task assignments approval, Task readiness approval
 
 **Execution Phase Gates:**
+
 - Work Queue: High-priority task execution approval
 - Task Execution: Execution cycle scope approval
 - Continuous Planning: Major plan changes review, Priority adjustments approval
@@ -176,16 +181,19 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 #### High TEMPO Configuration
 
 **Required Gates (Minimal):**
+
 - Project Initialization: Project Manifest validation
 - Feature Specification: Feature specification approval
 - Work Unit Breakdown: Task readiness approval (optional)
 - Quality Assurance: Deployment approval (for production)
 
 **Optional Gates:**
+
 - Work Unit Review: Agent feedback review (as needed)
 - Quality Assurance: Quality gate results review (only on failures)
 
 **Skipped Gates (Auto-Approved):**
+
 - Work Unit Creation: Work unit breakdown validation
 - Work Unit Breakdown: Task breakdown validation
 - Work Queue: High-priority task execution approval
@@ -196,6 +204,7 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 #### Moderate TEMPO Configuration (Default)
 
 **Required Gates:**
+
 - Project Initialization: All gates (Project Manifest, Configuration, Boundaries)
 - Feature Specification: Feature specification approval + Critical dependencies review
 - Work Unit Review: Review acceptance/sign-off
@@ -203,6 +212,7 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 - Quality Assurance: Quality gate results review + Deployment approval
 
 **Optional Gates:**
+
 - Work Unit Creation: Work unit priorities approval (for high-value work)
 - Work Queue: High-priority task execution approval (for critical path)
 - Task Execution: Execution cycle scope approval (for large cycles)
@@ -210,12 +220,14 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 - Dependency Management: Critical dependencies review
 
 **Skipped Gates (Auto-Approved):**
+
 - Work Unit Breakdown: Task breakdown validation (auto-approved if reviewed)
 - Continuous Planning: Priority adjustments approval (notification only)
 
 #### Controlled TEMPO Configuration
 
 **Required Gates (Comprehensive):**
+
 - Project Initialization: All gates
 - Feature Specification: All gates (Specification approval + Critical dependencies)
 - Work Unit Creation: Work unit breakdown validation + Priorities approval
@@ -234,23 +246,24 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 
 **Decision Matrix:**
 
-| Factor | High TEMPO | Moderate TEMPO | Controlled TEMPO |
-|--------|------------|----------------|------------------|
-| **Project Risk** | Low | Moderate | High |
-| **Work Complexity** | Simple, well-defined | Moderate complexity | Complex, uncertain |
-| **User Availability** | Limited | Regular | Frequent |
-| **Team Experience** | Experienced | Mixed | New team/domain |
-| **Requirements Stability** | Stable | Some changes | Evolving |
-| **Domain Familiarity** | High | Moderate | Low |
-| **Integration Complexity** | Simple | Moderate | Complex |
-| **Business Criticality** | Low | Moderate | High |
-| **Regulatory Requirements** | None/Minimal | Some | Strict |
+| Factor                      | High TEMPO           | Moderate TEMPO      | Controlled TEMPO   |
+| --------------------------- | -------------------- | ------------------- | ------------------ |
+| **Project Risk**            | Low                  | Moderate            | High               |
+| **Work Complexity**         | Simple, well-defined | Moderate complexity | Complex, uncertain |
+| **User Availability**       | Limited              | Regular             | Frequent           |
+| **Team Experience**         | Experienced          | Mixed               | New team/domain    |
+| **Requirements Stability**  | Stable               | Some changes        | Evolving           |
+| **Domain Familiarity**      | High                 | Moderate            | Low                |
+| **Integration Complexity**  | Simple               | Moderate            | Complex            |
+| **Business Criticality**    | Low                  | Moderate            | High               |
+| **Regulatory Requirements** | None/Minimal         | Some                | Strict             |
 
 **Selection Guidelines:**
 
 1. **Start with Moderate TEMPO** (default) unless you have specific reasons to change
 
 2. **Choose High TEMPO** when:
+
    - Work is well-defined and low-risk
    - User has limited availability
    - Team is experienced with the domain
@@ -258,6 +271,7 @@ RHYTHM Method provides the following HITL gates/checkpoints:
    - Similar work has been done before
 
 3. **Choose Controlled TEMPO** when:
+
    - Work is critical or high-risk
    - User wants frequent oversight
    - Team is new to domain or technology
@@ -273,6 +287,7 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 ### Configuring HITL Gates
 
 **Key Principle:** HITL gates are fully configurable by the User based on:
+
 - Project characteristics and requirements
 - Desired level of involvement
 - Risk tolerance and business needs
@@ -281,14 +296,17 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 **Configuration Options:**
 
 1. **Per-Project Configuration:**
+
    - Set default TEMPO level for entire project
    - Override for specific features/work units
 
 2. **Per-Gate Configuration:**
+
    - Enable/disable specific gates regardless of TEMPO level
    - Set gates as required, optional, or skipped
 
 3. **Dynamic Configuration:**
+
    - Adjust gates based on work complexity
    - Add gates for critical work
    - Remove gates for routine work
@@ -334,7 +352,7 @@ TEMPO enables a true human-AI partnership:
 
 ## Change History
 
-| Version | Date       | Author              | Description                                                          |
-| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
-| 1.0.0   | 2025-01-XX | Initial             | Initial TEMPO concept docs                                           |
+| Version | Date       | Author              | Description                                                                                               |
+| ------- | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial             | Initial TEMPO concept docs                                                                                |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added TEMPO level definitions, HITL gate configurations, decision matrix, and user configuration guidance |

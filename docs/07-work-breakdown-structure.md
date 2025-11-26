@@ -57,10 +57,10 @@ A required deliverable unit of functionality that provides business value.
 
 ### Level 3: Work Unit
 
-A specific piece of work that should be completed in a single [execution cycle](03-dictionary.md#execution-cycle) (target: 2-8 hours).
+A specific piece of work that should be completed in a single [execution cycle](03-dictionary.md#execution-cycle) (target: up to 8 hours, some cycles may be less than 2 hours).
 
 **Characteristics:**
-- **Duration**: Target of 2-8 hours per execution cycle (guideline, not hard limit)
+- **Duration**: Up to 8 hours per execution cycle (guideline, not hard limit; cycles can be shorter)
 - **Assignment**: Atomic unit of work assignment to specialized [agents](03-dictionary.md#agent)
 - **Contains**: One or more [Agent Tasks](03-dictionary.md#agent-task)
 - **Dependencies**: Can have dependencies on other Work Units
@@ -68,12 +68,12 @@ A specific piece of work that should be completed in a single [execution cycle](
 
 **Work Unit Requirements:**
 - Must belong to a Feature
-- Should be completable in a single execution cycle (2-8 hours target)
+- Should be completable in a single execution cycle (up to 8 hours target; cycles can be shorter)
 - Must contain at least one Agent Task
 - Must have clear completion criteria
 
 **Duration Guidelines:**
-- **Target**: 2-8 hours per execution cycle
+- **Target**: Up to 8 hours per execution cycle (some cycles may be less than 2 hours)
 - **If estimation exceeds 8 hours**: Split Work Unit into smaller units (preferred) or extend execution cycle with approval
 - **See [Estimation](08-estimation.md) for detailed duration guidelines and splitting criteria**
 

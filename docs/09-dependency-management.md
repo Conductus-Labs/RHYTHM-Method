@@ -61,6 +61,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **Method**: Agents analyze code structure, imports, and references to identify technical dependencies.
 
 **Detection Techniques:**
+
 - **Import/Require Analysis**: Parse import statements, require() calls, and module dependencies
   - Example: `import { UserService } from './services/user-service'` → Dependency on UserService module
   - Example: `require('database/models')` → Dependency on database models
@@ -73,12 +74,14 @@ Agents automatically detect dependencies through multiple analysis methods. Each
   - Example: Relative imports, absolute imports, module paths
 
 **Tools/Methods:**
+
 - Static code analysis (AST parsing)
 - Dependency graph tools (e.g., dependency-cruiser, madge)
 - Language-specific analyzers (TypeScript compiler, Python AST, etc.)
 - Import/export analysis
 
 **Examples of Detected Dependencies:**
+
 - Work Unit B imports code from Work Unit A → Technical dependency: B depends on A
 - Work Unit C calls API endpoint defined in Work Unit D → API dependency: C depends on D
 - Work Unit E uses database schema from Work Unit F → Data dependency: E depends on F
@@ -88,6 +91,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **Method**: Agents analyze specification documents to identify dependencies mentioned in requirements.
 
 **Detection Patterns:**
+
 - **Explicit Mentions**: Specifications that explicitly reference other Features or Work Units
   - Pattern: "Requires Feature X to be completed first"
   - Pattern: "Depends on Work Unit Y"
@@ -102,6 +106,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
   - Pattern: "Requires API version 2.0" → Dependency on API version Work Unit
 
 **Analysis Process:**
+
 1. Parse specification documents (YAML/JSON/Markdown)
 2. Extract feature/work unit references
 3. Identify requirement patterns that imply dependencies
@@ -109,6 +114,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 5. Flag ambiguous dependencies for human review
 
 **Examples of Detected Dependencies:**
+
 - Feature Specification: "User profile page requires authentication system" → Feature dependency detected
 - Work Unit Specification: "API endpoint needs user database schema" → Data dependency detected
 
@@ -117,6 +123,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **Method**: Agents analyze API contracts, interfaces, and service definitions to identify integration dependencies.
 
 **Detection Techniques:**
+
 - **API Contract Analysis**: Parse OpenAPI/Swagger specs, GraphQL schemas, gRPC definitions
   - Example: API endpoint definition references another service → Integration dependency
 - **Interface Definitions**: Analyze interface/contract definitions
@@ -127,6 +134,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
   - Example: Service A calls Service B → Service dependency
 
 **Examples of Detected Dependencies:**
+
 - Work Unit defines API that calls external payment service → Integration dependency
 - Feature requires authentication API to be available → API dependency
 
@@ -135,12 +143,14 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **Method**: Agents use pattern matching to identify common dependency patterns from historical data.
 
 **Common Patterns:**
+
 - **Sequential Patterns**: Work Unit A always followed by Work Unit B
 - **Prerequisite Patterns**: Certain types of work always require specific prerequisites
 - **Domain Patterns**: Domain-specific dependency patterns (e.g., authentication → authorization → user management)
 - **Architectural Patterns**: Dependencies based on architectural decisions
 
 **Pattern Learning:**
+
 - Agents learn from historical dependency data
 - Identify recurring dependency patterns
 - Apply patterns to new work items
@@ -151,6 +161,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **Method**: Knowledge dependencies are detected through specification and decision log analysis.
 
 **Detection Techniques:**
+
 - **Architecture Decision References**: Specifications that reference ADRs or architectural decisions
   - Pattern: "As per ADR-001, we use microservices architecture" → Knowledge dependency on ADR-001
 - **Domain Knowledge Requirements**: Specifications requiring domain understanding
@@ -161,6 +172,7 @@ Agents automatically detect dependencies through multiple analysis methods. Each
   - Pattern: References to Project Manifest decisions → Knowledge dependency
 
 **Limitations:**
+
 - Knowledge dependencies are harder to detect automatically
 - Often require human identification or explicit specification
 - May be flagged during Work Unit Review rather than automated detection
@@ -170,12 +182,14 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **Purpose**: Validate automated detection and identify dependencies that automation misses.
 
 **Review Triggers:**
+
 - New dependencies detected automatically (human validation)
 - Ambiguous dependencies (multiple possible interpretations)
 - High-risk dependencies (critical path, complex integrations)
 - Knowledge dependencies (require human judgment)
 
 **Review Process:**
+
 1. **Automated Detection Report**: Agents generate dependency detection report
 2. **Human Review**: User reviews detected dependencies
 3. **Validation**: Confirm or reject detected dependencies
@@ -188,11 +202,13 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **False Positives (Incorrectly Detected Dependencies):**
 
 **Common Causes:**
+
 - Code imports that are not actual dependencies (e.g., utility imports)
 - Specification mentions that are not dependencies (e.g., examples, comparisons)
 - Pattern matching that incorrectly applies historical patterns
 
 **Handling:**
+
 - Human review flags false positives
 - Remove from dependency graph
 - Update detection patterns to reduce future false positives
@@ -201,18 +217,21 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 **False Negatives (Missed Dependencies):**
 
 **Common Causes:**
+
 - Hidden dependencies not visible in code/specifications
 - Strategic dependencies requiring business context
 - External dependencies on factors outside codebase
 - Knowledge dependencies requiring domain expertise
 
 **Handling:**
+
 - Manual dependency identification during Work Unit Review
 - Human identification of strategic dependencies
 - Regular dependency audits
 - Update detection patterns based on missed dependencies
 
 **Improvement Process:**
+
 1. Track false positives and negatives
 2. Analyze patterns in detection errors
 3. Refine detection algorithms
@@ -222,21 +241,25 @@ Agents automatically detect dependencies through multiple analysis methods. Each
 ### Edge Cases and Special Situations
 
 **Circular Dependencies:**
+
 - Detection: Agents identify circular dependency chains
 - Handling: Flag for human review and resolution
 - Resolution: Redesign work to break circular dependencies
 
 **Optional Dependencies:**
+
 - Detection: Dependencies marked as optional in specifications
 - Handling: Track as optional dependencies (don't block execution)
 - Usage: Inform prioritization but don't enforce blocking
 
 **Conditional Dependencies:**
+
 - Detection: Dependencies that only apply under certain conditions
 - Handling: Track conditions and apply dependencies when conditions met
 - Example: "Depends on Feature X if using payment method Y"
 
 **Transitive Dependencies:**
+
 - Detection: Dependencies through intermediate work items
 - Handling: Automatically track transitive dependencies
 - Example: A depends on B, B depends on C → A transitively depends on C
@@ -252,6 +275,7 @@ Humans can manually identify dependencies that automation misses:
 - **Risk-Based Dependencies**: Dependencies identified through risk analysis
 
 **Manual Identification Process:**
+
 1. User identifies dependency during planning or review
 2. Add dependency to dependency graph
 3. Specify dependency type and rationale
@@ -326,15 +350,19 @@ Humans can override dependency-driven prioritization:
 ### Example: Feature Dependencies
 
 **Feature A**: User authentication system
+
 - **Dependencies**: None (Level 0)
 
 **Feature B**: User profile management
+
 - **Dependencies**: Feature A (Level 1)
 
 **Feature C**: Social features
+
 - **Dependencies**: Feature A, Feature B (Level 2)
 
 **Prioritization**:
+
 1. Feature A (Level 0, no dependencies)
 2. Feature B (Level 1, depends on A)
 3. Feature C (Level 2, depends on A and B)
@@ -342,15 +370,19 @@ Humans can override dependency-driven prioritization:
 ### Example: Work Unit Dependencies
 
 **Work Unit 1**: Database schema setup
+
 - **Dependencies**: None
 
 **Work Unit 2**: User model implementation
+
 - **Dependencies**: Work Unit 1
 
 **Work Unit 3**: Authentication API
+
 - **Dependencies**: Work Unit 2
 
 **Prioritization**:
+
 1. Work Unit 1 (prerequisite)
 2. Work Unit 2 (depends on 1)
 3. Work Unit 3 (depends on 2)
@@ -398,6 +430,7 @@ Regular dependency reports:
 ### 1. Identify Dependencies Early
 
 Identify dependencies as early as possible:
+
 - During Feature Specification
 - During Work Unit Creation
 - During Work Unit Breakdown
@@ -405,6 +438,7 @@ Identify dependencies as early as possible:
 ### 2. Minimize Dependencies
 
 Design work to minimize dependencies:
+
 - Independent Features where possible
 - Parallel Work Units where possible
 - Clear interfaces to reduce coupling
@@ -412,6 +446,7 @@ Design work to minimize dependencies:
 ### 3. Track Dependencies Continuously
 
 Continuously track dependencies:
+
 - Real-time dependency graph updates
 - Automatic dependency detection
 - Manual dependency identification
@@ -419,6 +454,7 @@ Continuously track dependencies:
 ### 4. Resolve Dependencies Proactively
 
 Proactively resolve dependencies:
+
 - Prioritize prerequisite work
 - Parallel execution where possible
 - Early dependency resolution
@@ -426,6 +462,7 @@ Proactively resolve dependencies:
 ### 5. Human Oversight
 
 Maintain human oversight:
+
 - Review critical dependencies
 - Approve dependency overrides
 - Strategic dependency decisions
@@ -445,8 +482,7 @@ Dependency management in RHYTHM Method uses dependency-driven prioritization to 
 
 ## Change History
 
-| Version | Date       | Author              | Description                                                          |
-| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
-| 1.0.0   | 2025-01-XX | Initial             | Initial dependency management docs                                    |
+| Version | Date       | Author              | Description                                                                                                              |
+| ------- | ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| 1.0.0   | 2025-11-24 | Initial             | Initial dependency management docs                                                                                       |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed dependency detection methods, tools, examples, false positive/negative handling, and edge case management |
-

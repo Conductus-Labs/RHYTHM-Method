@@ -40,12 +40,14 @@ Execution Cycle:
 **Process:**
 
 1. **Create Project Manifest**
+
    - Single source of truth for project requirements
    - Project information repository
    - Decision log for architectural decisions and requirement changes
    - Human validation required
 
 2. **Configure RHYTHM Settings**
+
    - TEMPO settings (High, Moderate, Controlled) - see [TEMPO](05-tempo.md)
    - HITL gate configuration
    - Agent capacity and specialization
@@ -57,11 +59,13 @@ Execution Cycle:
    - Establish validation criteria
 
 **Human Involvement:**
+
 - Validate Project Manifest
 - Approve RHYTHM configuration
 - Provide strategic guidance
 
 **Agent Involvement:**
+
 - Generate Project Manifest template
 - Analyze project structure and dependencies
 - Set up automated workflows
@@ -73,12 +77,14 @@ Execution Cycle:
 **Process:**
 
 1. **Feature Definition**
+
    - Business value and objectives
    - User requirements and validation criteria
    - Technical constraints and interfaces
    - Human validation required
 
 2. **Dependency Analysis**
+
    - Automated dependency detection (see [Dependency Management](09-dependency-management.md))
    - Dependency graph updates
    - Impact analysis
@@ -91,12 +97,14 @@ Execution Cycle:
    - Human approval required
 
 **Human Involvement:**
+
 - Define business requirements
 - Validate specifications
 - Approve feature scope
 - Review critical dependencies
 
 **Agent Involvement:**
+
 - Analyze requirements
 - Detect dependencies automatically
 - Generate specification documents
@@ -109,12 +117,14 @@ Execution Cycle:
 **Process:**
 
 1. **Feature Breakdown**
+
    - Analyze feature specification
    - Identify work unit boundaries
    - Define work unit dependencies
    - Human validation of breakdown
 
 2. **Work Unit Specification**
+
    - Detailed work unit requirements
    - Agent Task identification
    - Agent assignment planning
@@ -127,11 +137,13 @@ Execution Cycle:
    - Human approval for high-priority work
 
 **Human Involvement:**
+
 - Validate work unit breakdown
 - Approve work unit priorities
 - Review agent assignments
 
 **Agent Involvement:**
+
 - Analyze feature specifications
 - Create work unit breakdown
 - Estimate tokens
@@ -142,17 +154,19 @@ Execution Cycle:
 **Purpose:** Review and refine Features and Work Units created by Users and the RHYTHM Agent, providing feedback, challenges, and acceptance before proceeding to breakdown. This workflow validates that specifications are clear, complete, and feasible before breaking them down into executable tasks.
 
 **Key Distinction from Work Unit Breakdown:**
+
 - **Work Unit Review**: Validates and refines the Work Unit specification itself (what needs to be built)
 - **Work Unit Breakdown**: Creates executable Agent Tasks from an approved Work Unit specification (how it will be built)
 
 **Process:**
 
 1. **Agent Review**
+
    - **Reviewing Agents**: Specialized agents (e.g., technical-writer-agent, analysis agents) or the RHYTHM Agent review Feature and Work Unit specifications
    - **Review Criteria**: Agents evaluate specifications against:
      - **Clarity**: Requirements are unambiguous and well-defined
      - **Completeness**: All necessary information is present (business value, validation criteria, technical constraints, dependencies)
-     - **Feasibility**: Work can be completed within execution cycle constraints (2-8 hours)
+     - **Feasibility**: Work can be completed within execution cycle constraints (up to 8 hours)
      - **Consistency**: Specifications align with Project Manifest and existing features
      - **Testability**: Validation criteria are clear and measurable
    - **Feedback Format**: Structured feedback includes:
@@ -171,6 +185,7 @@ Execution Cycle:
    - Human review of agent feedback
 
 2. **Review Resolution**
+
    - Address agent feedback and challenges
    - Update specifications based on review findings
    - Resolve conflicts or ambiguities identified
@@ -190,6 +205,7 @@ Execution Cycle:
    - Human sign-off required to proceed to Work Unit Breakdown
 
 **Human Involvement:**
+
 - Review agent feedback and challenges
 - Resolve conflicts and ambiguities
 - Update specifications based on agent feedback
@@ -197,6 +213,7 @@ Execution Cycle:
 - Provide final sign-off marking Work Unit as ready for breakdown
 
 **Agent Involvement:**
+
 - Review Feature and Work Unit specifications using structured criteria
 - Provide structured feedback on clarity, completeness, and feasibility
 - Challenge assumptions and identify potential issues
@@ -204,6 +221,7 @@ Execution Cycle:
 - Validate specification completeness against review criteria
 
 **Review Output:**
+
 - Updated specification document (if changes were made)
 - Review feedback document (structured feedback from agents)
 - Resolution log (how each challenge/issue was addressed)
@@ -218,6 +236,7 @@ Execution Cycle:
 **Process:**
 
 1. **Task Identification**
+
    - Analyze approved Work Unit specification
    - Identify required Agent Tasks
    - Determine task dependencies
@@ -225,6 +244,7 @@ Execution Cycle:
    - Human validation of task breakdown
 
 2. **Task Specification**
+
    - Create detailed Agent Task specifications
    - Define task acceptance criteria
    - Assign tasks to specialized agents
@@ -239,12 +259,14 @@ Execution Cycle:
    - Human approval for task readiness
 
 **Human Involvement:**
+
 - Validate task breakdown
 - Approve task specifications
 - Review and approve agent assignments
 - Provide final approval for task readiness
 
 **Agent Involvement:**
+
 - Analyze Work Unit specifications
 - Create Agent Task breakdown
 - Identify task dependencies
@@ -258,12 +280,14 @@ Execution Cycle:
 **Process:**
 
 1. **Queue Management**
+
    - Receive Agent Tasks from [Work Unit Breakdown](#5-work-unit-breakdown)
    - Apply dependency-driven prioritization
    - Order tasks by dependency resolution status
    - Maintain real-time queue status
 
 2. **Task Readiness Validation**
+
    - Verify all dependencies are resolved
    - Confirm task specifications are complete
    - Check agent capacity availability
@@ -276,12 +300,14 @@ Execution Cycle:
    - Human visibility and control
 
 **Human Involvement:**
+
 - Review queue priorities
 - Approve high-priority task execution
 - Override prioritization when needed
 - Strategic queue management
 
 **Agent Involvement:**
+
 - Automatically maintain queue order
 - Update priorities based on dependency changes
 - Real-time queue status reporting
@@ -289,17 +315,19 @@ Execution Cycle:
 
 ### Task Execution
 
-**Purpose:** Execute Agent Tasks pulled from the [Work Queue](#6-work-queue), performing the actual development work in focused execution cycles (2-8 hours). See [TEMPO](05-tempo.md) for details on execution cycles.
+**Purpose:** Execute Agent Tasks pulled from the [Work Queue](#6-work-queue), performing the actual development work in focused execution cycles (up to 8 hours, some cycles may be less than 2 hours). See [TEMPO](05-tempo.md) for details on execution cycles.
 
 **Process:**
 
 1. **Task Pulling**
+
    - Pull ready Agent Tasks from [Work Queue](#6-work-queue)
    - Verify dependencies are resolved
    - Allocate specialized agents
    - Human approval for cycle scope
 
 2. **Parallel Task Execution**
+
    - Specialized agents execute assigned tasks
    - Parallel execution across multiple agents
    - Real-time status updates
@@ -312,12 +340,14 @@ Execution Cycle:
    - Human visibility through dashboards
 
 **Human Involvement:**
+
 - Approve execution cycle scope
 - Monitor execution progress
 - Resolve blockers when needed
 - Strategic guidance
 
 **Agent Involvement:**
+
 - Execute tasks at fast TEMPO
 - Coordinate multi-agent work
 - Automated task execution
@@ -332,12 +362,14 @@ Execution Cycle:
 **Process:**
 
 1. **Real-Time Plan Updates**
+
    - Automatic plan updates as work progresses
    - Dependency graph changes
    - Priority adjustments
    - Capacity reallocation
 
 2. **Dynamic Replanning**
+
    - Instant replanning when priorities change
    - Dependency resolution updates
    - Work queue reordering
@@ -350,11 +382,13 @@ Execution Cycle:
    - Human review of capacity plans
 
 **Human Involvement:**
+
 - Review major plan changes
 - Approve priority adjustments
 - Strategic guidance
 
 **Agent Involvement:**
+
 - Automated plan updates
 - Dependency analysis
 - Capacity calculations
@@ -367,12 +401,14 @@ Execution Cycle:
 **Process:**
 
 1. **Dependency Detection**
+
    - Automated dependency analysis
    - Technical, data, integration, knowledge dependencies
    - Dependency graph maintenance
    - Human review of critical dependencies
 
 2. **Dependency Resolution**
+
    - Dependency-driven prioritization
    - Work queue ordering
    - Parallel execution where possible
@@ -385,11 +421,13 @@ Execution Cycle:
    - Human visibility and alerts
 
 **Human Involvement:**
+
 - Review critical dependencies
 - Approve dependency overrides
 - Strategic dependency decisions
 
 **Agent Involvement:**
+
 - Automated dependency detection
 - Dependency graph maintenance
 - Prioritization automation
@@ -402,12 +440,14 @@ Execution Cycle:
 **Process:**
 
 1. **Automated Quality Gates**
+
    - Code quality checks
    - Automated testing
    - Performance validation
    - Security scanning
 
 2. **HITL Checkpoints**
+
    - Human review at critical milestones
    - Specification validation
    - Deployment approval
@@ -420,11 +460,13 @@ Execution Cycle:
    - Quality metrics tracking
 
 **Human Involvement:**
+
 - Review quality gate results
 - Approve deployments
 - Strategic quality decisions
 
 **Agent Involvement:**
+
 - Automated quality checks
 - Test execution
 - Quality metrics collection
@@ -437,12 +479,14 @@ Execution Cycle:
 **Process:**
 
 1. **Automated Analysis**
+
    - Cycle performance metrics
    - Token estimation accuracy (see [Estimation](08-estimation.md))
    - Dependency resolution effectiveness (see [Dependency Management](09-dependency-management.md))
    - Quality gate results
 
 2. **Process Improvement**
+
    - Identify improvement opportunities
    - Suggest workflow optimizations
    - Update estimation models
@@ -455,11 +499,13 @@ Execution Cycle:
    - Enhance dependency management
 
 **Human Involvement:**
+
 - Review cycle analysis
 - Approve process improvements
 - Strategic methodology decisions
 
 **Agent Involvement:**
+
 - Automated cycle analysis
 - Process improvement suggestions
 - Methodology refinement
@@ -511,8 +557,7 @@ RHYTHM Method workflows are designed for agents with human integration, enabling
 
 ## Change History
 
-| Version | Date       | Author              | Description                                                          |
-| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
-| 1.0.0   | 2025-01-XX | Initial             | Initial RHYTHM workflows docs                                         |
+| Version | Date       | Author              | Description                                                                                                                                                |
+| ------- | ---------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial             | Initial RHYTHM workflows docs                                                                                                                              |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified Work Unit Review workflow: agent roles, review criteria, feedback format, ready-for-breakdown criteria, and distinction from Work Unit Breakdown |
-

@@ -464,10 +464,11 @@ Variance %: [(actual - estimated) / estimated × 100]
 
 ## Work Unit Duration Guidelines
 
-### Execution Cycle Duration: 2-8 Hours (Guideline)
+### Execution Cycle Duration: Up to 8 Hours (Guideline)
 
 **Guideline, Not Hard Limit:**
-- **Target Duration**: Work Units should be designed to complete in 2-8 hours
+- **Maximum Duration**: Work Units should be designed to complete in 8 hours or less
+- **Minimum Duration**: No minimum—cycles can be less than 2 hours if work is completed sooner
 - **Purpose**: Maintains focus, enables rapid iteration, supports continuous execution
 - **Flexibility**: Not a hard limit—exceptions are allowed with human approval
 
@@ -476,7 +477,7 @@ Variance %: [(actual - estimated) / estimated × 100]
 **If Work Unit estimation exceeds 8 hours:**
 
 1. **Preferred: Split the Work Unit** (Recommended)
-   - Break into smaller Work Units that each fit within 2-8 hours
+   - Break into smaller Work Units that each fit within 8 hours
    - Maintain logical boundaries and clear dependencies
    - Each resulting Work Unit should be independently valuable
    - Example: 9-hour Work Unit → Split into 4-hour and 5-hour Work Units
@@ -488,7 +489,7 @@ Variance %: [(actual - estimated) / estimated × 100]
    - Consider impact on TEMPO and continuous execution model
 
 3. **Alternative: Reduce Scope**
-   - Reduce Work Unit scope to fit within 2-8 hours
+   - Reduce Work Unit scope to fit within 8 hours
    - Defer remaining work to subsequent Work Units
    - Maintain clear boundaries and completion criteria
 
@@ -496,7 +497,7 @@ Variance %: [(actual - estimated) / estimated × 100]
 
 **Important:** Parallel execution (multiple agents working simultaneously) does **not** change the execution cycle duration. It only changes the **calendar time** required.
 
-- **Execution Cycle Duration**: Time from start to completion (2-8 hours target)
+- **Execution Cycle Duration**: Time from start to completion (up to 8 hours target)
 - **Calendar Time with Parallel Work**: May be less than duration if agents work in parallel
 - **Example**: 8-hour Work Unit with 2 agents in parallel = 4 hours calendar time, but still an 8-hour execution cycle
 
@@ -580,7 +581,7 @@ Variance %: [(actual - estimated) / estimated × 100]
 - Parallel execution: 2 agents at 200 tokens/hour each
 - Estimated time: 3,650 / 400 = 9.125 hours
 
-**Note:** This Work Unit exceeds the 2-8 hour execution cycle guideline. Options:
+**Note:** This Work Unit exceeds the 8-hour execution cycle guideline. Options:
 1. **Split the Work Unit** into smaller Work Units (recommended)
 2. **Extend the execution cycle** if the work cannot be reasonably split (requires human approval)
 3. **Reduce scope** to fit within execution cycle constraints
