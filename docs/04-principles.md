@@ -19,6 +19,8 @@ RHYTHM Method is built on six core principles that guide how agents and humans w
 
 **Why:** Agents operate at computational speeds that are fundamentally different from human teams. RHYTHM Method leverages this speed while ensuring control and coordination.
 
+> **Note:** For detailed information on TEMPO levels, HITL gate configurations, and TEMPO management, see [TEMPO](05-tempo.md).
+
 ### 2. Flow: Continuous Execution with Dependency-Driven Prioritization
 
 **Work flows continuously, prioritized by dependencies.**
@@ -29,6 +31,8 @@ RHYTHM Method is built on six core principles that guide how agents and humans w
 - Automated dependency graph maintenance
 
 **Why:** Agents can work continuously and analyze dependencies with precision. RHYTHM Method ensures work happens in the right order, maintaining flow and preventing bottlenecks.
+
+> **Note:** For detailed information on dependency-driven prioritization, dependency detection, and dependency management, see [Dependency Management](09-dependency-management.md).
 
 ### 3. Control: Human-in-the-Loop at Critical Decision Points
 
