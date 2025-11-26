@@ -250,39 +250,36 @@ The following diagram illustrates the relationship between TEMPO levels, HITL ga
 
 ```mermaid
 graph LR
-    subgraph High["High TEMPO: ~3-5 HITL Gates"]
+    subgraph High["High TEMPO<br/>3-5 HITL Gates"]
         H1[Minimal Human Oversight]
         H2[Fast Execution]
         H3[Well-Defined Low-Risk Work]
     end
 
-    subgraph Moderate["Moderate TEMPO: ~8-12 HITL Gates (DEFAULT)"]
+    subgraph Moderate["Moderate TEMPO<br/>8-12 HITL Gates<br/>DEFAULT"]
         M1[Balanced Oversight]
         M2[Standard Projects]
         M3[Regular Human Input]
     end
 
-    subgraph Controlled["Controlled TEMPO: ~15-20 HITL Gates"]
+    subgraph Controlled["Controlled TEMPO<br/>15-20 HITL Gates"]
         C1[Comprehensive Oversight]
         C2[Critical High-Risk Work]
         C3[Frequent Human Input]
     end
 
-    High --> Moderate
-    Moderate --> Controlled
+    H3 --> M1
+    M3 --> C1
 
-    style High fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
-    style Moderate fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
-    style Controlled fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
-    style H1 fill:#F7F9FC,stroke:#0066CC,stroke-width:1px
-    style H2 fill:#F7F9FC,stroke:#0066CC,stroke-width:1px
-    style H3 fill:#F7F9FC,stroke:#0066CC,stroke-width:1px
-    style M1 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px
-    style M2 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px
-    style M3 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px
-    style C1 fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px
-    style C2 fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px
-    style C3 fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px
+    style H1 fill:#F7F9FC,stroke:#00C4CC,stroke-width:2px,color:#0F172A
+    style H2 fill:#F7F9FC,stroke:#00C4CC,stroke-width:2px,color:#0F172A
+    style H3 fill:#F7F9FC,stroke:#00C4CC,stroke-width:2px,color:#0F172A
+    style M1 fill:#E5E9F2,stroke:#0066CC,stroke-width:2px,color:#334155
+    style M2 fill:#E5E9F2,stroke:#0066CC,stroke-width:2px,color:#334155
+    style M3 fill:#E5E9F2,stroke:#0066CC,stroke-width:2px,color:#334155
+    style C1 fill:#E5E9F2,stroke:#6B46FF,stroke-width:2px,color:#334155
+    style C2 fill:#E5E9F2,stroke:#6B46FF,stroke-width:2px,color:#334155
+    style C3 fill:#E5E9F2,stroke:#6B46FF,stroke-width:2px,color:#334155
 ```
 
 **Key Characteristics:**
