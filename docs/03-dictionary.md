@@ -30,7 +30,17 @@ A mandatory prioritization rule in RHYTHM Method where work is ordered by [depen
 
 ### Project Manifest
 
-The top-level container for all [Features](#feature) in a RHYTHM Method project. The Project Manifest replaces Epics from traditional product management processes and replaces Constitution files from [Spec-Driven Development](#spec-driven-development-sdd). Unlike Epics (which are optional and can be multiple), a Project Manifest is mandatory and there is only one per project. The Project Manifest serves three roles: (1) top-level container for all Features, (2) project information repository (similar to Constitutions in SDD), and (3) decision log tracking architectural decisions and requirement changes (similar to ADRs). This creates a single source of truth that both [Users](#user) and [Agents](#agent) can reference to understand project requirements and their evolution.
+The top-level container for all [Features](#feature) in a RHYTHM Method project. The Project Manifest **completely replaces Epics** from traditional product management processes (Scrum, Kanban, etc.) and replaces Constitution files from [Spec-Driven Development](#spec-driven-development-sdd).
+
+**Important:** Epics do **not** exist in RHYTHM Method. The Project Manifest is the only top-level container.
+
+**Comparison to Traditional Epics:**
+- **Traditional Epics**: Optional, can be multiple per project
+- **Project Manifest**: Mandatory, exactly one per project
+- **Traditional Epics**: Only serve as top-level containers
+- **Project Manifest**: Serves three roles: (1) top-level container for all Features, (2) project information repository (similar to Constitutions in SDD), and (3) decision log tracking architectural decisions and requirement changes (similar to ADRs)
+
+This creates a single source of truth that both [Users](#user) and [Agents](#agent) can reference to understand project requirements and their evolution.
 
 ### Execution Cycle
 

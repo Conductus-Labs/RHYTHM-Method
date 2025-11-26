@@ -17,7 +17,7 @@ Complete documentation for the RHYTHM Method project management methodology.
 
 ### Methodology
 
-- **[Work Breakdown Structure](07-work-breakdown-structure.md)** - WBS hierarchy (Epic, Feature, Work Unit, Task, Bug)
+- **[Work Breakdown Structure](07-work-breakdown-structure.md)** - WBS hierarchy (Project Manifest, Feature, Work Unit, Agent Task, Bug)
 - **[Estimation](08-estimation.md)** - Token-based estimation methodology
 - **[Dependency Management](09-dependency-management.md)** - Dependency-driven prioritization
 
@@ -45,4 +45,4 @@ This documentation is being developed to provide comprehensive guidance for impl
 
 | Version | Date       | Author  | Description                    |
 | ------- | ---------- | ------- | ------------------------------ |
-| 1.0.0   | 2025-01-XX | Initial | Initial documentation overview |
+| 1.0.0   | 2025-11-24 | Initial | Initial documentation overview |

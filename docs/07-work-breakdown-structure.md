@@ -32,11 +32,14 @@ The top-level container for all work in a RHYTHM Method project.
   2. Project information repository
   3. Decision log for architectural decisions and requirement changes
 
+**Important:** Epics do **not** exist in RHYTHM Method. The Project Manifest completely replaces Epics from traditional project management methods (Scrum, Kanban, etc.).
+
 **Key Differences from Traditional Epics:**
-- Epics are optional and can be multiple
-- Project Manifest is mandatory and there is only one
-- Project Manifest includes decision tracking (similar to ADRs)
-- Project Manifest serves as the project information repository
+- **Traditional Epics**: Optional, can be multiple per project
+- **Project Manifest**: Mandatory, exactly one per project
+- **Traditional Epics**: Only serve as top-level containers
+- **Project Manifest**: Includes decision tracking (similar to ADRs)
+- **Project Manifest**: Serves as the project information repository
 
 ### Level 2: Feature
 
