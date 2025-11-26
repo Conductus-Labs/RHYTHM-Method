@@ -10,6 +10,10 @@ A project management methodology specifically designed for agents with human int
 
 RHYTHM Method is a project management methodology that bridges the gap between traditional human-focused methodologies (Agile, Scrum, Kanban) and pure agentic processes. Unlike traditional methodologies that adapt human processes for agents, RHYTHM starts with agent capabilities and integrates human oversight strategically.
 
+**RHYTHM Method was designed for the [Baton Framework](https://github.com/Conductus-Labs/baton-framework)**, which provides the foundational instruction architecture, tooling, and automation that makes RHYTHM Method most effective. However, the methodology itself is framework-agnostic and can theoretically be adapted to work with other agent orchestration systems and project management tools.
+
+**Note:** RHYTHM Method is a first-of-its-kind methodology for agentic development with human integration. As such, it will have teething issues and will evolve based on real-world implementation feedback. We welcome feedback, especially from those who attempt to implement RHYTHM Method in their projects.
+
 ### The Music Metaphor
 
 Just as a conductor (human) guides an orchestra (agents) to create harmonious music, RHYTHM Method ensures that agents work together in a coordinated, controlled flow—even when operating at fast **TEMPO**.
@@ -48,7 +52,7 @@ Just as a conductor (human) guides an orchestra (agents) to create harmonious mu
 
 ## Repository Structure
 
-```
+```text
 RHYTHM-Method/
 ├── docs/                    # Complete RHYTHM Method documentation
 │   ├── overview.md          # Introduction and philosophy
@@ -93,15 +97,18 @@ See the [Documentation Overview](docs/01-overview.md) for complete documentation
 
 ### Methodology
 
-- **[Work Breakdown Structure](docs/07-work-breakdown-structure.md)** - WBS hierarchy (Epic, Feature, Work Unit, Task, Bug)
+- **[Work Breakdown Structure](docs/07-work-breakdown-structure.md)** - WBS hierarchy (Project Manifest, Feature, Work Unit, Agent Task, Bug)
 - **[Estimation](docs/08-estimation.md)** - Token-based estimation methodology
 - **[Dependency Management](docs/09-dependency-management.md)** - Dependency-driven prioritization
 
-### Best Practices
+### Best Practices and Reference
 
 - **[Best Practices](docs/10-best-practices.md)** - RHYTHM Method best practices and patterns
 - **[Tooling](docs/11-tooling.md)** - Tools and integrations for RHYTHM Method
 - **[Common Challenges](docs/12-common-challenges.md)** - Common challenges and solutions
+- **[Error Handling](docs/13-error-handling.md)** - Error handling and failure recovery
+- **[Workflow Example](docs/14-workflow-example.md)** - End-to-end workflow walkthrough
+- **[Quick Reference](docs/15-quick-reference.md)** - Formulas, decision trees, and key information
 
 ## Setup Scripts
 
@@ -180,11 +187,33 @@ RHYTHM Method is **not** a modification of these methodologies—it's a new meth
 
 Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
+### Feedback
+
+**We especially welcome feedback from implementers!** RHYTHM Method is a first-of-its-kind methodology, and your real-world implementation experience is invaluable for improving the methodology. Whether you're using Baton Framework or adapting RHYTHM Method to another system, we want to hear about:
+
+- What works well in practice
+- What doesn't work or needs clarification
+- Edge cases or scenarios not covered
+- Suggestions for improvements
+- Implementation challenges and how you solved them
+
+Please open an issue or discussion to share your feedback. Your input helps make RHYTHM Method better for everyone.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Related Projects
+## Baton Framework Integration
+
+RHYTHM Method was originally designed for the **Baton Framework**, which provides:
+
+- **Foundational Architecture**: The instruction architecture that underlies RHYTHM Method
+- **Tooling**: Automated workflows, message formats, and integration capabilities
+- **Platform**: Full Agentic Development Environment with RHYTHM Method workflows built-in
+
+While RHYTHM Method works best with Baton Framework, the methodology itself is framework-agnostic and can be adapted to other agent orchestration systems. The documentation and principles are designed to be implementation-agnostic.
+
+### Related Projects
 
 - **[Baton Framework](https://github.com/Conductus-Labs/baton-framework)** - The foundational instruction architecture that underlies RHYTHM Method
 - **[Baton CLI](https://github.com/Conductus-Labs/baton-framework)** - Tooling for scaffolding RHYTHM Method into projects
