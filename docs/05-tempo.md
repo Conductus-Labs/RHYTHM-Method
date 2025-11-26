@@ -318,6 +318,96 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 
 **Note:** TEMPO configuration must be user-driven and flexible. The configurations above are starting points—customize based on your project needs and desired involvement level.
 
+### Human Availability and Response Times
+
+**The Challenge:**
+HITL gates require human availability and response. If humans are unavailable or don't respond, work may stall. RHYTHM Method includes mechanisms to handle human unavailability while maintaining appropriate control.
+
+**Response Time Expectations:**
+
+**Immediate Response (Emergency):**
+- **Scope**: Critical failures, system instability, production issues
+- **Expected Response**: < 15 minutes
+- **Escalation**: If no response, escalate to backup approver or emergency procedures
+
+**High Priority Response:**
+- **Scope**: High-priority work, critical path blockers, major decisions
+- **Expected Response**: < 2 hours
+- **Escalation**: If no response, auto-approve low-risk items, queue high-risk items
+
+**Normal Priority Response:**
+- **Scope**: Routine approvals, non-critical decisions
+- **Expected Response**: < 8 hours (within business day)
+- **Escalation**: If no response, auto-approve after timeout (with notification)
+
+**Low Priority Response:**
+- **Scope**: Optional reviews, informational notifications
+- **Expected Response**: < 24 hours
+- **Escalation**: No escalation needed, work proceeds
+
+**Handling Human Unavailability:**
+
+**1. Timeout Mechanisms:**
+
+**Auto-Approval After Timeout:**
+- **Low-Risk Work**: Auto-approve after timeout (e.g., 8 hours for normal priority)
+- **Conditions**: Work is low-risk, well-defined, agent confidence is high
+- **Notification**: Human notified of auto-approval
+- **Override**: Human can override auto-approval if needed
+
+**Queue High-Risk Work:**
+- **High-Risk Work**: Queue work if human unavailable (no auto-approval)
+- **Conditions**: Work is high-risk, ambiguous, or requires human judgment
+- **Notification**: Human notified of queued work
+- **Escalation**: Escalate to backup approver if timeout exceeded
+
+**2. Default Behaviors:**
+
+**When Human Unavailable:**
+- **Low-Risk Work**: Auto-approve after timeout (with notification)
+- **High-Risk Work**: Queue work, wait for human response
+- **Critical Work**: Escalate to backup approver or emergency procedures
+- **Routine Work**: Proceed with agent confidence-based approval
+
+**3. Escalation Procedures:**
+
+**Escalation Triggers:**
+- Human doesn't respond within expected time window
+- Critical work blocked waiting for approval
+- Multiple approvals queued for extended period
+
+**Escalation Levels:**
+- **Level 1**: Notify human again (reminder)
+- **Level 2**: Escalate to backup approver (if configured)
+- **Level 3**: Escalate to project lead or manager
+- **Level 4**: Emergency escalation (for critical issues)
+
+**4. Timezone Handling:**
+
+**Timezone Considerations:**
+- **Availability Windows**: Configure availability windows based on user timezone
+- **Batch Approvals**: Batch approvals for users in different timezones
+- **Async Workflows**: Support async approval workflows across timezones
+- **Notification Timing**: Send notifications during user's business hours
+
+**5. Availability-Based Configuration:**
+
+**Configure Gates Based on Availability:**
+- **High Availability**: More HITL gates, faster response expected
+- **Limited Availability**: Fewer HITL gates, longer response times acceptable
+- **Scheduled Availability**: Configure gates around user's availability schedule
+- **Batch Processing**: Batch multiple approvals for efficiency
+
+**Best Practices:**
+
+1. **Set Clear Expectations**: Define expected response times for each gate type
+2. **Configure Timeouts**: Set appropriate timeouts based on work priority
+3. **Enable Auto-Approval**: Enable auto-approval for low-risk work
+4. **Set Up Escalation**: Configure backup approvers for critical work
+5. **Monitor Response Times**: Track response times and adjust expectations
+6. **Batch Approvals**: Use batch approvals to reduce overhead
+7. **Timezone Awareness**: Configure availability windows based on timezones
+
 ## TEMPO and Human Collaboration
 
 ### Fast TEMPO Doesn't Mean Excluding Humans
