@@ -1,0 +1,613 @@
+# Token-Based Estimation
+
+**Version:** 1.1.0  
+**Last Updated:** 2025-11-26  
+**Status:** Updated with Detailed Formulas
+
+## Overview
+
+RHYTHM Method uses **token-based estimation** to replace abstract story points with precise, measurable factors. Token estimation leverages agent capabilities for accurate analysis and enables precise capacity planning.
+
+## What is Token Estimation?
+
+Token estimation calculates work based on measurable factors ([tokens](03-dictionary.md#token)) rather than abstract concepts (story points). Tokens represent:
+
+- **Code Generation**: Lines of code, complexity, patterns
+- **Analysis**: Requirements analysis, dependency analysis, design work
+- **Documentation**: Code comments, API docs, specifications
+- **Validation**: Testing, code review, quality checks
+
+### Calibration and Adjustment
+
+**Important:** All formulas, multipliers, and rates provided in this document are starting points based on general software development practices. They should be calibrated per project based on:
+
+- Historical data from similar projects
+- Programming language and framework characteristics
+- Team experience and domain expertise
+- Project complexity and requirements
+
+**Language/Framework Considerations:**
+
+- Different languages may have different token-to-LOC ratios
+- Framework complexity may affect pattern multipliers
+- Integration complexity varies by technology stack
+- Calibrate starting values based on project-specific data
+
+## Token Estimation Formula
+
+### Basic Token Count
+
+For a [Work Unit](03-dictionary.md#work-unit) or [Agent Task](03-dictionary.md#agent-task):
+
+```
+Total Tokens = Code Tokens + Analysis Tokens + Documentation Tokens + Validation Tokens
+```
+
+### Token Components
+
+**Code Tokens:**
+
+- Lines of code (adjusted for complexity)
+- Pattern complexity (simple, moderate, complex)
+- Framework/library usage
+- Integration complexity
+
+**Analysis Tokens:**
+
+- Requirements analysis
+- Dependency analysis
+- Design work
+- Architecture decisions
+
+**Documentation Tokens:**
+
+- Code comments
+- API documentation
+- Specification updates
+- User documentation
+
+**Validation Tokens:**
+
+- Unit tests
+- Integration tests
+- Code review
+- Quality checks
+
+### Code Token Calculation Formula
+
+Code tokens are calculated using the following formula:
+
+```
+Code Tokens = Base LOC Tokens × Complexity Multiplier × Pattern Multiplier × Integration Multiplier
+```
+
+**Base LOC to Tokens:**
+
+- Standard conversion: 1 line of code ≈ 2-4 tokens (average 3 tokens/LOC)
+- Accounts for code generation including syntax, structure, and context
+
+**Complexity Multipliers:**
+
+- **Simple** (1.0x): Straightforward logic, minimal branching
+- **Moderate** (1.5x): Some conditionals, loops, error handling
+- **Complex** (2.5x): Nested logic, multiple patterns, complex algorithms
+
+**Pattern Multipliers:**
+
+- **Simple pattern** (1.0x): Single responsibility, clear structure
+- **Moderate pattern** (1.3x): Multiple responsibilities, some abstraction
+- **Complex pattern** (1.8x): Multiple abstractions, design patterns, frameworks
+
+**Integration Multiplier:**
+
+- **No integration** (1.0x): Standalone code
+- **Simple integration** (1.2x): Single API/service integration
+- **Complex integration** (1.5x): Multiple services, async, complex error handling
+
+**Note:** These multipliers are starting points and should be calibrated per project based on historical data.
+
+### Pattern Complexity Definitions
+
+**Simple Pattern:**
+
+- Single responsibility
+- Linear flow (no complex branching)
+- Minimal abstraction
+- Standard library usage
+- **Examples**: CRUD operations, simple data transformations, basic validations
+
+**Moderate Pattern:**
+
+- 2-3 responsibilities
+- Some conditional logic and loops
+- Basic abstractions (interfaces, simple inheritance)
+- Framework usage (standard patterns)
+- **Examples**: API endpoints with validation, service layer with business logic, basic design patterns
+
+**Complex Pattern:**
+
+- Multiple responsibilities or high abstraction
+- Complex control flow (nested conditionals, multiple loops)
+- Advanced abstractions (polymorphism, composition, multiple design patterns)
+- Custom framework usage or complex library integration
+- **Examples**: Multi-step workflows, complex state machines, advanced architectural patterns
+
+## Estimation Process
+
+### 1. Agent Task Estimation
+
+Estimation starts at the [Agent Task](03-dictionary.md#agent-task) level:
+
+1. **Analyze Task Requirements**
+
+   - Review task specification
+   - Identify code, analysis, documentation, validation needs
+   - Assess complexity factors
+
+2. **Calculate Token Components**
+
+   - Estimate Code Tokens
+   - Estimate Analysis Tokens
+   - Estimate Documentation Tokens
+   - Estimate Validation Tokens
+
+3. **Calculate Total Tokens**
+   - Sum all token components
+   - Apply complexity adjustments
+   - Validate against similar tasks
+
+### 2. Roll-Up Estimation
+
+Token estimates roll up from lower levels to higher levels:
+
+**Work Unit Estimation:**
+
+```
+Work Unit Tokens = Sum of all Agent Task Tokens + Work Unit Overhead
+```
+
+**Feature Estimation:**
+
+```
+Feature Tokens = Sum of all Work Unit Tokens + Feature Overhead
+```
+
+**Project Manifest Estimation:**
+
+```
+Project Manifest Tokens = Sum of all Feature Tokens + Project Overhead
+```
+
+### 3. Overhead Factors
+
+Overhead accounts for coordination, integration, and management:
+
+**Work Unit Overhead: 5-8% (Default: 6%)**
+
+- **Rationale**: Agent coordination, integration testing between tasks, minor refactoring
+- **Calculation**: `Work Unit Overhead = Sum of Agent Task Tokens × 0.06`
+- **Example**: 3,450 tokens × 0.06 = 207 tokens (rounded to 200)
+
+**Feature Overhead: 10-15% (Default: 12%)**
+
+- **Rationale**: Feature integration, deployment preparation, cross-work-unit testing, documentation consolidation
+- **Calculation**: `Feature Overhead = Sum of Work Unit Tokens × 0.12`
+- **Example**: 10,000 tokens × 0.12 = 1,200 tokens
+
+**Project Overhead: 15-20% (Default: 17%)**
+
+- **Rationale**: Project management, cross-feature coordination, architecture decisions, infrastructure setup
+- **Calculation**: `Project Overhead = Sum of Feature Tokens × 0.17`
+- **Example**: 50,000 tokens × 0.17 = 8,500 tokens
+
+**Adjustment Factors:**
+
+- **Low complexity project**: Reduce overhead by 2-3%
+- **High complexity project**: Increase overhead by 3-5%
+- **New team/domain**: Increase overhead by 5-10%
+
+**Note:** These percentages align with industry standards and serve as good defaults. Calibrate based on project-specific historical data.
+
+## Token Throughput Rate
+
+### Agent Throughput
+
+Each [agent](03-dictionary.md#agent) has a [token throughput rate](03-dictionary.md#token-throughput-rate) measured in tokens per hour:
+
+```
+Throughput Rate = Tokens Processed / Time (hours)
+```
+
+### Throughput Factors
+
+Throughput rates vary based on:
+
+- **Agent Capability**: Model performance, specialization
+- **Task Complexity**: Simple vs. complex tasks
+- **Domain Expertise**: Agent specialization level
+- **Tool Support**: Available tools and integrations
+
+### Baseline Throughput Rates
+
+**Agent-Specific Baseline Rates (tokens/hour):**
+
+**General Purpose Agents:**
+
+- **Basic agent**: 150-200 tokens/hour
+- **Standard agent**: 200-250 tokens/hour
+- **Advanced agent**: 250-350 tokens/hour
+
+**Specialized Agents:**
+
+- **Research/analysis agent**: 180-220 tokens/hour (analysis-heavy)
+- **Code generation agent**: 250-350 tokens/hour (code-focused)
+- **Documentation agent**: 200-280 tokens/hour (documentation-focused)
+- **Testing/validation agent**: 180-240 tokens/hour (testing-focused)
+
+**Throughput Adjustment Factors:**
+
+- **Simple tasks**: +20% throughput
+- **Complex tasks**: -30% throughput
+- **Domain expertise match**: +15% throughput
+- **New domain**: -20% throughput
+- **Tool support available**: +10% throughput
+
+**Project-Specific Calibration:**
+
+1. Start with agent-specific baseline rates above
+2. Track actual throughput for first 10-20 tasks
+3. Calculate average: `Actual Throughput = Total Tokens / Total Hours`
+4. Adjust baseline rates based on historical data
+5. Recalibrate quarterly or after 50+ tasks
+
+**Note:** Throughput rates should be both agent-specific (baseline) and project-specific (calibrated). These starting points may need adjustment based on programming language, framework, and project characteristics.
+
+### Capacity Planning
+
+**Important:** Agents are not limited by time—they can work continuously. Capacity planning in RHYTHM Method is about **user availability** and **HITL checkpoint frequency**, not agent working hours.
+
+**Capacity Constraints:**
+
+1. **User Availability for HITL Checkpoints**
+
+   - How often can the user review and approve work?
+   - What are the user's availability windows?
+   - Expected response times for approvals?
+
+2. **HITL Gate Configuration**
+
+   - High TEMPO: Fewer HITL gates → more work can flow
+   - Moderate TEMPO: Balanced HITL gates → steady flow
+   - Controlled TEMPO: More HITL gates → slower flow, more control
+
+3. **Work Queue Sizing**
+   - Size work queue based on user's capacity to review/approve
+   - Consider user's availability patterns (daily, weekly)
+   - Account for user response time expectations
+
+**Example Capacity Planning:**
+
+- **User available 2 hours/day for reviews**
+- **HITL gates configured for every Work Unit completion**
+- **Average Work Unit: 3,650 tokens (5.75 hours at 200 tokens/hour)**
+- **Capacity**: ~2 Work Units per day (limited by user review time, not agent time)
+
+**Note:** Throughput rates (tokens/hour) are used to estimate **how long work will take**, not to limit agent capacity. Agents can work continuously; the bottleneck is user availability for HITL checkpoints.
+
+## Estimation Accuracy
+
+### Improving Accuracy
+
+Token estimation accuracy improves over time through:
+
+1. **Historical Data**: Learn from completed tasks
+2. **Pattern Recognition**: Identify similar tasks
+3. **Complexity Analysis**: Refine complexity factors
+4. **Agent Performance**: Track actual vs. estimated throughput
+
+### Estimation Refinement
+
+Estimates are continuously refined:
+
+- **Before Execution**: Initial estimation based on specifications
+- **During Execution**: Real-time updates based on progress
+- **After Execution**: Post-cycle analysis and learning
+- **Historical Learning**: Pattern recognition and model updates
+
+## Tracking Actual Token Usage
+
+**Critical Requirement:** To build historical data, compare estimates to actuals, and improve estimation accuracy, you **must track actual token usage** throughout each execution cycle. Without actual token tracking, estimation improvement is impossible.
+
+### What to Track
+
+Track actual tokens used for each component during execution:
+
+**Code Tokens (Actual):**
+
+- Actual lines of code generated
+- Actual complexity encountered
+- Actual patterns used
+- Actual integration complexity
+
+**Analysis Tokens (Actual):**
+
+- Actual requirements analysis performed
+- Actual dependency analysis done
+- Actual design work completed
+- Actual architecture decisions made
+
+**Documentation Tokens (Actual):**
+
+- Actual code comments written
+- Actual API documentation created
+- Actual specification updates made
+- Actual user documentation produced
+
+**Validation Tokens (Actual):**
+
+- Actual unit tests written
+- Actual integration tests created
+- Actual code review time spent
+- Actual quality checks performed
+
+### When to Track
+
+**During Execution Cycle:**
+
+- Track tokens as work progresses
+- Record token usage for each Agent Task
+- Aggregate tokens at Work Unit completion
+- Document token breakdown at Feature completion
+
+**After Execution Cycle:**
+
+- Finalize actual token counts
+- Compare to estimated tokens
+- Record variance (over/under estimation)
+- Store in historical database
+
+### How to Track
+
+**Automated Tracking (Recommended):**
+
+- Agent execution logs capture token usage automatically
+- LLM API responses include token counts (input + output tokens)
+- Development tools track code generation tokens
+- Testing tools track validation tokens
+- Documentation tools track documentation tokens
+
+**Manual Tracking (If Needed):**
+
+- Manually record token counts if automated tracking unavailable
+- Use token counting tools for code analysis
+- Estimate manual work (code review, quality checks) based on time spent
+- Document tracking methodology for consistency
+
+**Tracking Format:**
+
+```
+Agent Task: [Task Name]
+Estimated Tokens: [Total]
+Actual Tokens:
+  - Code: [actual]
+  - Analysis: [actual]
+  - Documentation: [actual]
+  - Validation: [actual]
+Total Actual: [sum]
+Variance: [actual - estimated]
+Variance %: [(actual - estimated) / estimated × 100]
+```
+
+### Storing Historical Data
+
+**Data Storage Requirements:**
+
+- Store actual token counts for every completed Agent Task
+- Include metadata: task type, complexity, pattern, agent type, date
+- Maintain searchable database for pattern matching
+- Enable aggregation by task type, complexity level, agent specialization
+
+**Data Structure:**
+
+- Agent Task level: Detailed breakdown by component
+- Work Unit level: Aggregated from Agent Tasks
+- Feature level: Aggregated from Work Units
+- Project level: Aggregated from Features
+
+### Using Historical Data
+
+**For Estimation Improvement:**
+
+1. Query historical data for similar tasks
+2. Compare estimated vs. actual tokens
+3. Identify patterns in estimation variance
+4. Adjust multipliers and factors based on actual data
+5. Refine throughput rates based on actual performance
+
+**For Calibration:**
+
+- Use historical data to calibrate complexity multipliers
+- Adjust pattern multipliers based on actual usage
+- Refine overhead percentages from actual overhead observed
+- Update throughput rates from actual agent performance
+
+**For Estimation Dashboard:**
+
+- Historical data feeds the estimation dashboard
+- Enables "Current estimates vs. actuals" visualization
+- Provides estimation accuracy metrics
+- Supports throughput rate tracking over time
+
+### Integration with Execution Cycles
+
+**During Task Execution:**
+
+- Agents log token usage as they work
+- Real-time token tracking updates estimates
+- Alerts if actual usage significantly exceeds estimates
+
+**At Work Unit Completion:**
+
+- Finalize actual token counts
+- Compare to Work Unit estimate
+- Record variance and learnings
+- Update historical database
+
+**At Cycle Review:**
+
+- Analyze token usage patterns
+- Identify estimation improvements
+- Update estimation models
+- Refine calibration factors
+
+**Note:** Without tracking actual token usage, the entire estimation improvement cycle breaks down. Tracking actual tokens is not optional—it's essential for the RHYTHM Method to function effectively.
+
+## Estimation in Practice
+
+### Example: Agent Task Estimation
+
+**Task**: Create user authentication API endpoint
+
+**Step-by-Step Token Calculation:**
+
+**Code Tokens Calculation:**
+
+- Estimated LOC: 150 lines
+- Base tokens: 150 × 3 = 450 tokens
+- Complexity: Moderate (1.5x) → 450 × 1.5 = 675 tokens
+- Pattern: Moderate (1.3x) → 675 × 1.3 = 878 tokens
+- Integration: Simple (1.2x) → 878 × 1.2 = 1,053 tokens
+- Rounded: **500 tokens** (conservative estimate for endpoint + validation + error handling)
+
+**Analysis Tokens Calculation:**
+
+- Requirements analysis: 50 tokens (security requirements review)
+- Dependency analysis: 30 tokens (checking auth dependencies)
+- Design work: 80 tokens (API design, request/response structure)
+- Architecture decisions: 40 tokens (authentication strategy)
+- **Total: 200 tokens**
+
+**Documentation Tokens Calculation:**
+
+- Code comments: 40 tokens (inline documentation)
+- API documentation: 80 tokens (endpoint spec, parameters, responses)
+- Specification updates: 20 tokens (updating feature spec)
+- User documentation: 10 tokens (if needed)
+- **Total: 150 tokens**
+
+**Validation Tokens Calculation:**
+
+- Unit tests: 120 tokens (test cases for endpoint logic)
+- Integration tests: 100 tokens (API integration tests)
+- Code review: 50 tokens (review time)
+- Quality checks: 30 tokens (linting, security checks)
+- **Total: 300 tokens**
+
+**Total Tokens**: 500 + 200 + 150 + 300 = **1,150 tokens**
+
+**Estimated Duration**:
+
+- Agent throughput: 200 tokens/hour (standard agent baseline)
+- Estimated time: 1,150 / 200 = **5.75 hours**
+
+### Example: Work Unit Estimation
+
+**Work Unit**: User authentication system
+
+**Agent Tasks:**
+
+- Task 1: Authentication API endpoint (1,150 tokens)
+- Task 2: Password hashing service (800 tokens)
+- Task 3: JWT token management (900 tokens)
+- Task 4: Authentication middleware (600 tokens)
+
+**Work Unit Tokens**: 3,450 + 207 (6% overhead: 3,450 × 0.06 = 207, rounded to 200) = 3,650 tokens
+
+**Estimated Duration**:
+
+- Parallel execution: 2 agents at 200 tokens/hour each
+- Estimated time: 3,650 / 400 = 9.125 hours (within 2-8 hour execution cycle with parallel work)
+
+## Estimation Best Practices
+
+### 1. Start with Agent Tasks
+
+Always estimate at the Agent Task level first, then roll up to higher levels.
+
+### 2. Track and Use Historical Data
+
+**Track actual token usage** during every execution cycle, then leverage historical data to improve accuracy:
+
+- Similar tasks completed previously (with actual token counts)
+- Agent performance patterns (from actual throughput data)
+- Complexity factor adjustments (based on actual vs. estimated variance)
+
+**See [Tracking Actual Token Usage](#tracking-actual-token-usage) section for detailed tracking requirements.**
+
+### 3. Account for Dependencies
+
+Dependencies can affect estimation:
+
+- Blocked work may have different estimates
+- Dependency resolution adds overhead
+- Parallel work reduces total duration
+
+### 4. Validate Estimates
+
+Regularly validate estimates by comparing to actual token usage:
+
+- **Track actual tokens** during execution cycles (see [Tracking Actual Token Usage](#tracking-actual-token-usage))
+- Compare estimated vs. actual tokens for each completed task
+- Analyze estimation accuracy patterns
+- Refine estimation models based on actual data
+
+### 5. Continuous Improvement
+
+Estimation improves over time:
+
+- Learn from each execution cycle
+- Update complexity factors
+- Refine throughput rates
+- Improve pattern recognition
+
+## Estimation Tools
+
+### Automated Estimation
+
+Agents can automatically estimate work:
+
+- Analyze specifications
+- Identify complexity factors
+- Calculate token components
+- Provide roll-up estimates
+
+### Estimation Dashboards
+
+Real-time visibility into:
+
+- Current estimates vs. actuals (requires actual token tracking)
+- Estimation accuracy metrics (calculated from historical actual token data)
+- Throughput rate tracking (based on actual token usage over time)
+- Capacity planning (based on user availability and HITL checkpoints)
+
+**Note:** Estimation dashboards require actual token usage data from execution cycles. Without tracking actual tokens, dashboards cannot display meaningful comparisons or accuracy metrics.
+
+## Summary
+
+Token-based estimation in RHYTHM Method provides precise, measurable estimates that replace abstract story points. By calculating tokens for code generation, analysis, documentation, and validation, and rolling up from Agent Tasks to Work Units to Features, RHYTHM Method enables accurate estimation of work duration and user capacity planning (based on HITL checkpoint availability, not agent working hours). **Critical to the methodology:** Actual token usage must be tracked during every execution cycle to build historical data, compare estimates to actuals, and continuously improve estimation accuracy through historical learning and pattern recognition.
+
+---
+
+## Navigation
+
+**Previous:** [Work Breakdown Structure](07-work-breakdown-structure.md) - WBS hierarchy  
+**Next:** [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization
+
+---
+
+## Change History
+
+| Version | Date       | Author              | Description                                                                                                     |
+| ------- | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-01-XX | Initial             | Initial estimation documentation                                                                                |
+| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed formulas, multipliers, overhead percentages, baseline throughput rates, and calibration guidance |
