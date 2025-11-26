@@ -161,6 +161,26 @@ Traditional project management methodologies were designed for human teams. When
 
 **RHYTHM Method bridges this gap** by creating a methodology that leverages agent capabilities while maintaining essential human oversight and strategic input.
 
+## Is RHYTHM Method Right for You?
+
+RHYTHM Method is best suited for:
+
+- **Agentic development environments** with AI agents capable of development work
+- **Projects requiring fast iteration** and rapid delivery cycles
+- **Teams comfortable with automation** and structured workflows
+- **Projects with clear dependencies** that can be systematically managed
+- **Organizations willing to invest** in training and methodology adoption
+
+RHYTHM Method may not be ideal for:
+
+- **Traditional human-only teams** without AI agent infrastructure
+- **Projects requiring extensive human collaboration** at every step
+- **Teams resistant to change** or new methodologies
+- **Projects with unclear or highly ambiguous requirements**
+- **Organizations without agent infrastructure** or AI development capabilities
+
+**Recommendation:** Start with a pilot project to evaluate RHYTHM Method's fit for your organization. Use Moderate TEMPO initially, focus on well-defined work, and build historical data to improve estimation accuracy over time.
+
 ## Alternative to Traditional Methodologies
 
 RHYTHM Method is an **alternative** to:
