@@ -27,9 +27,17 @@
 #   - Interactive wizard mode (default)
 #   - Non-interactive mode (use config)
 #   - Progress indicators
-#   - Error handling with rollback
+#   - Error handling (continues with remaining steps on failure)
 #   - Ability to skip individual steps
 #   - Summary before execution
+#
+# Note on Rollback:
+#   Rollback is not implemented because all operations are idempotent:
+#   - Issue Types: Creation checks for existing types before creating (idempotent)
+#   - Project Setup: Checks for existing project before creating (idempotent)
+#   - Templates: File comparison before copying (idempotent)
+#   If a step fails, the script continues with remaining steps. Failed steps can be
+#   re-run individually or the entire setup can be re-run safely.
 #
 # Exit codes:
 #   0 = Success

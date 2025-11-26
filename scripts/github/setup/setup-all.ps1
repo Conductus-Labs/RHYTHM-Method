@@ -26,9 +26,17 @@
 #   - Interactive wizard mode (default)
 #   - Non-interactive mode (use config)
 #   - Progress indicators
-#   - Error handling with rollback
+#   - Error handling (continues with remaining steps on failure)
 #   - Ability to skip individual steps
 #   - Summary before execution
+#
+# Note on Rollback:
+#   Rollback is not implemented because all operations are idempotent:
+#   - Issue Types: Creation checks for existing types before creating (idempotent)
+#   - Project Setup: Checks for existing project before creating (idempotent)
+#   - Templates: File comparison before copying (idempotent)
+#   If a step fails, the script continues with remaining steps. Failed steps can be
+#   re-run individually or the entire setup can be re-run safely.
 #
 # Exit codes:
 #   0 = Success
@@ -46,8 +54,8 @@ param(
 )
 
 # Script directory and paths
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$RepoRoot = Resolve-Path (Join-Path $ScriptDir "..\..\..")
+# Note: Using $PSScriptRoot (PowerShell 3.0+) instead of Split-Path for best practice
+$ScriptDir = $PSScriptRoot
 
 # Set error action preference
 $ErrorActionPreference = "Stop"
@@ -177,26 +185,32 @@ function Invoke-SetupScript {
     if ($DryRun) {
         $cmd += " -DryRun"
     }
-    if ($VerbosePreference -eq "Continue" -or $PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
+    # Check if verbose flag was explicitly provided (simplified check)
+    if ($PSCmdlet.MyInvocation.BoundParameters.ContainsKey("Verbose") -or $VerbosePreference -eq "Continue") {
         $cmd += " -Verbose"
     }
 
     Write-VerboseMessage "Executing: $cmd"
 
     # Run the script
+    # Note: Individual scripts handle retry logic for transient failures (rate limits, network issues)
     try {
-        $exitCode = 0
-        Invoke-Expression $cmd 2>&1 | ForEach-Object {
+        # Capture output and errors, then process them
+        $output = Invoke-Expression $cmd 2>&1
+        $hasError = $false
+        $output | ForEach-Object {
             if ($_ -is [System.Management.Automation.ErrorRecord]) {
                 Write-Error $_
-                $exitCode = 1
+                $hasError = $true
             } else {
                 Write-Output $_
             }
         }
 
-        if ($LASTEXITCODE -ne 0) {
-            $exitCode = $LASTEXITCODE
+        # Check exit code from the subprocess (primary indicator)
+        $exitCode = $LASTEXITCODE
+        if ($hasError -and $exitCode -eq 0) {
+            $exitCode = 1
         }
 
         if ($exitCode -eq 0) {
@@ -206,11 +220,13 @@ function Invoke-SetupScript {
         } else {
             Write-Error "Failed: $StepDescription (exit code: $exitCode)" 1
             $script:StepsFailed += $StepDescription
+            # Continue with remaining steps - operations are idempotent, so re-running is safe
             return $false
         }
     } catch {
         Write-Error "Failed: $StepDescription - $_" 1
         $script:StepsFailed += $StepDescription
+        # Continue with remaining steps - operations are idempotent, so re-running is safe
         return $false
     }
 }
