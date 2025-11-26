@@ -9,6 +9,7 @@ This document provides a complete, realistic example of RHYTHM Method in practic
 ## Overview
 
 This example demonstrates how RHYTHM Method workflows operate in practice, showing:
+
 - How a Feature is specified and approved
 - How Work Units are created and reviewed
 - How Work Units are broken down into Agent Tasks
@@ -23,6 +24,7 @@ This example demonstrates how RHYTHM Method workflows operate in practice, showi
 ## Scenario: User Authentication System
 
 **Project Context:**
+
 - **Project:** E-commerce Platform
 - **Feature:** User Authentication System
 - **Business Value:** Enable users to create accounts, log in, and manage their sessions securely
@@ -40,6 +42,7 @@ This example demonstrates how RHYTHM Method workflows operate in practice, showi
 Users need to create accounts and log in to access personalized features, view order history, and manage their profile. This feature enables the core user experience and is a prerequisite for all user-specific functionality.
 
 **Validation Criteria:**
+
 - Users can create accounts with email and password
 - Users can log in with valid credentials
 - Users receive JWT tokens for authenticated requests
@@ -48,17 +51,20 @@ Users need to create accounts and log in to access personalized features, view o
 - Invalid login attempts are rate-limited (5 attempts per 15 minutes)
 
 **Technical Constraints:**
+
 - Must use existing PostgreSQL database
 - Must integrate with existing user service architecture
 - Must follow existing API design patterns
 - Must support CORS for frontend integration
 
 **Dependencies:**
+
 - Database schema must be created first
 - User service infrastructure must be available
 - JWT library must be integrated
 
 **Deployment:**
+
 - Feature can be deployed independently
 - Requires database migration
 - No breaking changes to existing APIs
@@ -68,11 +74,13 @@ Users need to create accounts and log in to access personalized features, view o
 **Agent Action:** RHYTHM Agent creates Feature Specification document
 
 **Human Review:** User reviews specification and provides feedback:
+
 - "Add requirement for password reset functionality"
 - "Clarify JWT token expiration handling"
 - "Specify rate limiting implementation details"
 
 **Agent Response:** RHYTHM Agent updates specification:
+
 - Adds password reset to validation criteria
 - Clarifies JWT expiration (24 hours from last activity)
 - Specifies rate limiting (Redis-based, 5 attempts per 15 minutes per IP)
@@ -90,6 +98,7 @@ Users need to create accounts and log in to access personalized features, view o
 **Agent Action:** RHYTHM Agent analyzes Feature Specification and creates Work Unit breakdown:
 
 **Work Unit 1: Database Schema Setup**
+
 - Create user table schema
 - Create session table schema
 - Create indexes for performance
@@ -97,6 +106,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Estimated Tokens:** 800 tokens (2 hours at 400 tokens/hour)
 
 **Work Unit 2: User Model and Service**
+
 - Implement User model
 - Implement password hashing service
 - Implement user creation logic
@@ -104,6 +114,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Estimated Tokens:** 1,200 tokens (3 hours at 400 tokens/hour)
 
 **Work Unit 3: Authentication API Endpoints**
+
 - POST /api/auth/register endpoint
 - POST /api/auth/login endpoint
 - POST /api/auth/logout endpoint
@@ -111,6 +122,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Estimated Tokens:** 1,500 tokens (3.75 hours at 400 tokens/hour)
 
 **Work Unit 4: JWT Token Management**
+
 - JWT token generation service
 - JWT token validation middleware
 - Token refresh logic
@@ -118,6 +130,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Estimated Tokens:** 1,000 tokens (2.5 hours at 400 tokens/hour)
 
 **Work Unit 5: Rate Limiting and Security**
+
 - Redis-based rate limiting
 - Password strength validation
 - Security headers and CORS configuration
@@ -129,10 +142,12 @@ Users need to create accounts and log in to access personalized features, view o
 ### Work Unit Creation Approval
 
 **Human Review:** User reviews Work Unit breakdown:
+
 - "Work Unit 3 seems large - can it be split?"
 - "Work Unit 4 and 5 can run in parallel after Work Unit 2"
 
 **Agent Response:** RHYTHM Agent adjusts:
+
 - Splits Work Unit 3 into:
   - Work Unit 3A: Registration and Login endpoints (1,000 tokens)
   - Work Unit 3B: Logout endpoint (500 tokens)
@@ -151,6 +166,7 @@ Users need to create accounts and log in to access personalized features, view o
 **Reviewing Agent:** Technical-writer-agent reviews Work Unit 1 specification
 
 **Review Feedback:**
+
 - ✅ **Clarity:** Specification is clear and well-defined
 - ✅ **Completeness:** All necessary information present (schema details, indexes, constraints)
 - ✅ **Feasibility:** Can be completed in execution cycle (2 hours estimated)
@@ -165,6 +181,7 @@ Users need to create accounts and log in to access personalized features, view o
 **Reviewing Agent:** Technical-writer-agent reviews Work Unit 2 specification
 
 **Review Feedback:**
+
 - ✅ **Clarity:** Requirements are clear
 - ✅ **Completeness:** All components specified
 - ✅ **Feasibility:** 3 hours is within execution cycle limit
@@ -179,6 +196,7 @@ Users need to create accounts and log in to access personalized features, view o
 **Reviewing Agent:** Technical-writer-agent reviews Work Unit 3A specification
 
 **Review Feedback:**
+
 - ✅ **Clarity:** Endpoint specifications are clear
 - ✅ **Completeness:** Request/response formats specified
 - ✅ **Feasibility:** 2.5 hours estimated, within execution cycle
@@ -197,30 +215,35 @@ Users need to create accounts and log in to access personalized features, view o
 **Agent Action:** RHYTHM Agent breaks down Work Unit 1 into Agent Tasks:
 
 **Agent Task 1.1: Create User Table Schema**
+
 - Define user table structure (id, email, password_hash, created_at, updated_at)
 - Create migration file
 - **Estimated Tokens:** 200 tokens
 - **Assigned to:** Backend Agent
 
 **Agent Task 1.2: Create Session Table Schema**
+
 - Define session table structure (id, user_id, token, expires_at, created_at)
 - Create migration file
 - **Estimated Tokens:** 150 tokens
 - **Assigned to:** Backend Agent
 
 **Agent Task 1.3: Create Database Indexes**
+
 - Create indexes on email (unique), user_id (foreign key), token (lookup)
 - Add to migration file
 - **Estimated Tokens:** 100 tokens
 - **Assigned to:** Backend Agent
 
 **Agent Task 1.4: Create Migration Rollback**
+
 - Define rollback logic for migration
 - Test rollback procedure
 - **Estimated Tokens:** 150 tokens
 - **Assigned to:** Backend Agent
 
 **Agent Task 1.5: Validate Migration**
+
 - Test migration on development database
 - Verify schema constraints
 - **Estimated Tokens:** 200 tokens
@@ -231,6 +254,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Work Unit Breakdown Approval
 
 **Human Review:** User reviews task breakdown:
+
 - "Task assignments look appropriate"
 - "Dependencies between tasks are clear"
 
@@ -245,6 +269,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Work Queue Status
 
 **Queue Order (Dependency-Driven):**
+
 1. Work Unit 1 (Level 0, no dependencies) - **READY**
 2. Work Unit 2 (Level 1, depends on Work Unit 1) - **BLOCKED**
 3. Work Unit 3A (Level 2, depends on Work Unit 2) - **BLOCKED**
@@ -257,6 +282,7 @@ Users need to create accounts and log in to access personalized features, view o
 **Execution Cycle Start:** 2025-11-26 09:00:00
 
 **Agent Task 1.1: Create User Table Schema**
+
 - **Agent:** Backend Agent
 - **Status:** ✅ Completed
 - **Actual Tokens:** 180 tokens (under estimate)
@@ -264,6 +290,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Output:** Migration file created, schema validated
 
 **Agent Task 1.2: Create Session Table Schema**
+
 - **Agent:** Backend Agent
 - **Status:** ✅ Completed
 - **Actual Tokens:** 165 tokens (slightly over estimate)
@@ -271,6 +298,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Output:** Session table migration created
 
 **Agent Task 1.3: Create Database Indexes**
+
 - **Agent:** Backend Agent
 - **Status:** ✅ Completed
 - **Actual Tokens:** 95 tokens (under estimate)
@@ -278,6 +306,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Output:** Indexes added to migration
 
 **Agent Task 1.4: Create Migration Rollback**
+
 - **Agent:** Backend Agent
 - **Status:** ✅ Completed
 - **Actual Tokens:** 140 tokens (under estimate)
@@ -285,6 +314,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Output:** Rollback logic implemented and tested
 
 **Agent Task 1.5: Validate Migration**
+
 - **Agent:** QA Agent
 - **Status:** ✅ Completed
 - **Actual Tokens:** 190 tokens (under estimate)
@@ -300,6 +330,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Quality Assurance
 
 **Quality Gates:**
+
 - ✅ **Code Quality:** All code passes linting and formatting checks
 - ✅ **Migration Validation:** Migration runs successfully on test database
 - ✅ **Rollback Validation:** Rollback procedure tested and verified
@@ -313,10 +344,12 @@ Users need to create accounts and log in to access personalized features, view o
 **Status:** ✅ Work Unit 1 Complete
 
 **Dependency Resolution:**
+
 - Work Unit 2 is now **UNBLOCKED** (dependency on Work Unit 1 resolved)
 - Work Unit 2 moves to **READY** status in work queue
 
 **Cycle Review:**
+
 - **Estimation Accuracy:** Good (9.2% under estimate, within acceptable range)
 - **Execution Efficiency:** Tasks completed efficiently, no blockers
 - **Quality:** All quality gates passed
@@ -329,6 +362,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Work Queue Update
 
 **Queue Order (Updated):**
+
 1. ~~Work Unit 1~~ - **COMPLETE**
 2. Work Unit 2 (Level 1, dependencies resolved) - **READY** ⬅️ **NEXT**
 3. Work Unit 3A (Level 2, depends on Work Unit 2) - **BLOCKED**
@@ -341,16 +375,19 @@ Users need to create accounts and log in to access personalized features, view o
 **Execution Cycle Start:** 2025-11-26 11:30:00
 
 **Work Unit 2 Breakdown:**
+
 - Agent Task 2.1: Implement User Model (400 tokens)
 - Agent Task 2.2: Implement Password Hashing Service (350 tokens)
 - Agent Task 2.3: Implement User Creation Logic (450 tokens)
 
 **Execution Progress:**
+
 - **11:30-12:15:** Agent Task 2.1 completed (User Model implemented)
 - **12:15-12:50:** Agent Task 2.2 completed (Password Hashing Service implemented)
 - **12:50-14:00:** Agent Task 2.3 completed (User Creation Logic implemented)
 
 **Bug Found During Development:**
+
 - **Issue:** Password validation not checking minimum length
 - **Classification:** Development bug (parented to Work Unit 2)
 - **Action:** Fixed immediately (added 8-character minimum requirement)
@@ -365,6 +402,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Quality Assurance
 
 **Quality Gates:**
+
 - ✅ **Code Quality:** All code passes checks
 - ✅ **Unit Tests:** User model tests pass (95% coverage)
 - ✅ **Password Security:** Password hashing verified (bcrypt, salt rounds = 10)
@@ -380,12 +418,14 @@ Users need to create accounts and log in to access personalized features, view o
 **Status:** ✅ Work Unit 2 Complete
 
 **Dependency Resolution:**
+
 - Work Units 3A, 3B, and 4 are now **UNBLOCKED**
 - Work Units 3A, 3B, and 4 move to **READY** status
 - Work Units 3A and 3B can execute in parallel
 - Work Unit 4 can execute in parallel with 3A/3B
 
 **Cycle Review:**
+
 - **Estimation Accuracy:** Excellent (4.2% over estimate, well within acceptable range)
 - **Bug Handling:** Development bug caught and fixed during cycle (demonstrates parented bug workflow)
 - **Quality:** All quality gates passed after addressing code review feedback
@@ -398,6 +438,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Work Queue Update
 
 **Queue Order (Updated):**
+
 1. ~~Work Unit 1~~ - **COMPLETE**
 2. ~~Work Unit 2~~ - **COMPLETE**
 3. Work Unit 3A (Level 2, dependencies resolved) - **READY** ⬅️ **EXECUTING**
@@ -412,6 +453,7 @@ Users need to create accounts and log in to access personalized features, view o
 **Execution Cycle Start:** 2025-11-26 14:30:00
 
 **Work Unit 3A Execution:**
+
 - Agent Task 3A.1: POST /api/auth/register endpoint (500 tokens)
 - Agent Task 3A.2: POST /api/auth/login endpoint (500 tokens)
 - **Status:** ✅ Completed at 16:45:00
@@ -419,6 +461,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Duration:** 2 hours 15 minutes
 
 **Work Unit 4 Execution (Parallel):**
+
 - Agent Task 4.1: JWT Token Generation Service (400 tokens)
 - Agent Task 4.2: JWT Token Validation Middleware (350 tokens)
 - Agent Task 4.3: Token Refresh Logic (250 tokens)
@@ -427,6 +470,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Duration:** 2 hours 30 minutes
 
 **Work Unit 3B Execution (After 3A):**
+
 - Agent Task 3B.1: POST /api/auth/logout endpoint (500 tokens)
 - **Status:** ✅ Completed at 17:30:00
 - **Actual Tokens:** 480 tokens (vs. 500 estimated)
@@ -435,18 +479,21 @@ Users need to create accounts and log in to access personalized features, view o
 ### Quality Assurance
 
 **Work Unit 3A Quality Gates:**
+
 - ✅ **API Tests:** Registration and login endpoints tested
 - ✅ **Integration Tests:** End-to-end authentication flow validated
 - ✅ **Security:** Input validation and SQL injection prevention verified
 - ✅ **Documentation:** API documentation generated
 
 **Work Unit 4 Quality Gates:**
+
 - ✅ **JWT Validation:** Token generation and validation tested
 - ✅ **Security:** Token expiration and refresh logic verified
 - ✅ **Middleware Tests:** Authentication middleware tested
 - ✅ **Integration:** JWT service integrated with authentication endpoints
 
 **Work Unit 3B Quality Gates:**
+
 - ✅ **API Tests:** Logout endpoint tested
 - ✅ **Session Management:** Token invalidation verified
 - ✅ **Integration:** Logout integrated with session management
@@ -456,11 +503,13 @@ Users need to create accounts and log in to access personalized features, view o
 ### Dependency Resolution
 
 **Status Updates:**
+
 - ✅ Work Unit 3A Complete → Work Unit 3B unblocked
 - ✅ Work Unit 4 Complete
 - ✅ Work Unit 3B Complete → Work Unit 5 unblocked
 
 **Work Queue Status:**
+
 - Work Unit 5 is now **READY** (all dependencies resolved)
 
 ---
@@ -470,6 +519,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Work Queue Update
 
 **Queue Order (Final):**
+
 1. ~~Work Unit 1~~ - **COMPLETE**
 2. ~~Work Unit 2~~ - **COMPLETE**
 3. ~~Work Unit 3A~~ - **COMPLETE**
@@ -482,11 +532,13 @@ Users need to create accounts and log in to access personalized features, view o
 **Execution Cycle Start:** 2025-11-26 18:00:00
 
 **Work Unit 5 Breakdown:**
+
 - Agent Task 5.1: Redis-based Rate Limiting (350 tokens)
 - Agent Task 5.2: Password Strength Validation (200 tokens)
 - Agent Task 5.3: Security Headers and CORS (350 tokens)
 
 **Execution Progress:**
+
 - **18:00-19:05:** Agent Task 5.1 completed (Rate limiting implemented and tested)
 - **19:05-19:35:** Agent Task 5.2 completed (Password validation rules implemented)
 - **19:35-20:20:** Agent Task 5.3 completed (Security headers and CORS configured)
@@ -500,6 +552,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Quality Assurance
 
 **Quality Gates:**
+
 - ✅ **Rate Limiting:** Redis integration tested, rate limits enforced correctly
 - ✅ **Password Validation:** Strength rules validated (8+ chars, uppercase, lowercase, number, special)
 - ✅ **Security Headers:** CORS, XSS protection, content security policy verified
@@ -521,6 +574,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Feature Validation
 
 **Validation Against Criteria:**
+
 - ✅ Users can create accounts with email and password
 - ✅ Users can log in with valid credentials
 - ✅ Users receive JWT tokens for authenticated requests
@@ -535,6 +589,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Deployment Approval
 
 **Deployment Request:**
+
 - **Feature:** User Authentication System
 - **Work Units:** 5 Work Units, all complete
 - **Quality Gates:** All passed
@@ -542,6 +597,7 @@ Users need to create accounts and log in to access personalized features, view o
 - **Database Migration:** Ready for production
 
 **Human Review:** User reviews deployment package:
+
 - Reviews code changes
 - Reviews database migration
 - Reviews security configurations
@@ -552,6 +608,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Deployment
 
 **Deployment Process:**
+
 1. Database migration executed (Work Unit 1)
 2. Code deployed to staging environment
 3. Integration tests run on staging
@@ -570,6 +627,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Feature-Level Review
 
 **Feature Metrics:**
+
 - **Total Estimated Tokens:** 6,048 tokens
 - **Total Actual Tokens:** 5,840 tokens
 - **Estimation Variance:** -3.4% (excellent accuracy)
@@ -580,6 +638,7 @@ Users need to create accounts and log in to access personalized features, view o
 ### Process Analysis
 
 **What Went Well:**
+
 - ✅ Estimation accuracy was excellent (within 5% for all Work Units)
 - ✅ Parallel execution worked effectively (Work Units 3A and 4)
 - ✅ Dependency management ensured correct execution order
@@ -587,6 +646,7 @@ Users need to create accounts and log in to access personalized features, view o
 - ✅ Development bug was caught and fixed during cycle (parented bug workflow)
 
 **Areas for Improvement:**
+
 - ⚠️ Initial Work Unit 3 was too large (split into 3A and 3B)
 - ⚠️ Code review feedback could be caught earlier (consider adding to Work Unit Review)
 - ✅ Migration rollback strategy was valuable addition
@@ -594,16 +654,19 @@ Users need to create accounts and log in to access personalized features, view o
 ### Learning Integration
 
 **Estimation Refinements:**
+
 - Migration tasks: Slightly reduce estimates (actuals were consistently under)
 - API endpoint tasks: Estimates were accurate
 - Security tasks: Estimates were accurate
 
 **Process Improvements:**
+
 - Work Unit Review should include code review checklist
 - Consider splitting large Work Units earlier in the process
 - Parallel execution opportunities should be identified during Work Unit Creation
 
 **Historical Data Updated:**
+
 - Migration task patterns: Added to historical database
 - API endpoint patterns: Added to historical database
 - Security implementation patterns: Added to historical database
@@ -615,26 +678,31 @@ Users need to create accounts and log in to access personalized features, view o
 ### Methodology in Practice
 
 1. **Dependency-Driven Prioritization Works:**
+   
    - Work Units executed in correct order automatically
    - No blocked work waiting unnecessarily
    - Parallel execution maximized where possible
 
 2. **Token Estimation is Accurate:**
+   
    - All Work Units within 5% of estimates
    - Historical data improves accuracy over time
    - Pattern recognition helps with similar work
 
 3. **Quality Gates Catch Issues Early:**
+   
    - Code review feedback addressed before deployment
    - Security validation caught potential issues
    - Integration tests validated end-to-end flows
 
 4. **Work Unit Review is Valuable:**
+   
    - Caught specification issues before breakdown
    - Clarified ambiguous requirements
    - Improved Work Unit quality
 
 5. **Continuous Planning Adapts:**
+   
    - Work queue updated automatically as dependencies resolved
    - Parallel execution opportunities identified
    - No manual replanning needed
@@ -668,7 +736,6 @@ Users need to create accounts and log in to access personalized features, view o
 
 ## Change History
 
-| Version | Date       | Author              | Description                    |
-| ------- | ---------- | ------------------- | ------------------------------ |
+| Version | Date       | Author                 | Description                         |
+| ------- | ---------- | ---------------------- | ----------------------------------- |
 | 1.0.0   | 2025-11-26 | technical-writer-agent | Initial end-to-end workflow example |
-

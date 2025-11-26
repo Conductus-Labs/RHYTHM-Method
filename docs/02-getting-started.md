@@ -22,6 +22,7 @@ Before adopting RHYTHM Method, ensure you have:
 **Recommended: Use Baton Framework**
 
 The **Baton Framework** is the recommended way to use RHYTHM Method. It provides:
+
 - Consistent Agent-to-Agent (A2A) and Agent-to-User (A2U) communication
 - Standardized message templates for all work items
 - Automated RHYTHM Method workflows
@@ -36,19 +37,19 @@ See [Message Formats](../message-format/overview.md) for communication templates
 Starting a new project with RHYTHM Method:
 
 1. **Project Initialization**
-
+   
    - Create Project Manifest
    - Configure RHYTHM settings
    - Initialize work queue
 
 2. **First Feature**
-
+   
    - Create Feature Specification
    - Break down into Work Units
    - Execute first execution cycle
 
 3. **Iterate and Improve**
-
+   
    - Review execution cycles
    - Refine processes
    - Improve estimation accuracy
@@ -66,6 +67,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Phase 1: Assessment and Planning
 
 1. **Assess Current State**
+   
    - **Current Methodology**: Identify current methodology (Scrum, Kanban, Agile, etc.)
    - **Work Items**: Inventory all existing work items (User Stories, Tasks, Bugs, etc.)
    - **In-Progress Work**: Identify work currently in progress (active sprints, in-flight tasks)
@@ -73,6 +75,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
    - **Tools**: Identify current project management tools
 
 2. **Plan Migration Strategy**
+   
    - **Timeline**: Define migration timeline (gradual vs. immediate)
    - **Scope**: Determine scope (entire project vs. new work only)
    - **Training**: Plan team training on RHYTHM Method
@@ -82,39 +85,43 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 
 **Mapping Traditional Work Items to RHYTHM Structure:**
 
-| Traditional Item | RHYTHM Equivalent | Mapping Notes |
-|-----------------|-------------------|---------------|
-| **Epic** | Project Manifest | Single Project Manifest replaces all Epics |
-| **User Story** | Feature | User Stories map to Features (may combine multiple stories into one Feature) |
-| **Task** | Work Unit | Tasks map to Work Units (may split large tasks into multiple Work Units) |
-| **Sub-task** | Agent Task | Sub-tasks map to Agent Tasks |
-| **Bug (Development)** | Bug (Parented to Work Unit) | Bugs found during development parented to Work Unit |
-| **Bug (Production)** | Bug (Related to Feature) | Production bugs related to Feature |
-| **Sprint** | Execution Cycle | Sprints replaced by execution cycles (up to 8 hours) |
-| **Story Points** | Tokens | Story points replaced by token estimation |
+| Traditional Item      | RHYTHM Equivalent           | Mapping Notes                                                                |
+| --------------------- | --------------------------- | ---------------------------------------------------------------------------- |
+| **Epic**              | Project Manifest            | Single Project Manifest replaces all Epics                                   |
+| **Feature**           | Feature                     | User Stories map to Features (may combine multiple stories into one Feature) |
+| **User Story**        | Work Unit                   | Tasks map to Work Units (may split large tasks into multiple Work Units)     |
+| **Task**              | Agent Task                  | Sub-tasks map to Agent Tasks                                                 |
+| **Bug (Development)** | Bug (Parented to Work Unit) | Bugs found during development parented to Work Unit                          |
+| **Bug (Production)**  | Bug (Related to Feature)    | Production bugs related to Feature                                           |
+| **Sprint**            | Execution Cycle             | Sprints replaced by execution cycles (up to 8 hours)                         |
+| **Story Points**      | Tokens                      | Story points replaced by token estimation                                    |
 
 **Mapping Guidelines:**
 
 **Epic → Project Manifest:**
+
 - **Single Manifest**: Create one Project Manifest for entire project
 - **Consolidate Epics**: Combine multiple Epics into single Project Manifest
 - **Decision Log**: Migrate architectural decisions to Project Manifest decision log
 - **Project Info**: Migrate project documentation to Project Manifest
 
-**User Story → Feature:**
+**Feature → Feature:**
+
 - **Business Value**: Ensure Feature provides clear business value
 - **Deployment**: Feature should be independently deployable
 - **Validation**: Define clear validation criteria for Feature
 - **Combination**: May combine multiple related User Stories into one Feature
 - **Splitting**: May split large User Stories into multiple Features
 
-**Task → Work Unit:**
+**User Story → Work Unit:**
+
 - **Execution Cycle**: Work Unit should fit in execution cycle (up to 8 hours)
 - **Splitting**: Split large tasks into multiple Work Units if needed
 - **Dependencies**: Identify dependencies between Work Units
 - **Estimation**: Convert story points to tokens (see below)
 
-**Sub-task → Agent Task:**
+**Task → Agent Task:**
+
 - **Agent Assignment**: Assign to specialized agents
 - **Clear Criteria**: Define clear completion criteria
 - **Estimation**: Estimate tokens for each Agent Task
@@ -122,12 +129,14 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 **Story Points → Tokens:**
 
 **Conversion Approach:**
+
 - **Historical Data**: Use historical data to map story points to tokens
 - **Rough Mapping**: 1 story point ≈ 200-400 tokens (varies by team)
 - **Re-estimate**: Re-estimate all work using token estimation
 - **Calibration**: Calibrate conversion based on actual work
 
 **Conversion Table (Starting Point):**
+
 - **1 Story Point**: ~200-300 tokens (simple work)
 - **2 Story Points**: ~400-600 tokens (moderate work)
 - **3 Story Points**: ~600-900 tokens (complex work)
@@ -141,12 +150,14 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 **In-Progress Sprints:**
 
 **Option A: Complete Current Sprint (Recommended)**
+
 - **Complete Sprint**: Complete current sprint using existing methodology
 - **Migrate After**: Migrate to RHYTHM Method after sprint completion
 - **Clean Start**: Start RHYTHM Method with new work
 - **Benefits**: Minimal disruption, clean transition
 
 **Option B: Migrate Mid-Sprint**
+
 - **Map Work**: Map in-progress work to RHYTHM structure
 - **Convert Estimates**: Convert story points to tokens
 - **Maintain Status**: Preserve work status during migration
@@ -155,11 +166,13 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 **In-Progress Tasks:**
 
 1. **Assess Completion Status**
+   
    - Identify tasks close to completion (complete using existing process)
    - Identify tasks early in progress (migrate to RHYTHM Method)
    - Identify blocked tasks (migrate and resolve blockers)
 
 2. **Migration Decision**
+   
    - **Near Completion**: Complete using existing process
    - **Early Stage**: Migrate to RHYTHM Method
    - **Blocked**: Migrate and address blockers in RHYTHM Method
@@ -167,24 +180,28 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Phase 4: Project Setup
 
 1. **Create Project Manifest**
+   
    - Consolidate existing project documentation
    - Create single Project Manifest
    - Migrate architectural decisions to decision log
    - Define project scope and objectives
 
 2. **Map Features**
+   
    - Map User Stories to Features
    - Define Feature specifications
    - Identify Feature dependencies
    - Set Feature priorities
 
 3. **Organize Work Units**
+   
    - Map Tasks to Work Units
    - Split large tasks if needed
    - Identify Work Unit dependencies
    - Convert story points to tokens
 
 4. **Configure RHYTHM Settings**
+   
    - Set TEMPO level (start with Moderate)
    - Configure HITL gates
    - Set up dependency tracking
@@ -193,12 +210,14 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Phase 5: Gradual Adoption
 
 **Recommended Approach:**
+
 - **Start with New Work**: Use RHYTHM Method for all new work
 - **Migrate Existing Work**: Gradually migrate existing work as it's picked up
 - **Maintain Existing Processes**: Keep existing processes for in-progress work
 - **Parallel Operation**: Run both methodologies in parallel during transition
 
 **Migration Timeline:**
+
 - **Week 1-2**: Setup and training
 - **Week 3-4**: Start using RHYTHM for new work
 - **Month 2-3**: Gradually migrate existing work
@@ -209,24 +228,28 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 **Training Requirements:**
 
 1. **Core Concepts**
+   
    - RHYTHM Method principles
    - TEMPO and RHYTHM concepts
    - Work Breakdown Structure
    - Token-based estimation
 
 2. **Workflows**
+   
    - Feature Specification
    - Work Unit Creation and Review
    - Execution cycles
    - Dependency management
 
 3. **Tools and Processes**
+   
    - Project management tool setup
    - HITL gate configuration
    - Quality gate configuration
    - Estimation processes
 
 **Training Materials:**
+
 - **Documentation**: Provide access to RHYTHM Method documentation
 - **Workshops**: Conduct workshops on key concepts
 - **Hands-On**: Hands-on practice with RHYTHM Method
@@ -235,32 +258,39 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Common Migration Pitfalls
 
 **Pitfall 1: Trying to Migrate Everything at Once**
+
 - **Problem**: Attempting to migrate all work immediately
 - **Solution**: Gradual migration, start with new work
 
 **Pitfall 2: Not Re-estimating Work**
+
 - **Problem**: Using story points instead of converting to tokens
 - **Solution**: Convert all estimates to tokens, re-estimate if needed
 
 **Pitfall 3: Ignoring Dependencies**
+
 - **Problem**: Not identifying dependencies during migration
 - **Solution**: Analyze and map dependencies during migration
 
 **Pitfall 4: Inadequate Training**
+
 - **Problem**: Team doesn't understand RHYTHM Method
 - **Solution**: Comprehensive training before migration
 
 **Pitfall 5: Maintaining Old Processes**
+
 - **Problem**: Continuing to use old processes alongside RHYTHM
 - **Solution**: Fully adopt RHYTHM Method, don't mix methodologies
 
 **Pitfall 6: Not Configuring TEMPO Appropriately**
+
 - **Problem**: Using wrong TEMPO level for team/project
 - **Solution**: Start with Moderate TEMPO, adjust based on experience
 
 #### Migration Checklist
 
 **Pre-Migration:**
+
 - [ ] Assess current project state
 - [ ] Plan migration strategy and timeline
 - [ ] Train team on RHYTHM Method
@@ -268,6 +298,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 - [ ] Create Project Manifest
 
 **Migration:**
+
 - [ ] Map Epics to Project Manifest
 - [ ] Map User Stories to Features
 - [ ] Map Tasks to Work Units
@@ -277,6 +308,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 - [ ] Configure RHYTHM settings
 
 **Post-Migration:**
+
 - [ ] Start using RHYTHM for new work
 - [ ] Gradually migrate existing work
 - [ ] Monitor and adjust processes
@@ -286,12 +318,14 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Migration Support
 
 **Resources:**
+
 - **Documentation**: See [Dictionary](03-dictionary.md), [Principles](04-principles.md), [Workflows](06-workflows.md)
 - **Best Practices**: See [Best Practices](10-best-practices.md)
 - **Common Challenges**: See [Common Challenges](12-common-challenges.md)
 - **Tooling**: See [Tooling](11-tooling.md) for tool setup
 
 **Getting Help:**
+
 - Review documentation for detailed guidance
 - Start with small pilot projects
 - Iterate and improve based on experience
@@ -390,9 +424,11 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 ## Examples and Case Studies
 
 **End-to-End Workflow Example:**
+
 - **[Workflow Example](14-workflow-example.md)** - Complete walkthrough of User Authentication System feature from specification to deployment, showing actual content and decisions at each step
 
 **Additional Examples:**
+
 - See [Estimation](08-estimation.md) for token estimation examples
 - See [Dependency Management](09-dependency-management.md) for dependency examples
 - See [Work Breakdown Structure](07-work-breakdown-structure.md) for WBS examples

@@ -17,32 +17,32 @@ The following diagram illustrates how RHYTHM Method workflows connect and flow t
 ```mermaid
 flowchart TD
     Start([Project Start]) --> Init[1. Project Initialization<br/>One-Time Setup]
-    
+
     Init --> Planning[Planning & Preparation Cycle]
-    
+
     Planning --> Feature[2. Feature Specification]
     Feature --> Create[3. Work Unit Creation]
     Create --> Review[4. Work Unit Review]
     Review -->|Challenge Loop| Create
     Review -->|Approved| Breakdown[5. Work Unit Breakdown]
-    
+
     Breakdown --> Execution[Execution Cycle]
-    
+
     Execution --> Queue[6. Work Queue]
     Queue --> TaskExec[Task Execution]
-    
+
     TaskExec --> Quality[9. Quality Assurance]
     Quality --> CycleReview[10. Cycle Review]
-    
+
     TaskExec -.->|Triggers| Continuous[7. Continuous Planning]
     TaskExec -.->|Triggers| DepMgmt[8. Dependency Management]
-    
+
     Continuous -.->|Updates| Queue
     DepMgmt -.->|Updates| Queue
-    
+
     CycleReview -.->|Improves| Planning
     CycleReview -.->|Improves| Execution
-    
+
     style Init fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
     style Planning fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
     style Feature fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A

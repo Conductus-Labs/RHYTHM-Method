@@ -80,6 +80,7 @@ The top-level container for all work in a RHYTHM Method project.
 **Storage:**
 
 - The Project Manifest is stored as a markdown file: `.baton/project.manifest.md`
+
 - **Recommended**: Add exceptions to `.gitignore` to commit Project Manifest and Project Config:
   
   ```
@@ -87,7 +88,9 @@ The top-level container for all work in a RHYTHM Method project.
   !.baton/project.manifest.md
   !.baton/project.config.yml
   ```
+
 - This ensures the Project Manifest is **committed to source control** and shared across the team
+
 - Other `.baton/` files (agent contexts, notes, etc.) remain gitignored
 
 **Relationship to Project Management Tools:**

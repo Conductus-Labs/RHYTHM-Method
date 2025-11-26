@@ -141,19 +141,20 @@ Code Tokens = Base LOC Tokens × Complexity Multiplier × Pattern Multiplier × 
 Estimation starts at the [Agent Task](03-dictionary.md#agent-task) level:
 
 1. **Analyze Task Requirements**
-
+   
    - Review task specification
    - Identify code, analysis, documentation, validation needs
    - Assess complexity factors
 
 2. **Calculate Token Components**
-
+   
    - Estimate Code Tokens
    - Estimate Analysis Tokens
    - Estimate Documentation Tokens
    - Estimate Validation Tokens
 
 3. **Calculate Total Tokens**
+   
    - Sum all token components
    - Apply complexity adjustments
    - Validate against similar tasks
@@ -271,18 +272,19 @@ Throughput rates vary based on:
 **Capacity Constraints:**
 
 1. **User Availability for HITL Checkpoints**
-
+   
    - How often can the user review and approve work?
    - What are the user's availability windows?
    - Expected response times for approvals?
 
 2. **HITL Gate Configuration**
-
+   
    - High TEMPO: Fewer HITL gates → more work can flow
    - Moderate TEMPO: Balanced HITL gates → steady flow
    - Controlled TEMPO: More HITL gates → slower flow, more control
 
 3. **Work Queue Sizing**
+   
    - Size work queue based on user's capacity to review/approve
    - Consider user's availability patterns (daily, weekly)
    - Account for user response time expectations
@@ -469,6 +471,7 @@ Variance %: [(actual - estimated) / estimated × 100]
 ### Execution Cycle Duration: Up to 8 Hours (Guideline)
 
 **Guideline, Not Hard Limit:**
+
 - **Maximum Duration**: Work Units should be designed to complete in 8 hours or less
 - **Minimum Duration**: No minimum—cycles can be less than 2 hours if work is completed sooner
 - **Purpose**: Maintains focus, enables rapid iteration, supports continuous execution
@@ -479,18 +482,21 @@ Variance %: [(actual - estimated) / estimated × 100]
 **If Work Unit estimation exceeds 8 hours:**
 
 1. **Preferred: Split the Work Unit** (Recommended)
+   
    - Break into smaller Work Units that each fit within 8 hours
    - Maintain logical boundaries and clear dependencies
    - Each resulting Work Unit should be independently valuable
    - Example: 9-hour Work Unit → Split into 4-hour and 5-hour Work Units
 
 2. **Alternative: Extend Execution Cycle** (Requires Approval)
+   
    - If work cannot be reasonably split, extend execution cycle beyond 8 hours
    - Requires human approval and justification
    - Should be exception, not standard practice
    - Consider impact on TEMPO and continuous execution model
 
 3. **Alternative: Reduce Scope**
+   
    - Reduce Work Unit scope to fit within 8 hours
    - Defer remaining work to subsequent Work Units
    - Maintain clear boundaries and completion criteria
@@ -506,12 +512,14 @@ Variance %: [(actual - estimated) / estimated × 100]
 ### Work Unit Splitting Criteria
 
 **Consider splitting when:**
+
 - Estimation exceeds 8 hours
 - Work Unit contains multiple distinct deliverables
 - Dependencies allow logical separation
 - Each resulting Work Unit provides independent value
 
 **Avoid splitting when:**
+
 - Work is tightly coupled and cannot be separated
 - Splitting would create artificial boundaries
 - Dependencies make splitting impractical
@@ -584,6 +592,7 @@ Variance %: [(actual - estimated) / estimated × 100]
 - Estimated time: 3,650 / 400 = 9.125 hours
 
 **Note:** This Work Unit exceeds the 8-hour execution cycle guideline. Options:
+
 1. **Split the Work Unit** into smaller Work Units (recommended)
 2. **Extend the execution cycle** if the work cannot be reasonably split (requires human approval)
 3. **Reduce scope** to fit within execution cycle constraints
@@ -595,6 +604,7 @@ See [Work Unit Duration Guidelines](#work-unit-duration-guidelines) for detailed
 For comprehensive estimation best practices, see [Best Practices](10-best-practices.md#estimation-best-practices).
 
 **Key Practices:**
+
 - Start with Agent Tasks: Always estimate at the Agent Task level first, then roll up
 - Track and Use Historical Data: Track actual token usage and leverage historical data
 - Let Agents Auto-Estimate: Let agents auto-estimate by default, review only high-value/high-risk work
@@ -611,6 +621,7 @@ For comprehensive estimation best practices, see [Best Practices](10-best-practi
 **Automation Level:**
 
 **Fully Automated (Agent-Driven):**
+
 - **Specification Analysis**: Agents analyze specifications automatically
 - **Complexity Assessment**: Agents identify complexity factors from specifications
 - **Token Calculation**: Agents calculate all token components automatically
@@ -619,6 +630,7 @@ For comprehensive estimation best practices, see [Best Practices](10-best-practi
 - **Estimation Time**: The time agents spend estimating is **included in Analysis Tokens**
 
 **Human Involvement (Minimal):**
+
 - **Validation**: Humans review estimates for high-value or high-risk work
 - **Calibration**: Humans adjust multipliers based on project learnings
 - **Override**: Humans can override estimates when needed (rare)
@@ -635,6 +647,7 @@ For comprehensive estimation best practices, see [Best Practices](10-best-practi
 **Estimation Time Included in Tokens:**
 
 The time agents spend performing estimation is **included in Analysis Tokens**:
+
 - **Requirements Analysis**: Includes time to analyze specifications for estimation
 - **Dependency Analysis**: Includes time to identify dependencies for estimation
 - **Design Work**: Includes time to understand design requirements for estimation
@@ -645,12 +658,14 @@ The time agents spend performing estimation is **included in Analysis Tokens**:
 **Tools Supporting Token Estimation:**
 
 **Agent Capabilities:**
+
 - **LLM-Based Analysis**: Agents use LLM capabilities to analyze specifications
 - **Code Analysis Tools**: Static analysis tools help estimate code complexity
 - **Pattern Matching**: Historical data databases for pattern matching
 - **Dependency Analyzers**: Tools that help identify dependencies for estimation
 
 **Estimation Automation Tools:**
+
 - **Specification Parsers**: Parse structured specifications (YAML/JSON/Markdown)
 - **Historical Data Queries**: Query databases of completed work for similar patterns
 - **Complexity Analyzers**: Analyze code patterns, dependencies, integrations
@@ -668,12 +683,14 @@ The time agents spend performing estimation is **included in Analysis Tokens**:
 **Estimation Overhead:**
 
 **Minimal Overhead:**
+
 - Estimation is automated, so overhead is low
 - Estimation time is included in Analysis Tokens (not separate overhead)
 - Agents can estimate multiple tasks in parallel
 - Historical data lookup is fast (automated queries)
 
 **Estimation Performance:**
+
 - **Single Agent Task**: Typically estimated in seconds to minutes
 - **Work Unit (4-5 tasks)**: Estimated in minutes
 - **Feature (multiple Work Units)**: Estimated in minutes to hours (depending on complexity)
@@ -708,7 +725,7 @@ Token-based estimation in RHYTHM Method provides precise, measurable estimates t
 
 ## Change History
 
-| Version | Date       | Author              | Description                                                                                                     |
-| ------- | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------- |
-| 1.0.0   | 2025-11-24 | Initial             | Initial estimation documentation                                                                                |
+| Version | Date       | Author              | Description                                                                                                                                    |
+| ------- | ---------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial             | Initial estimation documentation                                                                                                               |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed formulas, multipliers, overhead percentages, baseline throughput rates, calibration guidance, and Work Unit duration guidelines |

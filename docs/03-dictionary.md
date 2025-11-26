@@ -8,6 +8,7 @@ This dictionary defines key terms and concepts used throughout RHYTHM Method doc
 
 **Terminology Standardization:**
 RHYTHM Method uses specific terminology consistently throughout all documentation. When referring to these concepts, use the standardized terms defined in this dictionary:
+
 - **"User"** (not "customer" or "stakeholder") - The human stakeholder in RHYTHM Method
 - **"Agent Task"** (not "Task" or "Work Item") - The smallest unit of executable work
 - **"Work Unit"** (not "Unit of Work") - A specific piece of work completed in an execution cycle
@@ -31,7 +32,7 @@ A defect or issue that needs to be fixed. In RHYTHM Method, Bugs must be [**pare
 
 A relationship where one work item requires another to be completed first. Dependencies can be technical (code, API, infrastructure), data (database schema), integration (external services), or knowledge (domain understanding).
 
-### Dependency-Driven Prioritization
+### Dependency-Driven Prioritization (DDP)
 
 A mandatory prioritization rule in RHYTHM Method where work is ordered by [dependency graph](#dependency-graph) first, then by business value within the same dependency level. [Dependencies](#dependency) must be resolved before dependent work can begin.
 
@@ -42,6 +43,7 @@ The top-level container for all [Features](#feature) in a RHYTHM Method project.
 **Important:** Epics do **not** exist in RHYTHM Method. The Project Manifest is the only top-level container.
 
 **Comparison to Traditional Epics:**
+
 - **Traditional Epics**: Optional, can be multiple per project
 - **Project Manifest**: Mandatory, exactly one per project
 - **Traditional Epics**: Only serve as top-level containers
@@ -56,6 +58,7 @@ The Project Manifest is stored as a markdown file (`.baton/project.manifest.md`)
 The `.baton/` directory is typically in `.gitignore`, but **Project Manifest and Project Config should be exceptions**:
 
 **Recommended Approach:**
+
 - Add exceptions to `.gitignore` for:
   - `.baton/project.manifest.md` (Project Manifest)
   - `.baton/project.config.yml` (Project Configuration)
@@ -63,6 +66,7 @@ The `.baton/` directory is typically in `.gitignore`, but **Project Manifest and
 - Other `.baton/` files (agent contexts, notes, etc.) remain gitignored
 
 **Example `.gitignore` configuration:**
+
 ```
 .baton/
 !.baton/project.manifest.md
@@ -70,6 +74,7 @@ The `.baton/` directory is typically in `.gitignore`, but **Project Manifest and
 ```
 
 **Alternative Approach (Not Recommended):**
+
 - Keep entire `.baton/` directory gitignored
 - Project Manifest and Config are local only
 - **Downside**: Not shared across team, each developer/agent has their own copy
@@ -79,6 +84,7 @@ The `.baton/` directory is typically in `.gitignore`, but **Project Manifest and
 The Project Manifest markdown file is the authoritative source. Features may be tracked in project management tools (GitHub Issues, Azure DevOps, Jira, etc.), but the Project Manifest file maintains the conceptual parent-child relationship.
 
 **Important Considerations:**
+
 - **Single Source of Truth**: The markdown file (`.baton/project.manifest.md`) is the source of truth
 - **PM Tool Integration**: Features tracked in PM tools (e.g., GitHub Issues) reference the Project Manifest conceptually, not through direct links
 - **Sync Concerns**: To avoid sync issues, the Project Manifest should **not** be duplicated in PM tools. Instead:
@@ -105,6 +111,7 @@ The integration of human oversight, decision-making, and validation at critical 
 A specialized [agent](#agent) responsible for coordination, prioritization, and [user](#user) management in RHYTHM Method. The RHYTHM Agent replaces the traditional Project Manager Agent for [agentic development environments](#agentic-development-environment-ade).
 
 **Terminology Clarification:**
+
 - **"RHYTHM Agent"** is the role/type name (conceptual term for the agent responsible for RHYTHM Method coordination)
 - **"rhythm-expert-agent"** is a specific implementation/agent name (the actual agent that performs this role in the Baton Framework)
 - **"baton-agent"** (baton-framework-agent) is a different agent responsible for Baton Framework management, not RHYTHM Method coordination
@@ -258,8 +265,8 @@ See **Dependency** in Core Concepts section.
 
 ## Change History
 
-| Version | Date       | Author              | Description                                                          |
-| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
-| 1.0.0   | 2025-11-24 | Initial             | Initial RHYTHM dictionary docs                                        |
+| Version | Date       | Author              | Description                                                                                                     |
+| ------- | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial             | Initial RHYTHM dictionary docs                                                                                  |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified RHYTHM Agent terminology: role vs implementation, relationship to rhythm-expert-agent and baton-agent |
-| 1.2.0   | 2025-11-26 | rhythm-expert-agent | Clarified Parented vs Related relationship definitions with examples and key characteristics |
+| 1.2.0   | 2025-11-26 | rhythm-expert-agent | Clarified Parented vs Related relationship definitions with examples and key characteristics                    |

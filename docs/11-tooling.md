@@ -21,6 +21,7 @@ GitHub integration provides RHYTHM Method workflows using:
 **Setup**: See [GitHub Setup Guide](scripts/github/overview.md) *(Coming Soon)*
 
 **Features**:
+
 - Issue templates for RHYTHM Method work items
 - Project templates for RHYTHM Method projects
 - Actions workflows for automation
@@ -37,6 +38,7 @@ Azure DevOps integration provides RHYTHM Method workflows using:
 **Setup**: See [Azure DevOps Setup Guide](scripts/azure-devops/overview.md) *(Coming Soon)*
 
 **Features**:
+
 - Work item types for RHYTHM Method
 - Board configuration for RHYTHM Method workflows
 - Pipeline templates for automation
@@ -53,6 +55,7 @@ Jira integration provides RHYTHM Method workflows using:
 **Setup**: See [Jira Setup Guide](scripts/jira/overview.md) *(Coming Soon)*
 
 **Features**:
+
 - Issue types for RHYTHM Method
 - Workflow configuration for RHYTHM Method
 - Automation rules for RHYTHM Method processes
@@ -208,6 +211,7 @@ Migrating between tools:
 ### 1. Use Native Features
 
 Leverage native tool features where possible:
+
 - Reduces custom development
 - Better tool support
 - Easier maintenance
@@ -215,6 +219,7 @@ Leverage native tool features where possible:
 ### 2. Automate Where Possible
 
 Automate RHYTHM Method processes:
+
 - Dependency detection
 - Estimation calculation
 - Quality gates
@@ -223,6 +228,7 @@ Automate RHYTHM Method processes:
 ### 3. Maintain Consistency
 
 Maintain consistency across tools:
+
 - Standard work item types
 - Consistent workflows
 - Standard reporting
@@ -231,6 +237,7 @@ Maintain consistency across tools:
 ### 4. Provide Training
 
 Train team on tool integration:
+
 - Tool-specific RHYTHM Method features
 - Workflow usage
 - Automation usage
@@ -251,7 +258,6 @@ RHYTHM Method tooling provides integration with GitHub, Azure DevOps, Jira, and 
 
 ## Change History
 
-| Version | Date       | Author  | Description                    |
-| ------- | ---------- | ------- | ------------------------------ |
+| Version | Date       | Author  | Description                   |
+| ------- | ---------- | ------- | ----------------------------- |
 | 1.0.0   | 2025-11-24 | Initial | Initial tooling documentation |
-
