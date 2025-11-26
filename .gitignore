@@ -22,3 +22,5 @@ tmp/
 temp/
 *.tmp
 .baton/**/*
+!.baton/project.config.yml
+!.baton/project.manifest.md

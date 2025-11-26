@@ -1,0 +1,96 @@
+# Project Configuration Template
+# Format: Pure YAML (no frontmatter)
+# Purpose: Project configuration file that agents use to understand available tools, resources, agents, workflows, and IDE settings
+# Location: .baton/project.config.yml
+
+version: 1.0.0
+
+# Project metadata
+project:
+  name: "RHYTHM-Method"
+  type: "documentation-methodology" # e.g., "web-application", "api-service", "library"
+  initialized: "2025-11-26T10:38:18Z" # ISO 8601 format, use date command
+
+# Source control configuration
+source_control:
+  provider: "github" # e.g., "github", "gitlab", "bitbucket"
+  repository_url: "https://jnhaffey@github.com/Conductus-Labs/RHYTHM-Method.git"
+  default_branch: "dev" # e.g., "main", "master", "develop"
+
+# Project management configuration
+project_management:
+  type: "RHYTHM-Method" # e.g., "RHYTHM-Method", "scrum", "agile", "waterfall", "kanban"
+  location: "github-issues" # e.g., "github-issues", "azure-devops", "jira", "local", "linear"
+  url: "https://github.com/Conductus-Labs/RHYTHM-Method/issues" # URL to project management system (if applicable)
+  # Examples:
+  #   For GitHub Issues:
+  #     location: "github-issues"
+  #     url: "https://github.com/org/repo/issues"
+  #   For Azure DevOps:
+  #     location: "azure-devops"
+  #     url: "https://dev.azure.com/org/project"
+  #   For Jira:
+  #     location: "jira"
+  #     url: "https://org.atlassian.net/jira"
+  #   For local files:
+  #     location: "local"
+  #     url: ""  # No URL needed
+
+# GenAI platform configurations
+gen_ai:
+  - name: cursor
+    model: auto
+    provider: cursor
+    integration_type: ide-native
+    primary: true # Is this the primary GenAI platform?
+
+# Enabled agents
+agents:
+  enabled:
+    - name: baton-agent
+      path: .baton/agents/baton-agent.md
+    - name: technical-writer-agent
+      path: .baton/agents/technical-writer-agent.md
+    - name: rhythm-expert-agent
+      path: .baton/agents/rhythm-expert-agent.md
+    - name: cli-engineer-agent
+      path: .baton/agents/cli-engineer-agent.md
+    - name: research-assistant-agent
+      path: .baton/agents/research-assistant-agent.md
+    - name: devops-engineer-agent
+      path: .baton/agents/devops-engineer-agent.md
+
+# Installed knowledge files (tools, resources, technology)
+knowledge:
+  enabled:
+    - name: "git-cli"
+      path: ".baton/knowledge/git-cli.md"
+    - name: "github-api"
+      path: ".baton/knowledge/github/github-api.md"
+    - name: "github-cli"
+      path: ".baton/knowledge/github/github-cli.md"
+
+# Enabled workflows
+workflows:
+  enabled:
+    - name: agent-initialisation
+      path: .baton/workflows/agent-initialisation.yml
+    - name: project-initialisation
+      path: .baton/workflows/project-initialisation.yml
+    - name: context-synchronisation
+      path: .baton/workflows/context-synchronisation.yml
+    - name: manage-boundary-rule
+      path: .baton/workflows/manage-boundary-rule.yml
+
+# Agent preferences
+preferences:
+  auto_save_context: true # Automatically save context after each session (default: true)
+  verbose_logging: false # Enable verbose logging for debugging (default: false)
+  check_for_updates: true # Check for Baton Framework updates (default: true)
+  send_feedback: false # Send usage feedback to improve Baton Framework (default: false)
+
+# Creation metadata
+metadata:
+  created_by: "baton-cli" # e.g., "baton-cli", "manual"
+  cli_version: "0.1.1" # Baton CLI version (if created by CLI)
+  last_updated: "2025-11-26T18:39:25Z" # ISO 8601 format, use date command
