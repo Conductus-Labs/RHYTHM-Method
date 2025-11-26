@@ -1,0 +1,340 @@
+# TEMPO: The Speed of Agentic Development
+
+**Version:** 1.1.0  
+**Last Updated:** 2025-11-26  
+**Status:** Updated with TEMPO Configurations
+
+## What is TEMPO?
+
+**TEMPO** is a concept within the RHYTHM Method that describes the **speed/pace at which agents operate**. Just as tempo in music determines the speed of a piece, TEMPO in RHYTHM Method describes how fast agents work.
+
+> **Note:** TEMPO uses a music metaphor to explain the relationship between speed and control in RHYTHM Method.
+
+### The Music Metaphor
+
+In music:
+
+- **Tempo** = The speed of the music (fast, slow, moderate)
+- **Rhythm** = The pattern and flow that creates structure and control
+
+In RHYTHM Method:
+
+- **TEMPO** = The speed at which agents operate (fast computational speeds)
+- **RHYTHM** = The control, flow, and coordination that ensures quality and alignment
+
+**Key Insight:** Agents work at a fast tempo, but RHYTHM ensures control, flow, and Human-in-the-Loop (HITL) integration.
+
+## Understanding TEMPO
+
+### Agents Operate at Fast TEMPO
+
+Agents work at computational speeds that are fundamentally different from human teams:
+
+- **Hours, not weeks**: Agents can complete work in hours that would take human teams weeks
+- **Continuous execution**: Agents don't need breaks, meetings, or context switching delays
+- **Parallel processing**: Multiple agents can work simultaneously on different tasks
+- **Instant analysis**: Agents can analyze dependencies, estimate work, and replan instantly
+
+### TEMPO Characteristics
+
+**Fast Execution:**
+
+- Work that takes human teams 2 weeks can be completed by agents in 2-8 hours
+- Continuous execution cycles instead of discrete sprints
+- Real-time status updates and validation
+
+**Precision and Speed:**
+
+- Token-based estimation (precise) instead of abstract story points
+- Automated dependency analysis and prioritization
+- Instant replanning when priorities or dependencies change
+
+**Automated Coordination:**
+
+- Agent-to-agent communication and coordination
+- Automated quality gates and validation
+- Real-time dependency resolution
+
+## TEMPO vs. Human Speed
+
+### Traditional Human Teams
+
+| Aspect                  | Human Teams                  | Agent Teams (TEMPO)           |
+| ----------------------- | ---------------------------- | ----------------------------- |
+| **Time Scale**          | Weeks, months                | Hours, days                   |
+| **Planning**            | Sprint planning (days)       | Continuous planning (minutes) |
+| **Execution**           | 2-week sprints               | 2-8 hour execution cycles     |
+| **Replanning**          | Sprint retrospective (weeks) | Instant replanning (minutes)  |
+| **Dependency Analysis** | Manual, risk-based           | Automated, precise            |
+| **Estimation**          | Story points (abstract)      | Token estimation (precise)    |
+
+### Why TEMPO Matters
+
+**Speed is inherent with agents**—they operate at fast computational speeds by nature. However, speed alone isn't enough. That's where **RHYTHM** comes in.
+
+## TEMPO + RHYTHM = Controlled Speed
+
+### The Problem with Pure Speed
+
+If agents operate at fast TEMPO without RHYTHM (control, flow, coordination), you get:
+
+- **Chaos**: Fast but uncoordinated work
+- **Quality issues**: Speed without validation
+- **Dependency conflicts**: Fast execution without proper dependency management
+- **Human exclusion**: Too fast for humans to provide strategic input
+
+### The Solution: RHYTHM Ensures Control
+
+RHYTHM Method ensures that fast TEMPO is controlled and coordinated:
+
+- **Flow**: Dependency-driven prioritization ensures work happens in the right order
+- **Control**: Human-in-the-Loop checkpoints at critical decision points
+- **Coordination**: Multi-agent collaboration with structured interfaces
+- **Quality**: Automated quality gates with configurable HITL
+- **Alignment**: Strategic human input at key decision points
+
+## TEMPO in Practice
+
+### Execution Cycles
+
+Instead of 2-week sprints, RHYTHM Method uses **execution cycles** (2-8 hours):
+
+- **Fast TEMPO**: Work is completed in hours, not weeks
+- **RHYTHM Control**: Each cycle has clear dependencies, validation, and HITL checkpoints
+- **Continuous Flow**: Cycles happen continuously, not in discrete sprints
+
+### Continuous Planning
+
+Instead of sprint planning meetings, RHYTHM Method uses **continuous planning**:
+
+- **Fast TEMPO**: Plans are updated in real-time as work progresses
+- **RHYTHM Control**: Plans are validated and approved by humans at key decision points
+- **Adaptive**: Plans adapt instantly when priorities or dependencies change
+
+### Real-Time Coordination
+
+Instead of daily standups, RHYTHM Method uses **real-time coordination**:
+
+- **Fast TEMPO**: Agents coordinate instantly through structured interfaces
+- **RHYTHM Control**: Coordination is visible to humans through real-time dashboards
+- **Strategic Input**: Humans provide strategic guidance at critical coordination points
+
+## Managing TEMPO
+
+### TEMPO Level Definitions
+
+RHYTHM Method provides three TEMPO levels, each with different HITL gate configurations:
+
+**High TEMPO:**
+- **Speed**: Maximum agent autonomy, minimal human intervention
+- **HITL Gates**: Only critical decision points
+- **Use Case**: Well-defined, low-risk work where specifications are clear and stable
+- **User Involvement**: Minimal - primarily at project start and major milestones
+- **Risk Level**: Low to moderate risk projects
+- **Team Experience**: Experienced teams with established patterns
+- **Gate Count**: ~3-5 gates per feature cycle
+
+**Moderate TEMPO (Default):**
+- **Speed**: Balanced agent autonomy with strategic human input
+- **HITL Gates**: Key decision points and validation checkpoints
+- **Use Case**: Standard projects with some complexity, evolving requirements
+- **User Involvement**: Regular - at planning checkpoints and quality gates
+- **Risk Level**: Moderate risk projects
+- **Team Experience**: Mixed experience levels
+- **Gate Count**: ~8-12 gates per feature cycle
+
+**Controlled TEMPO:**
+- **Speed**: More human oversight, slower agent autonomy
+- **HITL Gates**: Comprehensive checkpoints at multiple stages
+- **Use Case**: Critical, high-risk work, new domains, complex integrations
+- **User Involvement**: Frequent - at most planning and execution checkpoints
+- **Risk Level**: High risk projects
+- **Team Experience**: New teams, new domains, or critical systems
+- **Gate Count**: ~15-20 gates per feature cycle
+
+### Available HITL Gates
+
+RHYTHM Method provides the following HITL gates/checkpoints:
+
+**Planning & Preparation Phase Gates:**
+- Project Initialization: Project Manifest validation, Project Configuration approval, Project Boundaries review
+- Feature Specification: Feature specification approval, Critical dependencies review
+- Work Unit Creation: Work unit breakdown validation, Work unit priorities approval
+- Work Unit Review: Agent feedback review, Review acceptance/sign-off
+- Work Unit Breakdown: Task breakdown validation, Task assignments approval, Task readiness approval
+
+**Execution Phase Gates:**
+- Work Queue: High-priority task execution approval
+- Task Execution: Execution cycle scope approval
+- Continuous Planning: Major plan changes review, Priority adjustments approval
+- Dependency Management: Critical dependencies review, Dependency override approval
+- Quality Assurance: Quality gate results review, Deployment approval
+- Cycle Review: Cycle analysis review
+
+### HITL Gate Configurations by TEMPO Level
+
+#### High TEMPO Configuration
+
+**Required Gates (Minimal):**
+- Project Initialization: Project Manifest validation
+- Feature Specification: Feature specification approval
+- Work Unit Breakdown: Task readiness approval (optional)
+- Quality Assurance: Deployment approval (for production)
+
+**Optional Gates:**
+- Work Unit Review: Agent feedback review (as needed)
+- Quality Assurance: Quality gate results review (only on failures)
+
+**Skipped Gates (Auto-Approved):**
+- Work Unit Creation: Work unit breakdown validation
+- Work Unit Breakdown: Task breakdown validation
+- Work Queue: High-priority task execution approval
+- Task Execution: Execution cycle scope approval
+- Continuous Planning: Major plan changes review (notification only)
+- Dependency Management: Critical dependencies review (auto-resolved)
+
+#### Moderate TEMPO Configuration (Default)
+
+**Required Gates:**
+- Project Initialization: All gates (Project Manifest, Configuration, Boundaries)
+- Feature Specification: Feature specification approval + Critical dependencies review
+- Work Unit Review: Review acceptance/sign-off
+- Work Unit Breakdown: Task readiness approval
+- Quality Assurance: Quality gate results review + Deployment approval
+
+**Optional Gates:**
+- Work Unit Creation: Work unit priorities approval (for high-value work)
+- Work Queue: High-priority task execution approval (for critical path)
+- Task Execution: Execution cycle scope approval (for large cycles)
+- Continuous Planning: Major plan changes review
+- Dependency Management: Critical dependencies review
+
+**Skipped Gates (Auto-Approved):**
+- Work Unit Breakdown: Task breakdown validation (auto-approved if reviewed)
+- Continuous Planning: Priority adjustments approval (notification only)
+
+#### Controlled TEMPO Configuration
+
+**Required Gates (Comprehensive):**
+- Project Initialization: All gates
+- Feature Specification: All gates (Specification approval + Critical dependencies)
+- Work Unit Creation: Work unit breakdown validation + Priorities approval
+- Work Unit Review: Agent feedback review + Review acceptance/sign-off
+- Work Unit Breakdown: Task breakdown validation + Task assignments approval + Task readiness approval
+- Work Queue: High-priority task execution approval
+- Task Execution: Execution cycle scope approval
+- Continuous Planning: Major plan changes review + Priority adjustments approval
+- Dependency Management: Critical dependencies review + Dependency override approval
+- Quality Assurance: Quality gate results review + Deployment approval
+- Cycle Review: Cycle analysis review
+
+**Note:** In Controlled TEMPO, all gates are required - there are no optional or skipped gates.
+
+### Choosing a TEMPO Level
+
+**Decision Matrix:**
+
+| Factor | High TEMPO | Moderate TEMPO | Controlled TEMPO |
+|--------|------------|----------------|------------------|
+| **Project Risk** | Low | Moderate | High |
+| **Work Complexity** | Simple, well-defined | Moderate complexity | Complex, uncertain |
+| **User Availability** | Limited | Regular | Frequent |
+| **Team Experience** | Experienced | Mixed | New team/domain |
+| **Requirements Stability** | Stable | Some changes | Evolving |
+| **Domain Familiarity** | High | Moderate | Low |
+| **Integration Complexity** | Simple | Moderate | Complex |
+| **Business Criticality** | Low | Moderate | High |
+| **Regulatory Requirements** | None/Minimal | Some | Strict |
+
+**Selection Guidelines:**
+
+1. **Start with Moderate TEMPO** (default) unless you have specific reasons to change
+
+2. **Choose High TEMPO** when:
+   - Work is well-defined and low-risk
+   - User has limited availability
+   - Team is experienced with the domain
+   - Requirements are stable
+   - Similar work has been done before
+
+3. **Choose Controlled TEMPO** when:
+   - Work is critical or high-risk
+   - User wants frequent oversight
+   - Team is new to domain or technology
+   - Requirements are evolving
+   - Regulatory or compliance requirements exist
+   - Complex integrations or dependencies
+
+4. **Adjust TEMPO** during project:
+   - Increase TEMPO (reduce gates) as team gains experience
+   - Decrease TEMPO (add gates) for critical phases
+   - Use different TEMPO for different features/work units
+
+### Configuring HITL Gates
+
+**Key Principle:** HITL gates are fully configurable by the User based on:
+- Project characteristics and requirements
+- Desired level of involvement
+- Risk tolerance and business needs
+- Team experience and domain familiarity
+
+**Configuration Options:**
+
+1. **Per-Project Configuration:**
+   - Set default TEMPO level for entire project
+   - Override for specific features/work units
+
+2. **Per-Gate Configuration:**
+   - Enable/disable specific gates regardless of TEMPO level
+   - Set gates as required, optional, or skipped
+
+3. **Dynamic Configuration:**
+   - Adjust gates based on work complexity
+   - Add gates for critical work
+   - Remove gates for routine work
+
+4. **User Availability-Based:**
+   - Configure gates based on user availability schedule
+   - Batch approvals for efficiency
+   - Async approval workflows
+
+**Note:** TEMPO configuration must be user-driven and flexible. The configurations above are starting points—customize based on your project needs and desired involvement level.
+
+## TEMPO and Human Collaboration
+
+### Fast TEMPO Doesn't Mean Excluding Humans
+
+RHYTHM Method ensures that fast TEMPO includes humans strategically:
+
+- **Strategic Input**: Humans provide business context and strategic guidance
+- **Critical Decisions**: Humans approve major decisions and priorities
+- **Validation**: Humans validate specifications and deliverables
+- **Oversight**: Humans maintain visibility and control through real-time dashboards
+
+### Human-AI Partnership
+
+TEMPO enables a true human-AI partnership:
+
+- **Agents handle execution**: Fast, precise, automated work
+- **Humans handle strategy**: Business context, ethical considerations, creative problem-solving
+- **RHYTHM ensures balance**: Control, flow, and coordination between agents and humans
+
+## Summary
+
+**TEMPO** describes the fast speed at which agents operate (hours instead of weeks), while **RHYTHM** ensures that fast TEMPO is controlled and coordinated through dependency-driven prioritization, Human-in-the-Loop checkpoints, multi-agent coordination, and strategic human input. Together, **TEMPO + RHYTHM** enable agents to work at their full potential while ensuring humans maintain strategic control and oversight.
+
+---
+
+## Navigation
+
+**Previous:** [Principles](04-principles.md) - Core principles of RHYTHM Method  
+**Next:** [Workflows](06-workflows.md) - RHYTHM Method workflows and processes
+
+---
+
+## Change History
+
+| Version | Date       | Author              | Description                                                          |
+| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
+| 1.0.0   | 2025-01-XX | Initial             | Initial TEMPO concept docs                                           |
+| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added TEMPO level definitions, HITL gate configurations, decision matrix, and user configuration guidance |
