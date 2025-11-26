@@ -462,6 +462,58 @@ Variance %: [(actual - estimated) / estimated × 100]
 
 **Note:** Without tracking actual token usage, the entire estimation improvement cycle breaks down. Tracking actual tokens is not optional—it's essential for the RHYTHM Method to function effectively.
 
+## Work Unit Duration Guidelines
+
+### Execution Cycle Duration: 2-8 Hours (Guideline)
+
+**Guideline, Not Hard Limit:**
+- **Target Duration**: Work Units should be designed to complete in 2-8 hours
+- **Purpose**: Maintains focus, enables rapid iteration, supports continuous execution
+- **Flexibility**: Not a hard limit—exceptions are allowed with human approval
+
+### When Estimation Exceeds 8 Hours
+
+**If Work Unit estimation exceeds 8 hours:**
+
+1. **Preferred: Split the Work Unit** (Recommended)
+   - Break into smaller Work Units that each fit within 2-8 hours
+   - Maintain logical boundaries and clear dependencies
+   - Each resulting Work Unit should be independently valuable
+   - Example: 9-hour Work Unit → Split into 4-hour and 5-hour Work Units
+
+2. **Alternative: Extend Execution Cycle** (Requires Approval)
+   - If work cannot be reasonably split, extend execution cycle beyond 8 hours
+   - Requires human approval and justification
+   - Should be exception, not standard practice
+   - Consider impact on TEMPO and continuous execution model
+
+3. **Alternative: Reduce Scope**
+   - Reduce Work Unit scope to fit within 2-8 hours
+   - Defer remaining work to subsequent Work Units
+   - Maintain clear boundaries and completion criteria
+
+### Parallel Execution and Duration
+
+**Important:** Parallel execution (multiple agents working simultaneously) does **not** change the execution cycle duration. It only changes the **calendar time** required.
+
+- **Execution Cycle Duration**: Time from start to completion (2-8 hours target)
+- **Calendar Time with Parallel Work**: May be less than duration if agents work in parallel
+- **Example**: 8-hour Work Unit with 2 agents in parallel = 4 hours calendar time, but still an 8-hour execution cycle
+
+### Work Unit Splitting Criteria
+
+**Consider splitting when:**
+- Estimation exceeds 8 hours
+- Work Unit contains multiple distinct deliverables
+- Dependencies allow logical separation
+- Each resulting Work Unit provides independent value
+
+**Avoid splitting when:**
+- Work is tightly coupled and cannot be separated
+- Splitting would create artificial boundaries
+- Dependencies make splitting impractical
+- Work is already at optimal granularity
+
 ## Estimation in Practice
 
 ### Example: Agent Task Estimation
@@ -526,7 +578,14 @@ Variance %: [(actual - estimated) / estimated × 100]
 **Estimated Duration**:
 
 - Parallel execution: 2 agents at 200 tokens/hour each
-- Estimated time: 3,650 / 400 = 9.125 hours (within 2-8 hour execution cycle with parallel work)
+- Estimated time: 3,650 / 400 = 9.125 hours
+
+**Note:** This Work Unit exceeds the 2-8 hour execution cycle guideline. Options:
+1. **Split the Work Unit** into smaller Work Units (recommended)
+2. **Extend the execution cycle** if the work cannot be reasonably split (requires human approval)
+3. **Reduce scope** to fit within execution cycle constraints
+
+See [Work Unit Duration Guidelines](#work-unit-duration-guidelines) for detailed guidance.
 
 ## Estimation Best Practices
 
@@ -609,5 +668,5 @@ Token-based estimation in RHYTHM Method provides precise, measurable estimates t
 
 | Version | Date       | Author              | Description                                                                                                     |
 | ------- | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------- |
-| 1.0.0   | 2025-01-XX | Initial             | Initial estimation documentation                                                                                |
-| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed formulas, multipliers, overhead percentages, baseline throughput rates, and calibration guidance |
+| 1.0.0   | 2025-11-24 | Initial             | Initial estimation documentation                                                                                |
+| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed formulas, multipliers, overhead percentages, baseline throughput rates, calibration guidance, and Work Unit duration guidelines |
