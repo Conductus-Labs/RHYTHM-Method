@@ -249,43 +249,19 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 The following diagram illustrates the relationship between TEMPO levels, HITL gates, and use cases:
 
 ```mermaid
-flowchart LR
-    subgraph High["High TEMPO<br/>3-5 HITL Gates"]
-        direction TB
-        H1[Minimal Human Oversight]
-        H2[Fast Execution]
-        H3[Well-Defined Low-Risk Work]
-    end
+flowchart TB
+    High["High TEMPO<br/>3-5 HITL Gates<br/><br/>• Minimal Human Oversight<br/>• Fast Execution<br/>• Well-Defined Low-Risk Work"]
 
-    subgraph Moderate["Moderate TEMPO<br/>8-12 HITL Gates<br/>DEFAULT"]
-        direction TB
-        M1[Balanced Oversight]
-        M2[Standard Projects]
-        M3[Regular Human Input]
-    end
+    Moderate["Moderate TEMPO<br/>8-12 HITL Gates<br/>DEFAULT<br/><br/>• Balanced Oversight<br/>• Standard Projects<br/>• Regular Human Input"]
 
-    subgraph Controlled["Controlled TEMPO<br/>15-20 HITL Gates"]
-        direction TB
-        C1[Comprehensive Oversight]
-        C2[Critical High-Risk Work]
-        C3[Frequent Human Input]
-    end
+    Controlled["Controlled TEMPO<br/>15-20 HITL Gates<br/><br/>• Comprehensive Oversight<br/>• Critical High-Risk Work<br/>• Frequent Human Input"]
 
-    High -->|Progression| Moderate
-    Moderate -->|Progression| Controlled
+    High -->|Increase Oversight| Moderate
+    Moderate -->|Increase Oversight| Controlled
 
     style High fill:#00C4CC,stroke:#0066CC,stroke-width:3px,color:#0F172A
     style Moderate fill:#0066CC,stroke:#1A1F36,stroke-width:3px,color:#FFFFFF
     style Controlled fill:#6B46FF,stroke:#1A1F36,stroke-width:3px,color:#FFFFFF
-    style H1 fill:#FFFFFF,stroke:#00C4CC,stroke-width:2px,color:#0F172A
-    style H2 fill:#FFFFFF,stroke:#00C4CC,stroke-width:2px,color:#0F172A
-    style H3 fill:#FFFFFF,stroke:#00C4CC,stroke-width:2px,color:#0F172A
-    style M1 fill:#FFFFFF,stroke:#0066CC,stroke-width:2px,color:#0F172A
-    style M2 fill:#FFFFFF,stroke:#0066CC,stroke-width:2px,color:#0F172A
-    style M3 fill:#FFFFFF,stroke:#0066CC,stroke-width:2px,color:#0F172A
-    style C1 fill:#FFFFFF,stroke:#6B46FF,stroke-width:2px,color:#0F172A
-    style C2 fill:#FFFFFF,stroke:#6B46FF,stroke-width:2px,color:#0F172A
-    style C3 fill:#FFFFFF,stroke:#6B46FF,stroke-width:2px,color:#0F172A
 ```
 
 **Key Characteristics:**
