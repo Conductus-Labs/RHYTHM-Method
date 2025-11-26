@@ -15,21 +15,23 @@ RHYTHM Method uses standardized message formats to ensure consistent communicati
 Messages between specialized agents for coordination, handoffs, and collaboration.
 
 **Available A2A Message Templates:**
+
 - [Task Handoff Request](a2a/task-handoff-request.md) - Request to hand off a task to another agent
 - [Task Handoff Response](a2a/task-handoff-response.md) - Response to task handoff request
 - [Dependency Status Update](a2a/dependency-status-update.md) - Update on dependency resolution status
 - [Work Unit Status Update](a2a/work-unit-status-update.md) - Update on Work Unit progress
 - [Resource Request](a2a/resource-request.md) - Request for shared resources
 - [Conflict Resolution Request](a2a/conflict-resolution-request.md) - Request for conflict resolution
-- [Coordination Request](a2a/coordination-request.md) - Request for multi-agent coordination *(To Be Developed)*
-- [Context Sharing](a2a/context-sharing.md) - Share context between agents *(To Be Developed)*
-- [Quality Gate Notification](a2a/quality-gate-notification.md) - Notify agents of quality gate results *(To Be Developed)*
+- [Coordination Request](a2a/coordination-request.md) - Request for multi-agent coordination _(To Be Developed)_
+- [Context Sharing](a2a/context-sharing.md) - Share context between agents _(To Be Developed)_
+- [Quality Gate Notification](a2a/quality-gate-notification.md) - Notify agents of quality gate results _(To Be Developed)_
 
 ### Agent-to-User (A2U) Messages
 
 Messages from agents to users for approvals, notifications, and requests.
 
 **Available A2U Message Templates:**
+
 - [Feature Specification Approval Request](a2u/feature-specification-approval-request.md) - Request approval for Feature specification
 - [Work Unit Review Request](a2u/work-unit-review-request.md) - Request review of Work Unit
 - [Work Unit Breakdown Approval Request](a2u/work-unit-breakdown-approval-request.md) - Request approval for Work Unit breakdown
@@ -46,6 +48,7 @@ Messages from agents to users for approvals, notifications, and requests.
 Standardized templates for RHYTHM Method work items.
 
 **Available Work Item Templates:**
+
 - [Project Manifest Template](work-items/project-manifest-template.md) - Template for Project Manifest
 - [Feature Template](work-items/feature-template.md) - Template for Feature specification
 - [Work Unit Template](work-items/work-unit-template.md) - Template for Work Unit specification
@@ -65,6 +68,7 @@ All messages follow these standards:
 ## Usage in Baton Framework
 
 The Baton Framework automatically:
+
 - Validates messages against templates
 - Enforces required fields
 - Provides message templates for agents
@@ -73,6 +77,7 @@ The Baton Framework automatically:
 ## Implementation
 
 When implementing RHYTHM Method:
+
 1. Use the provided message templates
 2. Ensure all agents use the same message formats
 3. Validate messages before processing
@@ -89,7 +94,6 @@ When implementing RHYTHM Method:
 
 ## Change History
 
-| Version | Date       | Author              | Description                    |
-| ------- | ---------- | ------------------- | ------------------------------ |
+| Version | Date       | Author              | Description                          |
+| ------- | ---------- | ------------------- | ------------------------------------ |
 | 1.0.0   | 2025-11-26 | rhythm-expert-agent | Initial message format documentation |
-

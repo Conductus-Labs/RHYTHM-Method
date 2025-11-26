@@ -14,7 +14,7 @@ The Baton Framework provides:
 - **Workflow Automation**: Automated RHYTHM Method workflows and processes
 - **Integration Support**: Integration with project management tools (GitHub, Azure DevOps, Jira)
 
-See [Message Formats](../message-format/README.md) for all A2A and A2U message templates.
+See [Message Formats](../message-format/overview.md) for all A2A and A2U message templates.
 
 ## Documentation Index
 

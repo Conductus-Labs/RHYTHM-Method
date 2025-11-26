@@ -27,7 +27,7 @@ The **Baton Framework** is the recommended way to use RHYTHM Method. It provides
 - Automated RHYTHM Method workflows
 - Integration with project management tools
 
-See [Message Formats](../message-format/README.md) for communication templates.
+See [Message Formats](../message-format/overview.md) for communication templates.
 
 ## Adoption Paths
 
