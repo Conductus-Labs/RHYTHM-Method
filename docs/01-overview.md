@@ -21,11 +21,12 @@ Complete documentation for the RHYTHM Method project management methodology.
 - **[Estimation](08-estimation.md)** - Token-based estimation methodology
 - **[Dependency Management](09-dependency-management.md)** - Dependency-driven prioritization
 
-### Best Practices
+### Best Practices and Operations
 
 - **[Best Practices](10-best-practices.md)** - RHYTHM Method best practices and patterns
 - **[Tooling](11-tooling.md)** - Tools and integrations for RHYTHM Method
 - **[Common Challenges](12-common-challenges.md)** - Common challenges and solutions
+- **[Error Handling](13-error-handling.md)** - Error handling and failure recovery procedures
 
 ## Status
 
