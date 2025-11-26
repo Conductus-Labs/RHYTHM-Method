@@ -10,10 +10,6 @@ A project management methodology specifically designed for agents with human int
 
 RHYTHM Method is a project management methodology that bridges the gap between traditional human-focused methodologies (Agile, Scrum, Kanban) and pure agentic processes. Unlike traditional methodologies that adapt human processes for agents, RHYTHM starts with agent capabilities and integrates human oversight strategically.
 
-**RHYTHM Method was designed for the [Baton Framework](https://github.com/Conductus-Labs/baton-framework)**, which provides the foundational instruction architecture, tooling, and automation that makes RHYTHM Method most effective. However, the methodology itself is framework-agnostic and can theoretically be adapted to work with other agent orchestration systems and project management tools.
-
-**Note:** RHYTHM Method is a first-of-its-kind methodology for agentic development with human integration. As such, it will have teething issues and will evolve based on real-world implementation feedback. We welcome feedback, especially from those who attempt to implement RHYTHM Method in their projects.
-
 ### The Music Metaphor
 
 Just as a conductor (human) guides an orchestra (agents) to create harmonious music, RHYTHM Method ensures that agents work together in a coordinated, controlled flow—even when operating at fast **TEMPO**.
@@ -67,17 +63,11 @@ RHYTHM-Method/
 │   ├── best-practices.md    # Best practices and patterns
 │   └── tooling.md           # Tools and integrations
 │
-├── scripts/                 # Setup scripts for different systems
-│   ├── github/              # GitHub integration scripts
-│   ├── azure-devops/        # Azure DevOps integration scripts
-│   ├── jira/                # Jira integration scripts
-│   └── custom/              # Custom integration templates
-│
-└── examples/                # Example implementations
-    ├── overview.md         # Examples overview
-    ├── github-example/      # GitHub workflow example
-    ├── azure-devops-example/ # Azure DevOps example
-    └── jira-example/        # Jira example
+└── scripts/                 # Setup scripts for different systems
+    ├── github/              # GitHub integration scripts
+    ├── azure-devops/        # Azure DevOps integration scripts
+    ├── jira/                # Jira integration scripts
+    └── custom/              # Custom integration templates
 ```
 
 ## Documentation
@@ -197,7 +187,7 @@ Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING
 - Suggestions for improvements
 - Implementation challenges and how you solved them
 
-Please open an issue or discussion to share your feedback. Your input helps make RHYTHM Method better for everyone.
+Please open an issue to share your feedback. Your input helps make RHYTHM Method better for everyone.
 
 ## License
 
@@ -224,7 +214,7 @@ While RHYTHM Method works best with Baton Framework, the methodology itself is f
 RHYTHM Method is developed by **Conductus Labs Ltd**, a UK-based AI application layer company.
 
 - **Website**: [conductuslabs.com](https://conductuslabs.com)
-- **Product**: [Baton Platform](https://baton.conductuslabs.com) - AI Orchestration Platform (SaaS)
+- **Product**: [Baton Platform](https://baton.conductuslabs.com) - AI Orchestration Platform (SaaS) - Coming Soon
 
 ---
 
