@@ -18,7 +18,7 @@ GitHub integration provides RHYTHM Method workflows using:
 - **GitHub Projects**: For project management and visualization
 - **GitHub Actions**: For automation and workflows
 
-**Setup**: See [GitHub Setup Guide](scripts/github/overview.md)
+**Setup**: See [GitHub Setup Guide](scripts/github/overview.md) *(Coming Soon)*
 
 **Features**:
 - Issue templates for RHYTHM Method work items
@@ -34,7 +34,7 @@ Azure DevOps integration provides RHYTHM Method workflows using:
 - **Azure Pipelines**: For automation and CI/CD
 - **Azure Repos**: For version control integration
 
-**Setup**: See [Azure DevOps Setup Guide](scripts/azure-devops/overview.md)
+**Setup**: See [Azure DevOps Setup Guide](scripts/azure-devops/overview.md) *(Coming Soon)*
 
 **Features**:
 - Work item types for RHYTHM Method
@@ -50,7 +50,7 @@ Jira integration provides RHYTHM Method workflows using:
 - **Jira Automation**: For workflow automation
 - **Jira Service Management**: For service-based workflows
 
-**Setup**: See [Jira Setup Guide](scripts/jira/overview.md)
+**Setup**: See [Jira Setup Guide](scripts/jira/overview.md) *(Coming Soon)*
 
 **Features**:
 - Issue types for RHYTHM Method
@@ -66,7 +66,7 @@ Custom integration templates for other tools:
 - **GraphQL API Templates**: For GraphQL API integrations
 - **Webhook Templates**: For webhook-based integrations
 
-**Setup**: See [Custom Integration Guide](scripts/custom/overview.md)
+**Setup**: See [Custom Integration Guide](scripts/custom/overview.md) *(Coming Soon)*
 
 ## Tool Features
 
@@ -253,5 +253,5 @@ RHYTHM Method tooling provides integration with GitHub, Azure DevOps, Jira, and 
 
 | Version | Date       | Author  | Description                    |
 | ------- | ---------- | ------- | ------------------------------ |
-| 1.0.0   | 2025-01-XX | Initial | Initial tooling documentation |
+| 1.0.0   | 2025-11-24 | Initial | Initial tooling documentation |
 

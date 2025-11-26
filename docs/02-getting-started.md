@@ -377,6 +377,30 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 3. Improve workflows
 4. Refine methodology
 
+## Examples and Case Studies
+
+**Note:** Comprehensive examples and case studies are planned for future documentation. The following examples would be valuable:
+
+**Planned Examples:**
+- **Example Project Manifest**: Complete Project Manifest for a sample project
+- **Example Feature Specification**: Detailed Feature specification with validation criteria
+- **Example Work Unit Breakdown**: Complete Work Unit breakdown with Agent Tasks
+- **Example Dependency Graph**: Visual dependency graph with multiple Work Units
+- **Example Token Estimation**: Complete token estimation for a real Feature
+- **End-to-End Workflow**: Complete workflow example from Feature Specification to deployment
+
+**Example Location:**
+Examples will be provided in an `examples/` directory with:
+- Real-world project examples
+- Complete workflow walkthroughs
+- Case studies of RHYTHM Method adoption
+- Template files for Project Manifest, Features, Work Units
+
+**For Now:**
+- See [Estimation](08-estimation.md) for token estimation examples
+- See [Dependency Management](09-dependency-management.md) for dependency examples
+- See [Work Breakdown Structure](07-work-breakdown-structure.md) for WBS examples
+
 ## Next Steps
 
 After getting started:
@@ -384,7 +408,8 @@ After getting started:
 1. **Understand Key Terms**: See [Dictionary](03-dictionary.md) for key terms and concepts
 2. **Learn Best Practices**: See [Best Practices](10-best-practices.md) for detailed guidance
 3. **Explore Tooling**: See [Tooling](11-tooling.md) for tool integrations
-4. **Review Examples**: See [Examples](examples/overview.md) for implementation examples
+4. **Review Common Challenges**: See [Common Challenges](12-common-challenges.md) for solutions
+5. **Understand Error Handling**: See [Error Handling](13-error-handling.md) for failure recovery
 
 ---
 
