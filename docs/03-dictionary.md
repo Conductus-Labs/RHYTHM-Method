@@ -1,8 +1,8 @@
 # RHYTHM Method Dictionary
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-XX  
-**Status:** Initial Draft - For Review
+**Version:** 1.1.0  
+**Last Updated:** 2025-11-26  
+**Status:** Updated with Agent Terminology Clarification
 
 This dictionary defines key terms and concepts used throughout RHYTHM Method documentation.
 
@@ -47,6 +47,14 @@ The integration of human oversight, decision-making, and validation at critical 
 ### RHYTHM Agent
 
 A specialized [agent](#agent) responsible for coordination, prioritization, and [user](#user) management in RHYTHM Method. The RHYTHM Agent replaces the traditional Project Manager Agent for [agentic development environments](#agentic-development-environment-ade).
+
+**Terminology Clarification:**
+- **"RHYTHM Agent"** is the role/type name (conceptual term for the agent responsible for RHYTHM Method coordination)
+- **"rhythm-expert-agent"** is a specific implementation/agent name (the actual agent that performs this role in the Baton Framework)
+- **"baton-agent"** (baton-framework-agent) is a different agent responsible for Baton Framework management, not RHYTHM Method coordination
+
+**In Practice:**
+The `rhythm-expert-agent` is the agent that performs the RHYTHM Agent role. When documentation refers to "RHYTHM Agent," it means the agent responsible for RHYTHM Method coordination (typically implemented as the `rhythm-expert-agent`). The term "RHYTHM Agent" is used in documentation to refer to the role, while `rhythm-expert-agent` is the specific agent name used in configuration and implementation.
 
 ### RHYTHM Method
 
@@ -183,6 +191,7 @@ See **Dependency** in Core Concepts section.
 
 ## Change History
 
-| Version | Date       | Author  | Description                    |
-| ------- | ---------- | ------- | ------------------------------ |
-| 1.0.0   | 2025-01-XX | Initial | Initial RHYTHM dictionary docs |
+| Version | Date       | Author              | Description                                                          |
+| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial             | Initial RHYTHM dictionary docs                                        |
+| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified RHYTHM Agent terminology: role vs implementation, relationship to rhythm-expert-agent and baton-agent |
