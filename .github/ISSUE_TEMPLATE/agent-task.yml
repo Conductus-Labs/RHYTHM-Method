@@ -1,0 +1,162 @@
+name: Agent Task
+description: Create a new Agent Task - the smallest unit of executable work (typically 30 minutes to 2 hours)
+title: "[Agent Task] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Agent Task Creation
+        
+        This form creates an **Agent Task** issue using the RHYTHM Method.
+        
+        **Note:** Issue type is set automatically via GitHub CLI or API (not via labels).
+        All categorization uses native GitHub features (Issue Types, Dependencies, Projects v2).
+        
+        ---
+        
+        ## Projects v2 Field Mapping
+        
+        The following fields will be mapped to GitHub Projects v2 custom fields:
+        - **Status:** Set via Projects v2 "Status" field (Planned, In Progress, Review, Blocked, Completed, Failed)
+        - **Assigned Agent:** Set via Projects v2 "Assigned Agent" field (dropdown populated from project.config.yml)
+        - **Estimated Tokens:** Set via Projects v2 "Estimated Tokens" field (number)
+        - **Actual Tokens:** Set via Projects v2 "Actual Tokens" field (number, updated during execution)
+        
+        **Note:** The "Assigned Agent" dropdown options should match the agents configured in `.baton/project.config.yml`. If your project uses different agent names, update this template accordingly.
+        
+        ---
+
+  - type: input
+    id: task-name
+    attributes:
+      label: Task Name
+      description: A clear, concise name for this agent task
+      placeholder: "e.g., Create Login API Endpoint Handler"
+    validations:
+      required: true
+
+  - type: input
+    id: parent-work-unit
+    attributes:
+      label: Parent Work Unit
+      description: "The parent Work Unit issue number (format: #issue-number)"
+      placeholder: "#46"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: assigned-agent
+    attributes:
+      label: Assigned Agent
+      description: The agent assigned to complete this task. Options should match agents in project.config.yml.
+      options:
+        - baton-agent
+        - technical-writer-agent
+        - rhythm-expert-agent
+        - cli-engineer-agent
+        - research-assistant-agent
+        - devops-engineer-agent
+        - backend-agent
+        - frontend-agent
+        - qa-agent
+    validations:
+      required: true
+
+  - type: textarea
+    id: task-description
+    attributes:
+      label: Task Description
+      description: Describe what this task accomplishes
+      placeholder: "This task creates the login API endpoint handler with request validation..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: detailed-specification
+    attributes:
+      label: Detailed Specification
+      description: Provide detailed technical specification for this task
+      placeholder: |
+        ## Implementation Details
+        - Create POST /api/auth/login endpoint
+        - Validate request body (email, password)
+        - Call authentication service
+        - Return JWT token on success
+        - Return 401 error on failure
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define the criteria that must be met for this task to be considered complete
+      placeholder: |
+        - [ ] Endpoint handler created
+        - [ ] Request validation implemented
+        - [ ] Authentication service integrated
+        - [ ] Error handling implemented
+        - [ ] Unit tests written and passing
+    validations:
+      required: true
+
+  - type: textarea
+    id: files-to-modify
+    attributes:
+      label: Files to Modify
+      description: List files that will be modified in this task (optional)
+      placeholder: |
+        - src/api/auth/routes.ts
+        - src/api/auth/controllers.ts
+
+  - type: textarea
+    id: files-to-create
+    attributes:
+      label: Files to Create
+      description: List files that will be created in this task (optional)
+      placeholder: |
+        - src/api/auth/login.test.ts
+        - docs/api/auth/login.md
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List any dependencies (other Agent Tasks). Use issue numbers (e.g., #47, #48). These will also be tracked via native GitHub Issue Dependencies.
+      placeholder: "Depends on: #47, #48"
+
+  - type: input
+    id: estimated-tokens
+    attributes:
+      label: Estimated Tokens
+      description: Estimated token count for this task (optional)
+      placeholder: "e.g., 500"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## RHYTHM Method Metadata
+        
+        The following metadata section will be automatically added to the issue body:
+        
+        ```markdown
+        <!-- RHYTHM Method Metadata -->
+        **Task ID:** task-XXX (auto-generated)
+        **Parent Work Unit:** #[parent work unit number]
+        **Assigned Agent:** [selected agent]
+        **Status:** planned
+        **Priority Level:** level-0 (calculated from dependencies)
+        **Estimated Tokens:** [estimated tokens if provided]
+        **Actual Tokens:** [updated during execution]
+        **Estimated Duration:** [typically 30 minutes to 2 hours]
+        **Actual Duration:** [tracked during execution]
+        **Dependencies:** [list of #issue-numbers] (also tracked via native dependencies)
+        ```
+        
+        **Note:** This metadata is maintained automatically by the Baton Framework and GitHub Actions workflows. Dependencies are tracked both in metadata and via native GitHub Issue Dependencies.
+

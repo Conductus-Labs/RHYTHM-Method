@@ -1,0 +1,154 @@
+name: Bug
+description: Create a new Bug - a defect or issue that needs to be fixed
+title: "[Bug] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Creation
+        
+        This form creates a **Bug** issue using the RHYTHM Method.
+        
+        **Note:** Issue type is set automatically via GitHub CLI or API (not via labels).
+        All categorization uses native GitHub features (Issue Types, Dependencies, Projects v2).
+        
+        ---
+        
+        ## Projects v2 Field Mapping
+        
+        The following fields will be mapped to GitHub Projects v2 custom fields:
+        - **Status:** Set via Projects v2 "Status" field (Planned, In Progress, Review, Blocked, Completed, Failed)
+        - **Bug Relationship:** Set via Projects v2 "Bug Relationship" field (Parented, Related)
+        - **Severity:** Set via Projects v2 "Severity" field (Critical, High, Medium, Low)
+        
+        ---
+
+  - type: dropdown
+    id: bug-relationship
+    attributes:
+      label: Bug Relationship
+      description: How this bug relates to other work items
+      options:
+        - Parented to Work Unit
+        - Related to Feature
+    validations:
+      required: true
+
+  - type: input
+    id: parent-work-unit
+    attributes:
+      label: Parent Work Unit
+      description: The parent Work Unit issue number (required if "Parented to Work Unit" is selected)
+      placeholder: "#46"
+    validations:
+      required: false
+
+  - type: input
+    id: related-feature
+    attributes:
+      label: Related Feature
+      description: The related Feature issue number (required if "Related to Feature" is selected)
+      placeholder: "#45"
+    validations:
+      required: false
+
+  - type: input
+    id: bug-title
+    attributes:
+      label: Bug Title
+      description: A clear, concise title describing the bug
+      placeholder: "e.g., Login fails with valid credentials"
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: Describe the bug in detail
+      placeholder: "When attempting to log in with valid credentials, the system returns a 500 error..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: The severity level of this bug
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the bug
+      placeholder: |
+        1. Navigate to login page
+        2. Enter valid email and password
+        3. Click "Login" button
+        4. Observe 500 error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Describe what should happen
+      placeholder: "User should be successfully logged in and redirected to dashboard"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: Describe what actually happens
+      placeholder: "System returns 500 Internal Server Error and user is not logged in"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Environment details (browser, OS, version, etc.) - optional
+      placeholder: |
+        - Browser: Chrome 120.0
+        - OS: Windows 11
+        - Environment: Production
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## RHYTHM Method Metadata
+        
+        The following metadata section will be automatically added to the issue body:
+        
+        ```markdown
+        <!-- RHYTHM Method Metadata -->
+        **Bug ID:** bug-XXX (auto-generated)
+        **Relationship:** [parented|related]
+        **Parent Work Unit:** #[work unit number if parented]
+        **Related Feature:** #[feature number if related]
+        **Status:** planned
+        **Priority:** [highest|high|normal|low] (parented bugs always highest)
+        **Severity:** [selected severity]
+        **Fix Work Unit:** #[work unit number if related bug requires new Work Unit]
+        ```
+        
+        **Note:** This metadata is maintained automatically by the Baton Framework and GitHub Actions workflows.
+        
+        **Priority Rules:**
+        - Parented bugs always have "highest" priority
+        - Related bugs have priority based on severity and business impact
+

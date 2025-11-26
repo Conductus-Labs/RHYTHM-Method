@@ -1,0 +1,137 @@
+name: Work Unit
+description: Create a new Work Unit - a specific piece of work completed in a single execution cycle (up to 8 hours)
+title: "[Work Unit] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Work Unit Creation
+        
+        This form creates a **Work Unit** issue using the RHYTHM Method.
+        
+        **Note:** Issue type is set automatically via GitHub CLI or API (not via labels).
+        All categorization uses native GitHub features (Issue Types, Dependencies, Projects v2).
+        
+        ---
+        
+        ## Projects v2 Field Mapping
+        
+        The following fields will be mapped to GitHub Projects v2 custom fields:
+        - **Status:** Set via Projects v2 "Status" field (Planned, In Progress, Review, Blocked, Completed, Failed)
+        - **Estimated Tokens:** Set via Projects v2 "Estimated Tokens" field (number)
+        - **Actual Tokens:** Set via Projects v2 "Actual Tokens" field (number, updated during execution)
+        
+        **Note:** Duration is tracked as a guideline (target: up to 8 hours) but is not stored as a Projects v2 field (RHYTHM Method is token-based, not time-based).
+        
+        ---
+
+  - type: input
+    id: work-unit-name
+    attributes:
+      label: Work Unit Name
+      description: A clear, concise name for this work unit
+      placeholder: "e.g., Implement Login API Endpoint"
+    validations:
+      required: true
+
+  - type: input
+    id: parent-feature
+    attributes:
+      label: Parent Feature
+      description: "The parent Feature issue number (format: #issue-number)"
+      placeholder: "#45"
+    validations:
+      required: true
+
+  - type: textarea
+    id: work-unit-description
+    attributes:
+      label: Work Unit Description
+      description: Describe what this work unit accomplishes
+      placeholder: "This work unit implements the login API endpoint with authentication and validation..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: detailed-specification
+    attributes:
+      label: Detailed Specification
+      description: Provide detailed technical specification for this work unit
+      placeholder: |
+        ## API Endpoint
+        - Method: POST
+        - Path: /api/auth/login
+        - Request Body: { email, password }
+        - Response: { token, user }
+        
+        ## Implementation Details
+        - Use JWT for token generation
+        - Validate credentials against database
+        - Return 401 for invalid credentials
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define the criteria that must be met for this work unit to be considered complete
+      placeholder: |
+        - [ ] API endpoint accepts POST requests
+        - [ ] Valid credentials return JWT token
+        - [ ] Invalid credentials return 401 error
+        - [ ] All tests pass
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List any dependencies (other Work Units or Agent Tasks). Use issue numbers (e.g., #46, #47). These will also be tracked via native GitHub Issue Dependencies.
+      placeholder: "Depends on: #46, #47"
+
+  - type: input
+    id: estimated-tokens
+    attributes:
+      label: Estimated Tokens
+      description: Estimated token count for this work unit (optional)
+      placeholder: "e.g., 1500"
+    validations:
+      required: false
+
+  - type: input
+    id: estimated-duration
+    attributes:
+      label: Estimated Duration (Guideline)
+      description: "Estimated duration in hours (guideline only, target: up to 8 hours). Note: This is a guideline, not tracked as a field (RHYTHM Method is token-based)."
+      placeholder: "e.g., 6"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## RHYTHM Method Metadata
+        
+        The following metadata section will be automatically added to the issue body:
+        
+        ```markdown
+        <!-- RHYTHM Method Metadata -->
+        **Work Unit ID:** wu-XXX (auto-generated)
+        **Parent Feature:** #[parent feature number]
+        **Status:** planned
+        **Priority Level:** level-0 (calculated from dependencies)
+        **Estimated Tokens:** [estimated tokens if provided]
+        **Actual Tokens:** [updated during execution]
+        **Estimated Duration:** [estimated duration if provided] (target: up to 8 hours)
+        **Actual Duration:** [tracked during execution]
+        **Agent Tasks:** [count] (linked issues)
+        **Dependencies:** [list of #issue-numbers] (also tracked via native dependencies)
+        ```
+        
+        **Note:** This metadata is maintained automatically by the Baton Framework and GitHub Actions workflows. Dependencies are tracked both in metadata and via native GitHub Issue Dependencies.
+

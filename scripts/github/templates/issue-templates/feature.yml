@@ -1,0 +1,138 @@
+name: Feature
+description: Create a new Feature - a deliverable unit of functionality that provides business value
+title: "[Feature] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Creation
+        
+        This form creates a **Feature** issue using the RHYTHM Method.
+        
+        **Note:** Issue type is set automatically via GitHub CLI or API (not via labels).
+        All categorization uses native GitHub features (Issue Types, Dependencies, Projects v2).
+        
+        ---
+        
+        ## Projects v2 Field Mapping
+        
+        The following fields will be mapped to GitHub Projects v2 custom fields:
+        - **Status:** Set via Projects v2 "Status" field (Planned, In Progress, Review, Blocked, Completed, Failed)
+        - **TEMPO:** Set via Projects v2 "TEMPO" field (High, Moderate, Controlled)
+        - **Estimated Tokens:** Set via Projects v2 "Estimated Tokens" field (number)
+        - **Actual Tokens:** Set via Projects v2 "Actual Tokens" field (number, updated during execution)
+        
+        ---
+
+  - type: input
+    id: feature-name
+    attributes:
+      label: Feature Name
+      description: A clear, concise name for this feature
+      placeholder: "e.g., User Authentication System"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: Describe what this feature does and why it's needed
+      placeholder: "This feature provides user authentication capabilities including login, logout, and password reset..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: business-value
+    attributes:
+      label: Business Value
+      description: Explain the business value this feature provides
+      placeholder: "This feature enables secure user access, which is required for all user-facing functionality..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-value
+    attributes:
+      label: User Value
+      description: Explain the value this feature provides to end users (optional)
+      placeholder: "Users can securely access their accounts and protect their data..."
+
+  - type: textarea
+    id: functional-requirements
+    attributes:
+      label: Functional Requirements
+      description: List the functional requirements for this feature
+      placeholder: |
+        1. User can log in with email and password
+        2. User can log out
+        3. User can reset forgotten password
+        4. System validates credentials securely
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define the criteria that must be met for this feature to be considered complete
+      placeholder: |
+        - [ ] User can successfully log in with valid credentials
+        - [ ] User receives appropriate error messages for invalid credentials
+        - [ ] Password reset flow works end-to-end
+        - [ ] All security requirements are met
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List any dependencies (other Features, Work Units, or Agent Tasks). Use issue numbers (e.g., #45, #46)
+      placeholder: "Depends on: #45, #46"
+
+  - type: input
+    id: estimated-tokens
+    attributes:
+      label: Estimated Tokens
+      description: Estimated token count for this feature (optional)
+      placeholder: "e.g., 5000"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: tempo-level
+    attributes:
+      label: TEMPO Level
+      description: The speed/pace at which this feature should be executed
+      options:
+        - High
+        - Moderate
+        - Controlled
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## RHYTHM Method Metadata
+        
+        The following metadata section will be automatically added to the issue body:
+        
+        ```markdown
+        <!-- RHYTHM Method Metadata -->
+        **Feature ID:** feat-XXX (auto-generated)
+        **Parent:** Project Manifest (.baton/project.manifest.md)
+        **Status:** planned
+        **TEMPO:** [selected TEMPO level]
+        **Priority Level:** level-0 (calculated from dependencies)
+        **Estimated Tokens:** [estimated tokens if provided]
+        **Actual Tokens:** [updated during execution]
+        **Work Units:** [count] (linked issues)
+        ```
+        
+        **Note:** This metadata is maintained automatically by the Baton Framework and GitHub Actions workflows.
+
