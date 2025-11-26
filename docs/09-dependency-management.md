@@ -8,6 +8,8 @@
 
 Dependency management in RHYTHM Method uses **dependency-driven prioritization** to ensure work happens in the correct order. Dependencies are automatically detected, tracked, and resolved, with human oversight at critical decision points.
 
+**Business Value:** Dependency-driven prioritization eliminates the common problem of blocked work and wasted effort. By ensuring prerequisites are completed before dependent work begins, teams avoid starting work that can't be finished, reduce context switching, and maintain continuous flow. Automated dependency detection catches dependencies that humans might miss, preventing costly rework and delays. This systematic approach ensures work happens in the optimal order, maximizing efficiency and minimizing blockers that slow down delivery.
+
 ## What is Dependency-Driven Prioritization?
 
 Dependency-driven prioritization is a mandatory prioritization rule in RHYTHM Method where:

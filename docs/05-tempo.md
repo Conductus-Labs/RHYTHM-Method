@@ -72,6 +72,8 @@ Agents work at computational speeds that are fundamentally different from human 
 
 **Speed is inherent with agents**—they operate at fast computational speeds by nature. However, speed alone isn't enough. That's where **RHYTHM** comes in.
 
+**Business Value:** Fast TEMPO enables rapid delivery cycles that transform how projects are executed. Work that traditionally takes weeks can be completed in hours, dramatically reducing time-to-market and enabling faster iteration. This speed advantage allows teams to respond quickly to changing requirements, test ideas rapidly, and deliver value continuously. However, TEMPO without RHYTHM (control) leads to chaos. RHYTHM ensures that fast execution maintains quality, alignment, and strategic direction—delivering speed with confidence.
+
 ## TEMPO + RHYTHM = Controlled Speed
 
 ### The Problem with Pure Speed

@@ -8,6 +8,8 @@
 
 RHYTHM Method uses **token-based estimation** to replace abstract story points with precise, measurable factors. Token estimation leverages agent capabilities for accurate analysis and enables precise capacity planning.
 
+**Business Value:** Token-based estimation provides measurable, data-driven estimates that improve over time. Unlike abstract story points that vary between teams and individuals, tokens represent actual work factors (code, analysis, documentation, validation) that can be tracked and refined. This leads to more accurate capacity planning, fewer surprises, better resource allocation, and data-driven decision making. Teams can confidently commit to work knowing estimates are based on measurable factors, not subjective judgment.
+
 ## What is Token Estimation?
 
 Token estimation calculates work based on measurable factors ([tokens](03-dictionary.md#token)) rather than abstract concepts (story points). Tokens represent:

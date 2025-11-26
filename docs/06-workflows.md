@@ -8,6 +8,8 @@
 
 RHYTHM Method workflows are designed for **agents with human integration**. Workflows leverage agent capabilities (speed, precision, automation) while maintaining essential human oversight and strategic control.
 
+**Business Value:** RHYTHM Method workflows create a structured, repeatable process that maximizes agent efficiency while ensuring human control at critical decision points. Unlike traditional methodologies that require extensive meetings and manual coordination, these workflows automate routine tasks (dependency detection, estimation, prioritization) while strategically involving humans for business decisions and validation. This balance enables fast execution cycles (hours instead of weeks) while maintaining quality, alignment, and strategic direction. The result is faster delivery, better quality, and more predictable outcomes.
+
 ## Core Workflows
 
 The following diagram illustrates how RHYTHM Method workflows connect and flow together:
