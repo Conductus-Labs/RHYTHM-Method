@@ -42,6 +42,11 @@ See [Message Formats](../message-format/overview.md) for all A2A and A2U message
 - **[Common Challenges](12-common-challenges.md)** - Common challenges and solutions
 - **[Error Handling](13-error-handling.md)** - Error handling and failure recovery procedures
 
+### Reference and Examples
+
+- **[Workflow Example](14-workflow-example.md)** - End-to-end workflow walkthrough
+- **[Quick Reference](15-quick-reference.md)** - Formulas, decision trees, and key information
+
 ## Status
 
 **Current Status:** Documentation in progress

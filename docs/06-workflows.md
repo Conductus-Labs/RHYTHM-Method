@@ -14,26 +14,42 @@ RHYTHM Method workflows are designed for **agents with human integration**. Work
 
 The following diagram illustrates how RHYTHM Method workflows connect and flow together:
 
+```mermaid
+flowchart TD
+    Start([Project Start]) --> Init[1. Project Initialization<br/>One-Time Setup]
+    
+    Init --> Planning[Planning & Preparation Cycle]
+    
+    Planning --> Feature[2. Feature Specification]
+    Feature --> Create[3. Work Unit Creation]
+    Create --> Review[4. Work Unit Review]
+    Review --> Breakdown[5. Work Unit Breakdown]
+    
+    Breakdown --> Execution[Execution Cycle]
+    
+    Execution --> Queue[6. Work Queue]
+    Queue --> TaskExec[Task Execution]
+    
+    TaskExec --> Quality[9. Quality Assurance]
+    Quality --> CycleReview[10. Cycle Review]
+    
+    TaskExec -.->|Triggers| Continuous[7. Continuous Planning]
+    TaskExec -.->|Triggers| DepMgmt[8. Dependency Management]
+    
+    Continuous -.->|Updates| Queue
+    DepMgmt -.->|Updates| Queue
+    
+    CycleReview -.->|Improves| Planning
+    CycleReview -.->|Improves| Execution
+    
+    style Init fill:#E6F3FF
+    style Planning fill:#FFF4E6
+    style Execution fill:#E6FFE6
+    style Quality fill:#FFE6E6
+    style CycleReview fill:#F0E6FF
 ```
-One-Time Setup:
-  1. Project Initialization
 
-Planning & Preparation Cycle:
-  2. Feature Specification
-  3. Work Unit Creation
-  4. Work Unit Review
-  5. Work Unit Breakdown
-
-Execution Cycle:
-  6. Work Queue
-  → Task Execution
-  7. Continuous Planning
-  8. Dependency Management
-  9. Quality Assurance
-  10. Cycle Review
-```
-
-> **Note:** Project Initialization (step 1) is a one-time setup that occurs only once at the beginning of a project. All other workflows are ongoing and repeat as needed throughout the project lifecycle.
+> **Note:** Project Initialization (step 1) is a one-time setup that occurs only once at the beginning of a project. All other workflows are ongoing and repeat as needed throughout the project lifecycle. Solid arrows show primary flow, dashed arrows show supporting/triggering relationships.
 
 ### 1. Project Initialization
 

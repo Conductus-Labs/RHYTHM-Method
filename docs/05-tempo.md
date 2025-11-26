@@ -244,6 +244,43 @@ RHYTHM Method provides the following HITL gates/checkpoints:
 
 **Note:** In Controlled TEMPO, all gates are required - there are no optional or skipped gates.
 
+### TEMPO Level Comparison
+
+The following diagram illustrates the relationship between TEMPO levels, HITL gates, and use cases:
+
+```mermaid
+graph LR
+    subgraph High["High TEMPO<br/>~3-5 HITL Gates"]
+        H1[Minimal<br/>Human<br/>Oversight]
+        H2[Fast<br/>Execution]
+        H3[Well-Defined<br/>Low-Risk Work]
+    end
+    
+    subgraph Moderate["Moderate TEMPO<br/>~8-12 HITL Gates<br/>DEFAULT"]
+        M1[Balanced<br/>Oversight]
+        M2[Standard<br/>Projects]
+        M3[Regular<br/>Human Input]
+    end
+    
+    subgraph Controlled["Controlled TEMPO<br/>~15-20 HITL Gates"]
+        C1[Comprehensive<br/>Oversight]
+        C2[Critical<br/>High-Risk Work]
+        C3[Frequent<br/>Human Input]
+    end
+    
+    High --> Moderate
+    Moderate --> Controlled
+    
+    style High fill:#90EE90
+    style Moderate fill:#FFD700
+    style Controlled fill:#FFA07A
+```
+
+**Key Characteristics:**
+- **High TEMPO:** Maximum speed, minimal oversight, experienced teams
+- **Moderate TEMPO:** Balanced approach, standard projects, recommended default
+- **Controlled TEMPO:** Maximum oversight, critical work, new teams/domains
+
 ### Choosing a TEMPO Level
 
 **Decision Matrix:**

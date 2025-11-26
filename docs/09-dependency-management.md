@@ -52,6 +52,35 @@ Dependencies on domain understanding or decisions:
 - **Architecture Decision Dependencies**: Requires architectural decisions to be made
 - **Design Decision Dependencies**: Requires design decisions to be finalized
 
+### Dependency Types Overview
+
+The following diagram illustrates the four main types of dependencies in RHYTHM Method:
+
+```mermaid
+graph TD
+    Work[Work Unit or<br/>Agent Task] --> DepTypes{Dependency Types}
+    
+    DepTypes --> Technical[Technical Dependencies<br/>Code, APIs, Infrastructure]
+    DepTypes --> Data[Data Dependencies<br/>Schemas, Models, Migrations]
+    DepTypes --> Integration[Integration Dependencies<br/>External Services, APIs]
+    DepTypes --> Knowledge[Knowledge Dependencies<br/>Domain, Architecture, Design]
+    
+    Technical --> TechEx[Examples:<br/>- Code imports<br/>- API endpoints<br/>- Infrastructure setup]
+    Data --> DataEx[Examples:<br/>- Database schema<br/>- Data models<br/>- Data migrations]
+    Integration --> IntEx[Examples:<br/>- Third-party APIs<br/>- External services<br/>- System integrations]
+    Knowledge --> KnowEx[Examples:<br/>- Domain understanding<br/>- ADRs<br/>- Design decisions]
+    
+    style Technical fill:#E6F3FF
+    style Data fill:#FFF4E6
+    style Integration fill:#E6FFE6
+    style Knowledge fill:#F0E6FF
+```
+
+**Detection Methods:**
+- **Technical & Data:** Automated code analysis, specification analysis
+- **Integration:** API contract analysis, service dependency analysis
+- **Knowledge:** Specification analysis, decision log analysis (may require manual identification)
+
 ## Dependency Detection
 
 ### Automated Detection

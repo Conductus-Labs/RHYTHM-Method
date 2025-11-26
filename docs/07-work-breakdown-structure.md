@@ -12,12 +12,43 @@ The Work Breakdown Structure (WBS) in RHYTHM Method provides a hierarchical orga
 
 RHYTHM Method uses a four-level hierarchy:
 
+```mermaid
+graph TD
+    PM[Project Manifest<br/>One per project<br/>Top-level container]
+    
+    PM --> F1[Feature 1<br/>Deliverable functionality]
+    PM --> F2[Feature 2<br/>Deliverable functionality]
+    PM --> F3[Feature N<br/>Deliverable functionality]
+    
+    F1 --> WU1[Work Unit 1<br/>Execution cycle scope]
+    F1 --> WU2[Work Unit 2<br/>Execution cycle scope]
+    
+    WU1 --> AT1[Agent Task 1<br/>Smallest executable unit]
+    WU1 --> AT2[Agent Task 2<br/>Smallest executable unit]
+    WU1 --> AT3[Agent Task N<br/>Smallest executable unit]
+    
+    WU1 -.->|Parented<br/>Development Bug| Bug1[Bug<br/>Found during development]
+    F1 -.->|Related<br/>Production Bug| Bug2[Bug<br/>Found in production]
+    
+    Bug2 --> WU3[New Work Unit<br/>To fix production bug]
+    
+    style PM fill:#E6F3FF
+    style F1 fill:#FFF4E6
+    style F2 fill:#FFF4E6
+    style F3 fill:#FFF4E6
+    style WU1 fill:#E6FFE6
+    style WU2 fill:#E6FFE6
+    style WU3 fill:#E6FFE6
+    style AT1 fill:#F0E6FF
+    style AT2 fill:#F0E6FF
+    style AT3 fill:#F0E6FF
+    style Bug1 fill:#FFE6E6
+    style Bug2 fill:#FFE6E6
 ```
-Project Manifest
-  └── Feature
-      └── Work Unit
-          └── Agent Task
-```
+
+**Key Relationships:**
+- **Solid arrows:** Parent-child relationships (Project Manifest → Feature → Work Unit → Agent Task)
+- **Dashed arrows:** Bug relationships (parented to Work Unit or related to Feature)
 
 ### Level 1: Project Manifest
 

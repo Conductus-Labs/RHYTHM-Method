@@ -343,7 +343,7 @@ RHYTHM Method includes comprehensive error handling and failure recovery mechani
 ## Navigation
 
 **Previous:** [Common Challenges](12-common-challenges.md) - Common challenges and solutions  
-**Next:** [Best Practices](10-best-practices.md) - RHYTHM Method best practices
+**Next:** [Workflow Example](14-workflow-example.md) - End-to-end workflow walkthrough
 
 ---
 
