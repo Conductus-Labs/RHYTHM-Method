@@ -115,6 +115,72 @@ A specific piece of work that should be completed in a single [execution cycle](
 - **If estimation exceeds 8 hours**: Split Work Unit into smaller units (preferred) or extend execution cycle with approval
 - **See [Estimation](08-estimation.md) for detailed duration guidelines and splitting criteria**
 
+**Execution Cycle Duration: Realistic Expectations**
+
+**Understanding the Speed Difference:**
+RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from traditional 2-week sprints. This represents a 24-168x speed difference, which may seem unrealistic at first glance. However, this speed difference is achievable because:
+
+**Why Execution Cycles Can Be So Fast:**
+1. **Agent Speed**: Agents work at computational speeds, not human speeds
+2. **Continuous Execution**: Agents work continuously without breaks, meetings, or context switching
+3. **Parallel Execution**: Multiple agents work in parallel on different tasks
+4. **Automated Processes**: Automated testing, deployment, and validation reduce overhead
+5. **Focused Work**: Work Units are small, focused pieces of work
+
+**Typical vs. Best Case:**
+- **Typical Duration**: 2-6 hours for most Work Units
+- **Best Case**: < 2 hours for simple, well-defined Work Units
+- **Longer Cycles**: 6-8 hours for complex Work Units or when extending is approved
+- **Factors Affecting Duration**: Complexity, dependencies, human availability for HITL checkpoints
+
+**What Affects Execution Cycle Duration:**
+
+**Factors That Speed Up Cycles:**
+- **Well-Defined Work**: Clear specifications reduce ambiguity
+- **No Dependencies**: Independent work can execute immediately
+- **Established Patterns**: Similar to previous work, agents can work faster
+- **Low HITL Overhead**: Fewer human approvals needed (High TEMPO)
+- **Parallel Execution**: Multiple agents working simultaneously
+- **Automated Quality Gates**: Fast validation and testing
+
+**Factors That Slow Down Cycles:**
+- **Complex Work**: Complex integrations, new domains, unclear requirements
+- **Dependency Blockers**: Waiting for prerequisite work to complete
+- **High HITL Overhead**: Many human approvals needed (Controlled TEMPO)
+- **Human Unavailability**: Waiting for human responses at HITL checkpoints
+- **Quality Gate Failures**: Fixing issues found during validation
+- **Specification Changes**: Mid-cycle requirement changes
+
+**When Cycles Take Longer:**
+- **Complex Integrations**: Multi-service integrations may take 6-8 hours
+- **New Domains**: Learning new technologies or domains adds time
+- **High-Risk Work**: Controlled TEMPO with many HITL checkpoints
+- **Dependency Delays**: Waiting for dependencies can extend cycles
+- **Human Response Times**: Slow human responses at HITL checkpoints
+- **Quality Issues**: Fixing quality gate failures extends cycles
+
+**Realistic Expectations:**
+- **Not Every Cycle is 2 Hours**: Some cycles take 6-8 hours, especially for complex work
+- **Human Availability is the Bottleneck**: Agent speed is fast, but human availability for HITL checkpoints can slow cycles
+- **Complexity Matters**: Simple work completes faster than complex work
+- **Learning Curve**: Initial cycles may be slower as team learns RHYTHM Method
+- **Continuous Improvement**: Cycles get faster as processes improve and patterns are established
+
+**Comparison to Traditional Sprints:**
+- **Traditional Sprint**: 2 weeks (80-160 hours of work across team)
+- **RHYTHM Execution Cycle**: Up to 8 hours (single Work Unit)
+- **Key Difference**: RHYTHM focuses on small, atomic Work Units, not entire sprint scope
+- **Multiple Cycles**: Multiple execution cycles happen in the time of one traditional sprint
+- **Continuous Flow**: Work flows continuously, not in discrete sprint boundaries
+
+**Best Practices:**
+1. **Start with Realistic Expectations**: Don't expect every cycle to be 2 hours
+2. **Focus on Small Work Units**: Smaller Work Units complete faster
+3. **Minimize Dependencies**: Independent work executes faster
+4. **Optimize HITL Gates**: Configure appropriate TEMPO level for your needs
+5. **Track Actual Durations**: Learn from actual cycle durations to improve estimation
+6. **Continuous Improvement**: Use cycle reviews to identify and fix bottlenecks
+
 ### Level 4: Agent Task
 
 The smallest unit of executable work in RHYTHM Method.
