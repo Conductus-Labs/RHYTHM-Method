@@ -1,8 +1,8 @@
 # RHYTHM Method Dictionary
 
-**Version:** 1.1.0  
+**Version:** 1.2.0  
 **Last Updated:** 2025-11-26  
-**Status:** Updated with Agent Terminology Clarification
+**Status:** Updated with Relationship Definitions Clarification
 
 This dictionary defines key terms and concepts used throughout RHYTHM Method documentation.
 
@@ -170,11 +170,22 @@ The process of aggregating estimates from lower levels to higher levels in the [
 
 ### Parented
 
-A relationship where a child [work unit](#work-unit) belongs to a parent. For example, [Bugs](#bug) are parented to [Work Units](#work-unit) (bugs found during development).
+A parent-child relationship where a child item belongs to a parent. In RHYTHM Method:
+
+- **Work Units** are parented to **Features** (Work Unit belongs to Feature)
+- **Agent Tasks** are parented to **Work Units** (Agent Task belongs to Work Unit)
+- **Bugs (Development)** are parented to **Work Units** (bug found during development, fixed within current execution cycle)
+
+**Key Characteristic**: Parented items are part of the parent's scope and must be completed as part of the parent.
 
 ### Related
 
-A relationship where [work units](#work-unit) are connected but not in a parent-child hierarchy. For example, [Bugs](#bug) are related to [Features](#feature) (bugs found in production).
+A relationship where items are connected but not in a parent-child hierarchy. In RHYTHM Method:
+
+- **Bugs (Production)** are related to **Features** (bug found in production, requires new Work Unit to fix)
+- **Work Units** can be related to other **Work Units** (non-dependency relationships, e.g., related functionality)
+
+**Key Characteristic**: Related items are separate work items that may require their own Work Units or have independent completion criteria.
 
 ### Dependency
 
@@ -195,3 +206,4 @@ See **Dependency** in Core Concepts section.
 | ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
 | 1.0.0   | 2025-11-24 | Initial             | Initial RHYTHM dictionary docs                                        |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified RHYTHM Agent terminology: role vs implementation, relationship to rhythm-expert-agent and baton-agent |
+| 1.2.0   | 2025-11-26 | rhythm-expert-agent | Clarified Parented vs Related relationship definitions with examples and key characteristics |

@@ -1,8 +1,8 @@
 # Work Breakdown Structure (WBS)
 
-**Version:** 1.1.0  
+**Version:** 1.2.0  
 **Last Updated:** 2025-11-26  
-**Status:** Updated with Work Unit Duration Clarification
+**Status:** Updated with Bug Lifecycle and Relationship Clarification
 
 ## Overview
 
@@ -95,25 +95,119 @@ The smallest unit of executable work in RHYTHM Method.
 
 ## Special Work Items: Bugs
 
-Bugs are handled differently in RHYTHM Method's WBS:
+Bugs are handled differently in RHYTHM Method's WBS and require clear relationship definitions to prevent scope creep and ensure proper prioritization.
 
-### Bug Relationships
+### Bug Relationships: Parented vs Related
 
-**Parented to Work Unit:**
-- Bugs found during development
-- Bugs are parented to the Work Unit where they were discovered
-- Fixed within the current execution cycle
+**Understanding the Distinction:**
 
-**Related to Feature:**
-- Bugs found in production
-- Bugs are related to the Feature where they occur
-- May require a new Work Unit to fix
+**Parented to Work Unit** (Development Bugs):
+- **Definition**: Bugs found during active development work
+- **Relationship Type**: Parent-child (bug belongs to the Work Unit)
+- **When**: Bugs discovered while working on a Work Unit
+- **Fix Location**: Fixed within the current execution cycle (as part of the Work Unit)
+- **Scope**: Part of the Work Unit's scope, not separate work
+- **Example**: Bug found while implementing authentication API → parented to that Work Unit → fixed before Work Unit completion
 
-### Bug Handling
+**Related to Feature** (Production Bugs):
+- **Definition**: Bugs found in production or after Work Unit completion
+- **Relationship Type**: Related (bug is associated with the Feature, not parented)
+- **When**: Bugs discovered after deployment, during testing, or in production
+- **Fix Location**: Requires a new Work Unit to fix (not part of original Work Unit)
+- **Scope**: Separate work item requiring its own Work Unit
+- **Example**: Bug found in production authentication → related to Authentication Feature → creates new Work Unit to fix
+
+**Key Difference:**
+- **Parented** = Bug is part of the Work Unit's scope (fix within current cycle)
+- **Related** = Bug requires separate Work Unit to fix (new work item)
+
+### Bug Lifecycle by Workflow Stage
+
+**Feature Specification Stage:**
+- **Bugs Found**: Specification issues, requirement gaps, design flaws
+- **Handling**: Update specification (not tracked as bugs)
+- **Relationship**: N/A (specification issues are fixed in specification, not tracked as bugs)
+
+**Work Unit Review Stage:**
+- **Bugs Found**: Specification clarity issues, feasibility problems
+- **Handling**: Resolved during review (not tracked as bugs)
+- **Relationship**: N/A (review feedback is addressed in specification updates)
+
+**Work Unit Breakdown Stage:**
+- **Bugs Found**: Task breakdown issues, missing dependencies
+- **Handling**: Resolved during breakdown (not tracked as bugs)
+- **Relationship**: N/A (breakdown issues are fixed in task breakdown)
+
+**Task Execution Stage (Development):**
+- **Bugs Found**: Code defects, implementation errors, test failures
+- **Handling**: **Parented to Work Unit** - fixed within current execution cycle
+- **Relationship**: Bug is parented to the Work Unit where it was discovered
+- **Priority**: High - must be fixed before Work Unit completion
+- **Example**: Unit test fails → bug parented to Work Unit → fixed before Work Unit marked complete
+
+**Quality Assurance Stage:**
+- **Bugs Found**: Integration issues, quality gate failures
+- **Handling**: 
+  - If found before Work Unit completion → **Parented to Work Unit** (fix in current cycle)
+  - If found after Work Unit completion → **Related to Feature** (requires new Work Unit)
+- **Relationship**: Depends on timing (before/after Work Unit completion)
+
+**Production/Post-Deployment:**
+- **Bugs Found**: Production defects, user-reported issues
+- **Handling**: **Related to Feature** - requires new Work Unit to fix
+- **Relationship**: Bug is related to the Feature where it occurs
+- **Priority**: Based on severity and business impact
+- **Example**: Production bug in authentication → related to Authentication Feature → new Work Unit created to fix
+
+### Bug Prioritization
+
+**Parented Bugs (Development Bugs):**
+- **Priority**: Highest - must be fixed before Work Unit completion
+- **Impact**: Blocks Work Unit completion
+- **Handling**: Fixed within current execution cycle
+- **No separate prioritization needed** - part of Work Unit scope
+
+**Related Bugs (Production Bugs):**
+- **Priority**: Based on severity and business impact
+- **Impact**: Affects production system or users
+- **Handling**: Prioritized in work queue like other Work Units
+- **Prioritization Rules**:
+  - Critical bugs (system down, data loss) → Highest priority
+  - High severity bugs (major functionality broken) → High priority
+  - Medium severity bugs (minor functionality issues) → Normal priority
+  - Low severity bugs (cosmetic, minor issues) → Lower priority
+- **Dependency-Driven**: Follows dependency-driven prioritization (dependencies first, then business value)
+
+### Bug Handling Workflow
+
+**Development Bug Workflow (Parented):**
+1. Bug discovered during Task Execution
+2. Bug parented to current Work Unit
+3. Bug fixed within current execution cycle
+4. Work Unit cannot be marked complete until bug is fixed
+5. Bug resolved as part of Work Unit completion
+
+**Production Bug Workflow (Related):**
+1. Bug discovered in production or after Work Unit completion
+2. Bug related to affected Feature
+3. Bug analyzed and prioritized
+4. New Work Unit created to fix bug
+5. Work Unit added to work queue (follows dependency-driven prioritization)
+6. Bug fixed in new execution cycle
+7. Bug resolved when Work Unit completes
+
+### Preventing Scope Creep
 
 RHYTHM Method prevents scope creep by clearly distinguishing:
-- **Bugs**: Fix in current work (parented to Work Unit)
-- **New Requests**: Create new Work Unit (related to Feature)
+
+- **Bugs (Parented)**: Fix in current work (parented to Work Unit) - part of original scope
+- **Bugs (Related)**: Create new Work Unit to fix (related to Feature) - new work item
+- **New Requests**: Create new Work Unit (related to Feature) - new feature/functionality
+
+**Decision Criteria:**
+- **Is it a bug in current work?** → Parented to Work Unit (fix in current cycle)
+- **Is it a bug in production/completed work?** → Related to Feature (new Work Unit)
+- **Is it a new feature/request?** → Related to Feature (new Work Unit, different type)
 
 ## WBS Relationships
 
@@ -203,6 +297,7 @@ The RHYTHM Method WBS provides a hierarchical structure (Project Manifest → Fe
 
 | Version | Date       | Author              | Description                                                          |
 | ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
-| 1.0.0   | 2025-01-XX | Initial             | Initial WBS documentation                                             |
+| 1.0.0   | 2025-11-24 | Initial             | Initial WBS documentation                                             |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified Work Unit duration: 2-8 hours is a guideline (not hard limit), added guidance for when estimation exceeds 8 hours |
+| 1.2.0   | 2025-11-26 | rhythm-expert-agent | Expanded bug handling: clarified parented vs related distinction, added complete bug lifecycle by workflow stage, bug prioritization rules, and bug handling workflows |
 
