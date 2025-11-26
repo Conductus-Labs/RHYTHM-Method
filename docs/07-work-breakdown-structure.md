@@ -15,38 +15,39 @@ RHYTHM Method uses a four-level hierarchy:
 ```mermaid
 graph TD
     PM[Project Manifest<br/>One per project<br/>Top-level container]
-    
+
     PM --> F1[Feature 1<br/>Deliverable functionality]
     PM --> F2[Feature 2<br/>Deliverable functionality]
     PM --> F3[Feature N<br/>Deliverable functionality]
-    
+
     F1 --> WU1[Work Unit 1<br/>Execution cycle scope]
     F1 --> WU2[Work Unit 2<br/>Execution cycle scope]
-    
+
     WU1 --> AT1[Agent Task 1<br/>Smallest executable unit]
     WU1 --> AT2[Agent Task 2<br/>Smallest executable unit]
     WU1 --> AT3[Agent Task N<br/>Smallest executable unit]
-    
+
     WU1 -.->|Parented<br/>Development Bug| Bug1[Bug<br/>Found during development]
     F1 -.->|Related<br/>Production Bug| Bug2[Bug<br/>Found in production]
-    
+
     Bug2 --> WU3[New Work Unit<br/>To fix production bug]
-    
-    style PM fill:#E6F3FF
-    style F1 fill:#FFF4E6
-    style F2 fill:#FFF4E6
-    style F3 fill:#FFF4E6
-    style WU1 fill:#E6FFE6
-    style WU2 fill:#E6FFE6
-    style WU3 fill:#E6FFE6
-    style AT1 fill:#F0E6FF
-    style AT2 fill:#F0E6FF
-    style AT3 fill:#F0E6FF
-    style Bug1 fill:#FFE6E6
-    style Bug2 fill:#FFE6E6
+
+    style PM fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style F1 fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style F2 fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style F3 fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style WU1 fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style WU2 fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style WU3 fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style AT1 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
+    style AT2 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
+    style AT3 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
+    style Bug1 fill:#FF6B6B,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Bug2 fill:#FF6B6B,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
 ```
 
 **Key Relationships:**
+
 - **Solid arrows:** Parent-child relationships (Project Manifest → Feature → Work Unit → Agent Task)
 - **Dashed arrows:** Bug relationships (parented to Work Unit or related to Feature)
 
@@ -55,6 +56,7 @@ graph TD
 The top-level container for all work in a RHYTHM Method project.
 
 **Characteristics:**
+
 - **One per project**: Mandatory, single Project Manifest per project
 - **Purpose**: Serves as the single source of truth for project requirements
 - **Contains**: All [Features](03-dictionary.md#feature) in the project
@@ -66,6 +68,7 @@ The top-level container for all work in a RHYTHM Method project.
 **Important:** Epics do **not** exist in RHYTHM Method. The Project Manifest completely replaces Epics from traditional project management methods (Scrum, Kanban, etc.).
 
 **Key Differences from Traditional Epics:**
+
 - **Traditional Epics**: Optional, can be multiple per project
 - **Project Manifest**: Mandatory, exactly one per project
 - **Traditional Epics**: Only serve as top-level containers
@@ -75,8 +78,10 @@ The top-level container for all work in a RHYTHM Method project.
 **Implementation Details:**
 
 **Storage:**
+
 - The Project Manifest is stored as a markdown file: `.baton/project.manifest.md`
 - **Recommended**: Add exceptions to `.gitignore` to commit Project Manifest and Project Config:
+  
   ```
   .baton/
   !.baton/project.manifest.md
@@ -98,11 +103,13 @@ The Project Manifest markdown file is the **single source of truth**. Features a
 **Why Not Both Places?**
 
 Creating a Project Manifest in both the markdown file AND a PM tool (e.g., GitHub Issue) would create:
+
 - **Sync problems**: Two sources of truth that can diverge
 - **Maintenance overhead**: Changes must be made in two places
 - **Confusion**: Which one is authoritative?
 
 **Best Practice:**
+
 - Project Manifest = Markdown file only (single source of truth)
 - Features in PM tools reference the Project Manifest conceptually
 - The markdown file can link to Features in PM tools, but doesn't duplicate PM tool data
@@ -112,6 +119,7 @@ Creating a Project Manifest in both the markdown file AND a PM tool (e.g., GitHu
 A required deliverable unit of functionality that provides business value.
 
 **Characteristics:**
+
 - **Purpose**: Deliverable functionality that provides business value
 - **Deployment**: Can be deployed independently
 - **Validation**: Has clear validation criteria
@@ -119,6 +127,7 @@ A required deliverable unit of functionality that provides business value.
 - **Estimation**: Rolled up from Work Units using [token estimation](08-estimation.md)
 
 **Feature Requirements:**
+
 - Must provide business value
 - Must be deployable independently
 - Must have clear validation criteria
@@ -129,6 +138,7 @@ A required deliverable unit of functionality that provides business value.
 A specific piece of work that should be completed in a single [execution cycle](03-dictionary.md#execution-cycle) (target: up to 8 hours, some cycles may be less than 2 hours).
 
 **Characteristics:**
+
 - **Duration**: Up to 8 hours per execution cycle (guideline, not hard limit; cycles can be shorter)
 - **Assignment**: Atomic unit of work assignment to specialized [agents](03-dictionary.md#agent)
 - **Contains**: One or more [Agent Tasks](03-dictionary.md#agent-task)
@@ -136,12 +146,14 @@ A specific piece of work that should be completed in a single [execution cycle](
 - **Estimation**: Rolled up from Agent Tasks using [token estimation](08-estimation.md)
 
 **Work Unit Requirements:**
+
 - Must belong to a Feature
 - Should be completable in a single execution cycle (up to 8 hours target; cycles can be shorter)
 - Must contain at least one Agent Task
 - Must have clear completion criteria
 
 **Duration Guidelines:**
+
 - **Target**: Up to 8 hours per execution cycle (some cycles may be less than 2 hours)
 - **If estimation exceeds 8 hours**: Split Work Unit into smaller units (preferred) or extend execution cycle with approval
 - **See [Estimation](08-estimation.md) for detailed duration guidelines and splitting criteria**
@@ -152,6 +164,7 @@ A specific piece of work that should be completed in a single [execution cycle](
 RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from traditional 2-week sprints. This represents a 24-168x speed difference, which may seem unrealistic at first glance. However, this speed difference is achievable because:
 
 **Why Execution Cycles Can Be So Fast:**
+
 1. **Agent Speed**: Agents work at computational speeds, not human speeds
 2. **Continuous Execution**: Agents work continuously without breaks, meetings, or context switching
 3. **Parallel Execution**: Multiple agents work in parallel on different tasks
@@ -159,6 +172,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 5. **Focused Work**: Work Units are small, focused pieces of work
 
 **Typical vs. Best Case:**
+
 - **Typical Duration**: 2-6 hours for most Work Units
 - **Best Case**: < 2 hours for simple, well-defined Work Units
 - **Longer Cycles**: 6-8 hours for complex Work Units or when extending is approved
@@ -167,6 +181,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 **What Affects Execution Cycle Duration:**
 
 **Factors That Speed Up Cycles:**
+
 - **Well-Defined Work**: Clear specifications reduce ambiguity
 - **No Dependencies**: Independent work can execute immediately
 - **Established Patterns**: Similar to previous work, agents can work faster
@@ -175,6 +190,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 - **Automated Quality Gates**: Fast validation and testing
 
 **Factors That Slow Down Cycles:**
+
 - **Complex Work**: Complex integrations, new domains, unclear requirements
 - **Dependency Blockers**: Waiting for prerequisite work to complete
 - **High HITL Overhead**: Many human approvals needed (Controlled TEMPO)
@@ -183,6 +199,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 - **Specification Changes**: Mid-cycle requirement changes
 
 **When Cycles Take Longer:**
+
 - **Complex Integrations**: Multi-service integrations may take 6-8 hours
 - **New Domains**: Learning new technologies or domains adds time
 - **High-Risk Work**: Controlled TEMPO with many HITL checkpoints
@@ -191,6 +208,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 - **Quality Issues**: Fixing quality gate failures extends cycles
 
 **Realistic Expectations:**
+
 - **Not Every Cycle is 2 Hours**: Some cycles take 6-8 hours, especially for complex work
 - **Human Availability is the Bottleneck**: Agent speed is fast, but human availability for HITL checkpoints can slow cycles
 - **Complexity Matters**: Simple work completes faster than complex work
@@ -198,6 +216,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 - **Continuous Improvement**: Cycles get faster as processes improve and patterns are established
 
 **Comparison to Traditional Sprints:**
+
 - **Traditional Sprint**: 2 weeks (80-160 hours of work across team)
 - **RHYTHM Execution Cycle**: Up to 8 hours (single Work Unit)
 - **Key Difference**: RHYTHM focuses on small, atomic Work Units, not entire sprint scope
@@ -205,6 +224,7 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 - **Continuous Flow**: Work flows continuously, not in discrete sprint boundaries
 
 **Best Practices:**
+
 1. **Start with Realistic Expectations**: Don't expect every cycle to be 2 hours
 2. **Focus on Small Work Units**: Smaller Work Units complete faster
 3. **Minimize Dependencies**: Independent work executes faster
@@ -217,12 +237,14 @@ RHYTHM Method execution cycles (up to 8 hours) are fundamentally different from 
 The smallest unit of executable work in RHYTHM Method.
 
 **Characteristics:**
+
 - **Duration**: Typically 30 minutes to 2 hours
 - **Assignment**: Completed by a single specialized [agent](03-dictionary.md#agent)
 - **Scope**: Smallest executable unit
 - **Estimation**: Direct [token estimation](08-estimation.md) at this level
 
 **Agent Task Requirements:**
+
 - Must belong to a Work Unit
 - Must be completable by a single agent
 - Must have clear completion criteria
@@ -237,6 +259,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 **Understanding the Distinction:**
 
 **Parented to Work Unit** (Development Bugs):
+
 - **Definition**: Bugs found during active development work
 - **Relationship Type**: Parent-child (bug belongs to the Work Unit)
 - **When**: Bugs discovered while working on a Work Unit
@@ -245,6 +268,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 - **Example**: Bug found while implementing authentication API → parented to that Work Unit → fixed before Work Unit completion
 
 **Related to Feature** (Production Bugs):
+
 - **Definition**: Bugs found in production or after Work Unit completion
 - **Relationship Type**: Related (bug is associated with the Feature, not parented)
 - **When**: Bugs discovered after deployment, during testing, or in production
@@ -253,27 +277,32 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 - **Example**: Bug found in production authentication → related to Authentication Feature → creates new Work Unit to fix
 
 **Key Difference:**
+
 - **Parented** = Bug is part of the Work Unit's scope (fix within current cycle)
 - **Related** = Bug requires separate Work Unit to fix (new work item)
 
 ### Bug Lifecycle by Workflow Stage
 
 **Feature Specification Stage:**
+
 - **Bugs Found**: Specification issues, requirement gaps, design flaws
 - **Handling**: Update specification (not tracked as bugs)
 - **Relationship**: N/A (specification issues are fixed in specification, not tracked as bugs)
 
 **Work Unit Review Stage:**
+
 - **Bugs Found**: Specification clarity issues, feasibility problems
 - **Handling**: Resolved during review (not tracked as bugs)
 - **Relationship**: N/A (review feedback is addressed in specification updates)
 
 **Work Unit Breakdown Stage:**
+
 - **Bugs Found**: Task breakdown issues, missing dependencies
 - **Handling**: Resolved during breakdown (not tracked as bugs)
 - **Relationship**: N/A (breakdown issues are fixed in task breakdown)
 
 **Task Execution Stage (Development):**
+
 - **Bugs Found**: Code defects, implementation errors, test failures
 - **Handling**: **Parented to Work Unit** - fixed within current execution cycle
 - **Relationship**: Bug is parented to the Work Unit where it was discovered
@@ -281,6 +310,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 - **Example**: Unit test fails → bug parented to Work Unit → fixed before Work Unit marked complete
 
 **Quality Assurance Stage:**
+
 - **Bugs Found**: Integration issues, quality gate failures
 - **Handling**: 
   - If found before Work Unit completion → **Parented to Work Unit** (fix in current cycle)
@@ -288,6 +318,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 - **Relationship**: Depends on timing (before/after Work Unit completion)
 
 **Production/Post-Deployment:**
+
 - **Bugs Found**: Production defects, user-reported issues
 - **Handling**: **Related to Feature** - requires new Work Unit to fix
 - **Relationship**: Bug is related to the Feature where it occurs
@@ -297,12 +328,14 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 ### Bug Prioritization
 
 **Parented Bugs (Development Bugs):**
+
 - **Priority**: Highest - must be fixed before Work Unit completion
 - **Impact**: Blocks Work Unit completion
 - **Handling**: Fixed within current execution cycle
 - **No separate prioritization needed** - part of Work Unit scope
 
 **Related Bugs (Production Bugs):**
+
 - **Priority**: Based on severity and business impact
 - **Impact**: Affects production system or users
 - **Handling**: Prioritized in work queue like other Work Units
@@ -316,6 +349,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 ### Bug Handling Workflow
 
 **Development Bug Workflow (Parented):**
+
 1. Bug discovered during Task Execution
 2. Bug parented to current Work Unit
 3. Bug fixed within current execution cycle
@@ -323,6 +357,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 5. Bug resolved as part of Work Unit completion
 
 **Production Bug Workflow (Related):**
+
 1. Bug discovered in production or after Work Unit completion
 2. Bug related to affected Feature
 3. Bug analyzed and prioritized
@@ -334,6 +369,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 ### How RHYTHM Reduces Bug-Related Friction
 
 Traditional project management (Scrum, Kanban, etc.) often creates friction around bugs through debates about:
+
 - **"Is it even a bug?"** - Is this a defect or a feature request?
 - **"What's the severity?"** - How bad is it? (Critical, High, Medium, Low)
 - **"What's the priority?"** - When do we fix it? (Now, Later, Never?)
@@ -343,11 +379,13 @@ RHYTHM Method significantly reduces this friction through clear rules and automa
 #### 1. Eliminates "Is it a bug?" Debate for Development Bugs
 
 **Traditional PM Problem:**
+
 - Teams debate whether something is a bug or a feature request
 - Ambiguous cases cause delays and confusion
 - Scope creep from treating bugs as features or vice versa
 
 **RHYTHM Solution:**
+
 - **Development bugs (parented)**: If found during active work → It's a bug, parented to Work Unit, must fix. No debate.
 - **Production bugs (related)**: If found after deployment → Related to Feature, requires new Work Unit. Clear distinction from feature requests.
 - **Decision is automatic**: Based on when/where bug is found, not subjective judgment
@@ -355,12 +393,14 @@ RHYTHM Method significantly reduces this friction through clear rules and automa
 #### 2. Eliminates Severity/Priority Debate for Development Bugs
 
 **Traditional PM Problem:**
+
 - Teams debate bug severity (Critical, High, Medium, Low)
 - Teams debate priority (fix now vs. later)
 - High-severity bugs may still be deprioritized
 - Low-severity bugs may block releases
 
 **RHYTHM Solution:**
+
 - **Development bugs (parented)**: No severity or priority debate needed
   - **Priority**: Always highest (must fix before Work Unit completion)
   - **Severity**: Irrelevant (all parented bugs must be fixed)
@@ -370,11 +410,13 @@ RHYTHM Method significantly reduces this friction through clear rules and automa
 #### 3. Reduces Priority Debate for Production Bugs
 
 **Traditional PM Problem:**
+
 - Teams debate priority: Should we fix this bug or work on new features?
 - Business value vs. technical debt arguments
 - Priority changes based on who complains loudest
 
 **RHYTHM Solution:**
+
 - **Production bugs (related)**: Follow dependency-driven prioritization
   - **Dependencies first**: Bugs that block other work are prioritized automatically
   - **Business value second**: Within same dependency level, severity determines order
@@ -384,11 +426,13 @@ RHYTHM Method significantly reduces this friction through clear rules and automa
 #### 4. Prevents Scope Creep Through Clear Boundaries
 
 **Traditional PM Problem:**
+
 - Bugs used to add scope ("while we're fixing this, let's also...")
 - Feature requests disguised as bugs
 - Unclear boundaries between bugs and enhancements
 
 **RHYTHM Solution:**
+
 - **Parented bugs**: Part of Work Unit scope, fixed within current cycle
 - **Related bugs**: Separate Work Unit, follows normal prioritization
 - **New requests**: Always separate Work Unit, never disguised as bugs
@@ -396,13 +440,13 @@ RHYTHM Method significantly reduces this friction through clear rules and automa
 
 #### Summary: RHYTHM's Bug Friction Reduction
 
-| Traditional PM Friction | RHYTHM Solution |
-|-------------------------|-----------------|
-| **"Is it a bug?" debate** | Automatic: Found during work = parented bug, found after = related bug |
-| **Severity debate (dev bugs)** | Eliminated: All parented bugs must be fixed, severity irrelevant |
-| **Priority debate (dev bugs)** | Eliminated: Parented bugs always highest priority, block completion |
-| **Priority debate (prod bugs)** | Reduced: Dependency-driven prioritization removes subjective debates |
-| **Scope creep from bugs** | Prevented: Clear boundaries between bugs (parented/related) and new requests |
+| Traditional PM Friction         | RHYTHM Solution                                                              |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| **"Is it a bug?" debate**       | Automatic: Found during work = parented bug, found after = related bug       |
+| **Severity debate (dev bugs)**  | Eliminated: All parented bugs must be fixed, severity irrelevant             |
+| **Priority debate (dev bugs)**  | Eliminated: Parented bugs always highest priority, block completion          |
+| **Priority debate (prod bugs)** | Reduced: Dependency-driven prioritization removes subjective debates         |
+| **Scope creep from bugs**       | Prevented: Clear boundaries between bugs (parented/related) and new requests |
 
 **Key Insight:** RHYTHM eliminates most bug-related friction by making decisions automatic based on when/where bugs are found, rather than requiring human judgment and debate for every bug.
 
@@ -415,6 +459,7 @@ RHYTHM Method prevents scope creep by clearly distinguishing:
 - **New Requests**: Create new Work Unit (related to Feature) - new feature/functionality
 
 **Decision Criteria:**
+
 - **Is it a bug in current work?** → Parented to Work Unit (fix in current cycle)
 - **Is it a bug in production/completed work?** → Related to Feature (new Work Unit)
 - **Is it a new feature/request?** → Related to Feature (new Work Unit, different type)
@@ -443,21 +488,25 @@ RHYTHM Method prevents scope creep by clearly distinguishing:
 ### Creating the WBS
 
 1. **Start with Project Manifest**
+   
    - Create the single Project Manifest for the project
    - Define project scope and objectives
    - Establish decision log
 
 2. **Break Down into Features**
+   
    - Identify deliverable units of functionality
    - Ensure Features provide business value
    - Define validation criteria for each Feature
 
 3. **Break Down Features into Work Units**
+   
    - Identify work that can be completed in a single execution cycle
    - Ensure Work Units are properly scoped
    - Identify dependencies between Work Units
 
 4. **Break Down Work Units into Agent Tasks**
+   
    - Identify smallest executable units
    - Assign to specialized agents
    - Estimate tokens for each task
@@ -505,9 +554,8 @@ The RHYTHM Method WBS provides a hierarchical structure (Project Manifest → Fe
 
 ## Change History
 
-| Version | Date       | Author              | Description                                                          |
-| ------- | ---------- | ------------------- | -------------------------------------------------------------------- |
-| 1.0.0   | 2025-11-24 | Initial             | Initial WBS documentation                                             |
-| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified Work Unit duration: 2-8 hours is a guideline (not hard limit), added guidance for when estimation exceeds 8 hours |
+| Version | Date       | Author              | Description                                                                                                                                                            |
+| ------- | ---------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial             | Initial WBS documentation                                                                                                                                              |
+| 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified Work Unit duration: 2-8 hours is a guideline (not hard limit), added guidance for when estimation exceeds 8 hours                                            |
 | 1.2.0   | 2025-11-26 | rhythm-expert-agent | Expanded bug handling: clarified parented vs related distinction, added complete bug lifecycle by workflow stage, bug prioritization rules, and bug handling workflows |
-

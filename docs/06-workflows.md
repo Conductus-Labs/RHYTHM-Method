@@ -23,7 +23,8 @@ flowchart TD
     Planning --> Feature[2. Feature Specification]
     Feature --> Create[3. Work Unit Creation]
     Create --> Review[4. Work Unit Review]
-    Review --> Breakdown[5. Work Unit Breakdown]
+    Review -->|Challenge Loop| Create
+    Review -->|Approved| Breakdown[5. Work Unit Breakdown]
     
     Breakdown --> Execution[Execution Cycle]
     
@@ -42,11 +43,19 @@ flowchart TD
     CycleReview -.->|Improves| Planning
     CycleReview -.->|Improves| Execution
     
-    style Init fill:#E6F3FF
-    style Planning fill:#FFF4E6
-    style Execution fill:#E6FFE6
-    style Quality fill:#FFE6E6
-    style CycleReview fill:#F0E6FF
+    style Init fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Planning fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Feature fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style Create fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Review fill:#FF6B6B,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Breakdown fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style Execution fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style Queue fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style TaskExec fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Quality fill:#FF6B6B,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style CycleReview fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Continuous fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
+    style DepMgmt fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
 ```
 
 > **Note:** Project Initialization (step 1) is a one-time setup that occurs only once at the beginning of a project. All other workflows are ongoing and repeat as needed throughout the project lifecycle. Solid arrows show primary flow, dashed arrows show supporting/triggering relationships.
@@ -58,20 +67,21 @@ flowchart TD
 **Process:**
 
 1. **Create Project Manifest**
-
+   
    - Single source of truth for project requirements
    - Project information repository
    - Decision log for architectural decisions and requirement changes
    - Human validation required
 
 2. **Configure RHYTHM Settings**
-
+   
    - TEMPO settings (High, Moderate, Controlled) - see [TEMPO](05-tempo.md)
    - HITL gate configuration
    - Agent capacity and specialization
    - Quality gate thresholds
 
 3. **Initialize Work Queue**
+   
    - Set up dependency tracking
    - Configure prioritization rules
    - Establish validation criteria
@@ -95,20 +105,21 @@ flowchart TD
 **Process:**
 
 1. **Feature Definition**
-
+   
    - Business value and objectives
    - User requirements and validation criteria
    - Technical constraints and interfaces
    - Human validation required
 
 2. **Dependency Analysis**
-
+   
    - Automated dependency detection (see [Dependency Management](09-dependency-management.md))
    - Dependency graph updates
    - Impact analysis
    - Human review of critical dependencies
 
 3. **Specification Creation**
+   
    - Detailed, structured specification document
    - Machine-readable format (YAML/JSON)
    - Validation criteria definition
@@ -135,20 +146,21 @@ flowchart TD
 **Process:**
 
 1. **Feature Breakdown**
-
+   
    - Analyze feature specification
    - Identify work unit boundaries
    - Define work unit dependencies
    - Human validation of breakdown
 
 2. **Work Unit Specification**
-
+   
    - Detailed work unit requirements
    - Agent Task identification
    - Agent assignment planning
    - Token estimation
 
 3. **Work Unit Assignment**
+   
    - Add to prioritized work queue
    - Dependency-driven prioritization
    - Agent capacity allocation
@@ -179,7 +191,7 @@ flowchart TD
 **Process:**
 
 1. **Agent Review**
-
+   
    - **Reviewing Agents**: Specialized agents (e.g., technical-writer-agent, analysis agents) or the RHYTHM Agent review Feature and Work Unit specifications
    - **Review Criteria**: Agents evaluate specifications against:
      - **Clarity**: Requirements are unambiguous and well-defined
@@ -203,7 +215,7 @@ flowchart TD
    - Human review of agent feedback
 
 2. **Review Resolution**
-
+   
    - Address agent feedback and challenges
    - Update specifications based on review findings
    - Resolve conflicts or ambiguities identified
@@ -211,6 +223,7 @@ flowchart TD
    - Human approval of resolved items
 
 3. **Review Acceptance**
+   
    - Final validation that all review items are resolved
    - Approval from all stakeholders (User, reviewing agents)
    - **Ready for Breakdown Criteria**: Work Unit is marked ready when:
@@ -254,7 +267,7 @@ flowchart TD
 **Process:**
 
 1. **Task Identification**
-
+   
    - Analyze approved Work Unit specification
    - Identify required Agent Tasks
    - Determine task dependencies
@@ -262,7 +275,7 @@ flowchart TD
    - Human validation of task breakdown
 
 2. **Task Specification**
-
+   
    - Create detailed Agent Task specifications
    - Define task acceptance criteria
    - Assign tasks to specialized agents
@@ -270,6 +283,7 @@ flowchart TD
    - Human approval of task assignments
 
 3. **Task Readiness**
+   
    - Validate all tasks are properly specified
    - Ensure dependencies are identified
    - Confirm agent assignments are appropriate
@@ -298,20 +312,21 @@ flowchart TD
 **Process:**
 
 1. **Queue Management**
-
+   
    - Receive Agent Tasks from [Work Unit Breakdown](#5-work-unit-breakdown)
    - Apply dependency-driven prioritization
    - Order tasks by dependency resolution status
    - Maintain real-time queue status
 
 2. **Task Readiness Validation**
-
+   
    - Verify all dependencies are resolved
    - Confirm task specifications are complete
    - Check agent capacity availability
    - Human approval for high-priority items
 
 3. **Queue Updates**
+   
    - Real-time updates from [Continuous Planning](#7-continuous-planning)
    - [Dependency Management](#8-dependency-management) reordering
    - Priority adjustments based on business value
@@ -338,20 +353,21 @@ flowchart TD
 **Process:**
 
 1. **Task Pulling**
-
+   
    - Pull ready Agent Tasks from [Work Queue](#6-work-queue)
    - Verify dependencies are resolved
    - Allocate specialized agents
    - Human approval for cycle scope
 
 2. **Parallel Task Execution**
-
+   
    - Specialized agents execute assigned tasks
    - Parallel execution across multiple agents
    - Real-time status updates
    - Automated dependency resolution during execution
 
 3. **Execution Monitoring**
+   
    - Real-time progress tracking
    - Automated status reporting
    - Blocked task detection
@@ -380,20 +396,21 @@ flowchart TD
 **Process:**
 
 1. **Real-Time Plan Updates**
-
+   
    - Automatic plan updates as work progresses
    - Dependency graph changes
    - Priority adjustments
    - Capacity reallocation
 
 2. **Dynamic Replanning**
-
+   
    - Replanning triggered by significant changes (not every minor change)
    - Dependency resolution updates
    - Work queue reordering
    - Human notification of major changes
 
 3. **Capacity Planning**
+   
    - Token-based capacity calculation (see [Estimation](08-estimation.md))
    - Agent throughput rate analysis
    - Work queue prioritization
@@ -402,18 +419,21 @@ flowchart TD
 **Replanning Triggers and Frequency:**
 
 **Immediate Replanning (High Priority Changes):**
+
 - **Critical Dependency Resolution**: Prerequisite work completes, unblocking critical path
 - **High-Priority Work Added**: New high-priority work item added to queue
 - **Work Unit Failure**: Work Unit fails and requires replanning
 - **Major Scope Change**: Significant scope change affecting multiple work items
 
 **Batched Replanning (Medium Priority Changes):**
+
 - **Multiple Dependency Changes**: Multiple dependencies resolved within time window (e.g., 5 minutes)
 - **Priority Adjustments**: Multiple priority changes batched together
 - **Capacity Changes**: Agent capacity changes (batched with other changes)
 - **Frequency**: Replanning occurs every N minutes (configurable, default: 5-15 minutes) or when batch threshold reached
 
 **Scheduled Replanning (Low Priority Changes):**
+
 - **Periodic Validation**: Full plan validation at scheduled intervals (e.g., hourly, daily)
 - **Trend Analysis**: Analysis of planning trends and patterns
 - **Optimization**: Plan optimization based on historical data
@@ -421,21 +441,25 @@ flowchart TD
 **Stability Mechanisms:**
 
 **1. Change Thresholds:**
+
 - **Minimum Change Threshold**: Replanning only triggered if change exceeds threshold (e.g., > 5% impact)
 - **Impact Assessment**: Assess impact of change before triggering replanning
 - **Stability Window**: Ignore changes within stability window (e.g., 1-2 minutes) to prevent thrashing
 
 **2. Batching Strategies:**
+
 - **Time-Based Batching**: Batch changes within time window (e.g., 5-15 minutes)
 - **Change Count Batching**: Batch until N changes accumulate (e.g., 5-10 changes)
 - **Priority-Based Batching**: High-priority changes trigger immediate replanning, low-priority batched
 
 **3. Plan Locking:**
+
 - **In-Progress Work Protection**: Work currently executing is not replanned (locked)
 - **Approved Work Protection**: Human-approved work is not automatically replanned
 - **Critical Path Protection**: Critical path work is not replanned without human approval
 
 **4. Incremental Updates:**
+
 - **Partial Replanning**: Only replan affected portions of plan, not entire plan
 - **Queue Reordering**: Reorder work queue without full replanning
 - **Dependency Updates**: Update dependency status without full replanning
@@ -443,17 +467,20 @@ flowchart TD
 **Impact on In-Progress Work:**
 
 **Work in Progress (WIP) Protection:**
+
 - **No Interruption**: Work currently executing is not interrupted by replanning
 - **Status Preservation**: In-progress work maintains its status and priority
 - **Completion First**: In-progress work completes before replanning affects it
 - **Post-Completion Update**: Replanning occurs after work completes, incorporating results
 
 **Approved Work Protection:**
+
 - **Human-Approved Work**: Work approved by humans is not automatically replanned
 - **Override Required**: Replanning of approved work requires human override
 - **Notification**: Humans notified if replanning would affect approved work
 
 **Replanning Impact Levels:**
+
 - **No Impact**: Replanning doesn't affect in-progress or approved work
 - **Low Impact**: Replanning affects future work only (queue reordering)
 - **Medium Impact**: Replanning affects approved but not started work (requires notification)
@@ -462,12 +489,14 @@ flowchart TD
 **Planning Overhead Management:**
 
 **Overhead Reduction:**
+
 - **Incremental Planning**: Only replan changed portions, not entire plan
 - **Cached Calculations**: Cache capacity calculations, dependency levels, critical path
 - **Background Processing**: Non-critical planning in background
 - **Lazy Evaluation**: Calculate plan details on-demand, not continuously
 
 **Performance Targets:**
+
 - **Small Projects (< 100 work items)**: Replanning < 5 seconds
 - **Medium Projects (100-500 work items)**: Replanning < 15 seconds
 - **Large Projects (500-1000 work items)**: Replanning < 60 seconds (with batching)
@@ -505,20 +534,21 @@ flowchart TD
 **Process:**
 
 1. **Dependency Detection**
-
+   
    - Automated dependency analysis
    - Technical, data, integration, knowledge dependencies
    - Dependency graph maintenance
    - Human review of critical dependencies
 
 2. **Dependency Resolution**
-
+   
    - Dependency-driven prioritization
    - Work queue ordering
    - Parallel execution where possible
    - Human approval for dependency overrides
 
 3. **Dependency Tracking**
+   
    - Real-time dependency graph
    - Critical path identification
    - Blocked work detection
@@ -544,20 +574,21 @@ flowchart TD
 **Process:**
 
 1. **Automated Quality Gates**
-
+   
    - Code quality checks
    - Automated testing
    - Performance validation
    - Security scanning
 
 2. **HITL Checkpoints**
-
+   
    - Human review at critical milestones
    - Specification validation
    - Deployment approval
    - Strategic decision points
 
 3. **Continuous Validation**
+   
    - Real-time quality monitoring
    - Automated test execution
    - Validation against specifications
@@ -566,6 +597,7 @@ flowchart TD
 **Quality Gate Failure Handling:**
 
 **Failure Detection:**
+
 - **Automated Detection**: Quality gates automatically detect failures
 - **Failure Classification**: Classify failures by severity (critical, high, medium, low)
 - **Impact Assessment**: Assess impact of failure on work and system
@@ -573,54 +605,62 @@ flowchart TD
 **Failure Handling Workflow:**
 
 1. **Immediate Response**
+   
    - **Critical Failures**: Block work immediately, notify human
    - **High Failures**: Flag work, require human review before proceeding
    - **Medium Failures**: Flag work, allow continuation with notification
    - **Low Failures**: Log for review, allow continuation
 
 2. **Retry and Remediation**
-
+   
    **Automatic Retry:**
+   
    - **Transient Failures**: Retry quality gates for transient errors (network, temporary issues)
    - **Retry Limit**: 1-2 automatic retries
    - **Retry Conditions**: Only retry if failure appears transient
-
+   
    **Remediation:**
+   
    - **Fix Issues**: Fix identified issues and re-run quality gates
    - **Root Cause Analysis**: Analyze root cause of failure
    - **Prevention**: Update processes to prevent similar failures
 
 3. **Override Mechanisms**
-
+   
    **When Override is Allowed:**
+   
    - **False Positives**: Quality gate incorrectly flags issue
    - **Acceptable Risk**: Failure is acceptable for current context
    - **Alternative Validation**: Alternative validation method confirms quality
    - **Time Constraints**: Urgent work requires override (with post-validation)
-
+   
    **Override Process:**
+   
    - **Human Approval Required**: All overrides require human approval
    - **Justification Required**: Human must provide justification
    - **Risk Assessment**: Assess risk of proceeding with override
    - **Post-Validation**: Schedule post-validation after override
 
 4. **Escalation Paths**
-
+   
    **Escalation Triggers:**
+   
    - **Persistent Failures**: Quality gates fail repeatedly
    - **Critical Failures**: Critical quality gate failures
    - **System Impact**: Failures affecting system stability
    - **Override Requests**: Multiple override requests for same issue
-
+   
    **Escalation Levels:**
+   
    - **Level 1**: Notify human, request guidance
    - **Level 2**: Escalate to quality lead or technical lead
    - **Level 3**: Escalate to project lead or manager
    - **Level 4**: Emergency escalation for critical issues
 
 5. **Persistent Failure Handling**
-
+   
    **When Failures Persist:**
+   
    - **Root Cause Analysis**: Deep analysis of persistent failures
    - **Process Review**: Review quality gate configuration and thresholds
    - **Work Redesign**: Redesign work to avoid persistent failures
@@ -632,20 +672,24 @@ flowchart TD
 **Depends on Failure Severity:**
 
 **Critical Failures:**
+
 - **Cannot Proceed**: Work is blocked until critical failures are resolved
 - **Exception**: Emergency override with human approval and post-validation
 
 **High Failures:**
+
 - **Requires Approval**: Human approval required to proceed
 - **Risk Assessment**: Assess risk before proceeding
 - **Mitigation Plan**: Create mitigation plan if proceeding
 
 **Medium Failures:**
+
 - **Can Proceed with Notification**: Work can proceed, human notified
 - **Post-Validation**: Schedule post-validation
 - **Tracking**: Track failures for trend analysis
 
 **Low Failures:**
+
 - **Can Proceed**: Work can proceed, failures logged
 - **Review**: Review failures during cycle review
 - **Improvement**: Use failures for process improvement
@@ -681,20 +725,21 @@ flowchart TD
 **Process:**
 
 1. **Automated Analysis**
-
+   
    - Cycle performance metrics
    - Token estimation accuracy (see [Estimation](08-estimation.md))
    - Dependency resolution effectiveness (see [Dependency Management](09-dependency-management.md))
    - Quality gate results
 
 2. **Process Improvement**
-
+   
    - Identify improvement opportunities
    - Suggest workflow optimizations
    - Update estimation models
    - Refine quality gates
 
 3. **Learning Integration**
+   
    - Update methodology based on learnings
    - Improve agent coordination
    - Optimize HITL checkpoints
@@ -745,6 +790,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 #### 1. TEMPO-Based Approval Streamlining
 
 **High TEMPO:**
+
 - **Feature Specification**: Human approval required
 - **Work Unit Creation**: Auto-approved if Feature approved
 - **Work Unit Review**: Auto-approved for well-defined work (agent review only)
@@ -752,6 +798,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 - **Work Queue**: Auto-approved for ready tasks
 
 **Moderate TEMPO (Default):**
+
 - **Feature Specification**: Human approval required
 - **Work Unit Creation**: Human approval for high-value work, auto-approved for routine work
 - **Work Unit Review**: Human approval required
@@ -759,16 +806,19 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 - **Work Queue**: Human approval for high-priority items
 
 **Controlled TEMPO:**
+
 - All steps require human approval (comprehensive oversight)
 
 #### 2. Parallel Review Processes
 
 **Work Unit Review and Breakdown Can Overlap:**
+
 - While Work Unit A is being reviewed, Work Unit B can be broken down (if already reviewed)
 - Multiple Work Units can be reviewed in parallel by different agents
 - Review feedback can be addressed while breakdown proceeds for other Work Units
 
 **Parallel Feature Processing:**
+
 - Multiple Features can be specified simultaneously
 - Work Unit Creation can happen in parallel for different Features
 - Review and Breakdown can happen in parallel for different Work Units
@@ -776,12 +826,14 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 #### 3. Automated Approval Criteria
 
 **Auto-Approval Triggers (High/Moderate TEMPO):**
+
 - **Well-Defined Work**: Specifications match established patterns → Auto-approved
 - **Low-Risk Work**: Work Units with clear requirements, no dependencies → Auto-approved
 - **Routine Work**: Similar to previously completed work → Auto-approved
 - **Agent Confidence**: Agent review passes with high confidence score → Auto-approved
 
 **Human Approval Required:**
+
 - **High-Risk Work**: Complex integrations, critical systems, new domains
 - **Ambiguous Requirements**: Specifications unclear or incomplete
 - **High Business Value**: Strategic features requiring business validation
@@ -790,6 +842,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 #### 4. Streamlined Approval for Well-Defined Work
 
 **Well-Defined Work Characteristics:**
+
 - Clear, complete specifications
 - Established patterns (similar to previous work)
 - Low complexity
@@ -797,6 +850,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 - Standard technology stack
 
 **Streamlined Process:**
+
 1. Agent performs review automatically
 2. If review passes (high confidence, no issues) → Auto-approved
 3. If review flags issues → Human approval required
@@ -805,6 +859,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 #### 5. Batch Approvals
 
 **Efficiency Strategy:**
+
 - Humans can review and approve multiple Work Units in a batch
 - Approval queue shows all pending approvals
 - Human reviews batch, approves all that pass criteria
@@ -813,11 +868,13 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 #### 6. Approval Delegation and Defaults
 
 **Approval Delegation:**
+
 - Low-risk Work Units can be auto-approved based on agent confidence
 - High-risk Work Units always require human approval
 - Medium-risk Work Units can be delegated to agents with human oversight
 
 **Default Behaviors:**
+
 - If human unavailable: Auto-approve low-risk work, queue high-risk work
 - Timeout mechanisms: Auto-approve after timeout for low-risk work (with notification)
 - Escalation: High-risk work escalates if human doesn't respond
@@ -825,6 +882,7 @@ The sequential workflow (Feature Specification → Work Unit Creation → Work U
 #### 7. Workflow Bypass for Urgent Work
 
 **Emergency/Urgent Work:**
+
 - Critical bugs or urgent features can bypass some approval steps
 - Requires explicit human override
 - Post-approval review after execution

@@ -59,24 +59,31 @@ The following diagram illustrates the four main types of dependencies in RHYTHM 
 ```mermaid
 graph TD
     Work[Work Unit or<br/>Agent Task] --> DepTypes{Dependency Types}
-    
+
     DepTypes --> Technical[Technical Dependencies<br/>Code, APIs, Infrastructure]
     DepTypes --> Data[Data Dependencies<br/>Schemas, Models, Migrations]
     DepTypes --> Integration[Integration Dependencies<br/>External Services, APIs]
     DepTypes --> Knowledge[Knowledge Dependencies<br/>Domain, Architecture, Design]
-    
+
     Technical --> TechEx[Examples:<br/>- Code imports<br/>- API endpoints<br/>- Infrastructure setup]
     Data --> DataEx[Examples:<br/>- Database schema<br/>- Data models<br/>- Data migrations]
     Integration --> IntEx[Examples:<br/>- Third-party APIs<br/>- External services<br/>- System integrations]
     Knowledge --> KnowEx[Examples:<br/>- Domain understanding<br/>- ADRs<br/>- Design decisions]
-    
-    style Technical fill:#E6F3FF
-    style Data fill:#FFF4E6
-    style Integration fill:#E6FFE6
-    style Knowledge fill:#F0E6FF
+
+    style Technical fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Data fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style Integration fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Knowledge fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
+    style Work fill:#F7F9FC,stroke:#0066CC,stroke-width:2px,color:#334155
+    style DepTypes fill:#F7F9FC,stroke:#1A1F36,stroke-width:2px,color:#334155
+    style TechEx fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
+    style DataEx fill:#E5E9F2,stroke:#00C4CC,stroke-width:1px,color:#334155
+    style IntEx fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px,color:#334155
+    style KnowEx fill:#E5E9F2,stroke:#0066CC,stroke-width:1px,color:#334155
 ```
 
 **Detection Methods:**
+
 - **Technical & Data:** Automated code analysis, specification analysis
 - **Integration:** API contract analysis, service dependency analysis
 - **Knowledge:** Specification analysis, decision log analysis (may require manual identification)
@@ -337,12 +344,14 @@ The dependency graph is automatically maintained:
 **Update Frequency and Performance:**
 
 **Incremental Updates (Recommended):**
+
 - **Event-Driven Updates**: Graph updates only when dependencies change (not continuous polling)
 - **Change Detection**: Only affected nodes and edges are recalculated
 - **Lazy Evaluation**: Critical path and blocked work calculated on-demand, not continuously
 - **Update Batching**: Multiple dependency changes within a short window are batched together
 
 **Update Triggers:**
+
 - New work item created → Detect dependencies for new item only
 - Work item completed → Update dependent items' status only
 - Dependency added/removed → Update affected subgraph only
@@ -351,24 +360,28 @@ The dependency graph is automatically maintained:
 **Performance Characteristics:**
 
 **Small Projects (< 100 work items):**
+
 - **Update Time**: < 1 second for full graph recalculation
 - **Query Time**: < 100ms for critical path calculation
 - **Memory**: < 10MB for graph storage
 - **Strategy**: Full graph updates acceptable
 
 **Medium Projects (100-500 work items):**
+
 - **Update Time**: 1-5 seconds for incremental updates
 - **Query Time**: < 500ms for critical path calculation
 - **Memory**: 10-50MB for graph storage
 - **Strategy**: Incremental updates, on-demand critical path calculation
 
 **Large Projects (500-1000 work items):**
+
 - **Update Time**: 5-15 seconds for incremental updates
 - **Query Time**: < 2 seconds for critical path calculation
 - **Memory**: 50-200MB for graph storage
 - **Strategy**: Incremental updates, cached critical path, periodic full validation
 
 **Very Large Projects (1000+ work items):**
+
 - **Update Time**: 15-60 seconds for incremental updates
 - **Query Time**: < 5 seconds for critical path calculation (with caching)
 - **Memory**: 200MB-1GB for graph storage
@@ -381,26 +394,31 @@ The dependency graph is automatically maintained:
 **Scalability Strategies:**
 
 **1. Incremental Updates:**
+
 - Only update affected subgraph when dependencies change
 - Avoid full graph recalculation unless necessary
 - Batch multiple changes together
 
 **2. Caching:**
+
 - Cache critical path calculation (recalculate every N minutes or on major changes)
 - Cache dependency level assignments
 - Cache blocked work lists
 
 **3. Graph Partitioning:**
+
 - Partition graph by Feature (separate subgraphs per Feature)
 - Partition graph by Work Unit groups
 - Merge partitions only when cross-partition dependencies exist
 
 **4. Background Processing:**
+
 - Non-critical updates processed in background
 - Critical path recalculation in background (with cached results)
 - Dependency analysis queued and processed asynchronously
 
 **5. Performance Monitoring:**
+
 - Track graph update times
 - Monitor query performance
 - Alert on performance degradation
@@ -409,11 +427,13 @@ The dependency graph is automatically maintained:
 **Computational Cost Considerations:**
 
 **Dependency Detection Cost:**
+
 - **Per Work Item**: O(n) where n = number of code references/specification mentions
 - **Full Project Scan**: O(n²) where n = number of work items (avoid full scans)
 - **Incremental Detection**: O(k) where k = changed work items (preferred)
 
 **Graph Update Cost:**
+
 - **Single Dependency Change**: O(1) for simple update, O(d) where d = dependent items for status updates
 - **Critical Path Calculation**: O(V + E) where V = vertices, E = edges (cache results)
 - **Dependency Level Assignment**: O(V + E) (cache results, recalculate on major changes)
@@ -421,16 +441,19 @@ The dependency graph is automatically maintained:
 **Performance Trade-offs:**
 
 **Real-Time vs. Performance:**
+
 - **Real-Time Updates**: Fast response, but higher computational cost
 - **Batched Updates**: Lower computational cost, slight delay in updates
 - **Recommendation**: Use batched updates for large projects, real-time for small projects
 
 **Full Recalculation vs. Incremental:**
+
 - **Full Recalculation**: Simple, but expensive for large projects
 - **Incremental Updates**: More complex, but scales better
 - **Recommendation**: Use incremental updates for projects > 100 work items
 
 **Caching vs. Freshness:**
+
 - **No Caching**: Always fresh, but slower queries
 - **Caching**: Faster queries, but may be slightly stale
 - **Recommendation**: Cache critical path and dependency levels, recalculate periodically
@@ -573,6 +596,7 @@ Regular dependency reports:
 For comprehensive dependency management best practices, see [Best Practices](10-best-practices.md#dependency-management-best-practices).
 
 **Key Practices:**
+
 - Identify Dependencies Early: Identify during Feature Specification, Work Unit Creation, and Breakdown
 - Minimize Dependencies: Design independent Features and parallel Work Units where possible
 - Visualize Dependencies: Use real-time dependency graphs and critical path visualization

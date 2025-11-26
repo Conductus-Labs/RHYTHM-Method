@@ -59,14 +59,14 @@ Agents work at computational speeds that are fundamentally different from human 
 
 ### Traditional Human Teams
 
-| Aspect                  | Human Teams                  | Agent Teams (TEMPO)           |
-| ----------------------- | ---------------------------- | ----------------------------- |
-| **Time Scale**          | Weeks, months                | Hours, days                   |
-| **Planning**            | Sprint planning (days)       | Continuous planning (minutes) |
+| Aspect                  | Human Teams                  | Agent Teams (TEMPO)                            |
+| ----------------------- | ---------------------------- | ---------------------------------------------- |
+| **Time Scale**          | Weeks, months                | Hours, days                                    |
+| **Planning**            | Sprint planning (days)       | Continuous planning (minutes)                  |
 | **Execution**           | 2-week sprints               | Up to 8 hour execution cycles (some < 2 hours) |
-| **Replanning**          | Sprint retrospective (weeks) | Instant replanning (minutes)  |
-| **Dependency Analysis** | Manual, risk-based           | Automated, precise            |
-| **Estimation**          | Story points (abstract)      | Token estimation (precise)    |
+| **Replanning**          | Sprint retrospective (weeks) | Instant replanning (minutes)                   |
+| **Dependency Analysis** | Manual, risk-based           | Automated, precise                             |
+| **Estimation**          | Story points (abstract)      | Token estimation (precise)                     |
 
 ### Why TEMPO Matters
 
@@ -250,33 +250,43 @@ The following diagram illustrates the relationship between TEMPO levels, HITL ga
 
 ```mermaid
 graph LR
-    subgraph High["High TEMPO<br/>~3-5 HITL Gates"]
-        H1[Minimal<br/>Human<br/>Oversight]
-        H2[Fast<br/>Execution]
-        H3[Well-Defined<br/>Low-Risk Work]
+    subgraph High["High TEMPO: ~3-5 HITL Gates"]
+        H1[Minimal Human Oversight]
+        H2[Fast Execution]
+        H3[Well-Defined Low-Risk Work]
     end
-    
-    subgraph Moderate["Moderate TEMPO<br/>~8-12 HITL Gates<br/>DEFAULT"]
-        M1[Balanced<br/>Oversight]
-        M2[Standard<br/>Projects]
-        M3[Regular<br/>Human Input]
+
+    subgraph Moderate["Moderate TEMPO: ~8-12 HITL Gates (DEFAULT)"]
+        M1[Balanced Oversight]
+        M2[Standard Projects]
+        M3[Regular Human Input]
     end
-    
-    subgraph Controlled["Controlled TEMPO<br/>~15-20 HITL Gates"]
-        C1[Comprehensive<br/>Oversight]
-        C2[Critical<br/>High-Risk Work]
-        C3[Frequent<br/>Human Input]
+
+    subgraph Controlled["Controlled TEMPO: ~15-20 HITL Gates"]
+        C1[Comprehensive Oversight]
+        C2[Critical High-Risk Work]
+        C3[Frequent Human Input]
     end
-    
+
     High --> Moderate
     Moderate --> Controlled
-    
-    style High fill:#90EE90
-    style Moderate fill:#FFD700
-    style Controlled fill:#FFA07A
+
+    style High fill:#00C4CC,stroke:#0066CC,stroke-width:2px,color:#0F172A
+    style Moderate fill:#0066CC,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style Controlled fill:#6B46FF,stroke:#1A1F36,stroke-width:2px,color:#FFFFFF
+    style H1 fill:#F7F9FC,stroke:#0066CC,stroke-width:1px
+    style H2 fill:#F7F9FC,stroke:#0066CC,stroke-width:1px
+    style H3 fill:#F7F9FC,stroke:#0066CC,stroke-width:1px
+    style M1 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px
+    style M2 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px
+    style M3 fill:#E5E9F2,stroke:#0066CC,stroke-width:1px
+    style C1 fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px
+    style C2 fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px
+    style C3 fill:#E5E9F2,stroke:#6B46FF,stroke-width:1px
 ```
 
 **Key Characteristics:**
+
 - **High TEMPO:** Maximum speed, minimal oversight, experienced teams
 - **Moderate TEMPO:** Balanced approach, standard projects, recommended default
 - **Controlled TEMPO:** Maximum oversight, critical work, new teams/domains
@@ -302,7 +312,7 @@ graph LR
 1. **Start with Moderate TEMPO** (default) unless you have specific reasons to change
 
 2. **Choose High TEMPO** when:
-
+   
    - Work is well-defined and low-risk
    - User has limited availability
    - Team is experienced with the domain
@@ -310,7 +320,7 @@ graph LR
    - Similar work has been done before
 
 3. **Choose Controlled TEMPO** when:
-
+   
    - Work is critical or high-risk
    - User wants frequent oversight
    - Team is new to domain or technology
@@ -319,6 +329,7 @@ graph LR
    - Complex integrations or dependencies
 
 4. **Adjust TEMPO** during project:
+   
    - Increase TEMPO (reduce gates) as team gains experience
    - Decrease TEMPO (add gates) for critical phases
    - Use different TEMPO for different features/work units
@@ -335,22 +346,23 @@ graph LR
 **Configuration Options:**
 
 1. **Per-Project Configuration:**
-
+   
    - Set default TEMPO level for entire project
    - Override for specific features/work units
 
 2. **Per-Gate Configuration:**
-
+   
    - Enable/disable specific gates regardless of TEMPO level
    - Set gates as required, optional, or skipped
 
 3. **Dynamic Configuration:**
-
+   
    - Adjust gates based on work complexity
    - Add gates for critical work
    - Remove gates for routine work
 
 4. **User Availability-Based:**
+   
    - Configure gates based on user availability schedule
    - Batch approvals for efficiency
    - Async approval workflows
@@ -365,21 +377,25 @@ HITL gates require human availability and response. If humans are unavailable or
 **Response Time Expectations:**
 
 **Immediate Response (Emergency):**
+
 - **Scope**: Critical failures, system instability, production issues
 - **Expected Response**: < 15 minutes
 - **Escalation**: If no response, escalate to backup approver or emergency procedures
 
 **High Priority Response:**
+
 - **Scope**: High-priority work, critical path blockers, major decisions
 - **Expected Response**: < 2 hours
 - **Escalation**: If no response, auto-approve low-risk items, queue high-risk items
 
 **Normal Priority Response:**
+
 - **Scope**: Routine approvals, non-critical decisions
 - **Expected Response**: < 8 hours (within business day)
 - **Escalation**: If no response, auto-approve after timeout (with notification)
 
 **Low Priority Response:**
+
 - **Scope**: Optional reviews, informational notifications
 - **Expected Response**: < 24 hours
 - **Escalation**: No escalation needed, work proceeds
@@ -389,12 +405,14 @@ HITL gates require human availability and response. If humans are unavailable or
 **1. Timeout Mechanisms:**
 
 **Auto-Approval After Timeout:**
+
 - **Low-Risk Work**: Auto-approve after timeout (e.g., 8 hours for normal priority)
 - **Conditions**: Work is low-risk, well-defined, agent confidence is high
 - **Notification**: Human notified of auto-approval
 - **Override**: Human can override auto-approval if needed
 
 **Queue High-Risk Work:**
+
 - **High-Risk Work**: Queue work if human unavailable (no auto-approval)
 - **Conditions**: Work is high-risk, ambiguous, or requires human judgment
 - **Notification**: Human notified of queued work
@@ -403,6 +421,7 @@ HITL gates require human availability and response. If humans are unavailable or
 **2. Default Behaviors:**
 
 **When Human Unavailable:**
+
 - **Low-Risk Work**: Auto-approve after timeout (with notification)
 - **High-Risk Work**: Queue work, wait for human response
 - **Critical Work**: Escalate to backup approver or emergency procedures
@@ -411,11 +430,13 @@ HITL gates require human availability and response. If humans are unavailable or
 **3. Escalation Procedures:**
 
 **Escalation Triggers:**
+
 - Human doesn't respond within expected time window
 - Critical work blocked waiting for approval
 - Multiple approvals queued for extended period
 
 **Escalation Levels:**
+
 - **Level 1**: Notify human again (reminder)
 - **Level 2**: Escalate to backup approver (if configured)
 - **Level 3**: Escalate to project lead or manager
@@ -424,6 +445,7 @@ HITL gates require human availability and response. If humans are unavailable or
 **4. Timezone Handling:**
 
 **Timezone Considerations:**
+
 - **Availability Windows**: Configure availability windows based on user timezone
 - **Batch Approvals**: Batch approvals for users in different timezones
 - **Async Workflows**: Support async approval workflows across timezones
@@ -432,6 +454,7 @@ HITL gates require human availability and response. If humans are unavailable or
 **5. Availability-Based Configuration:**
 
 **Configure Gates Based on Availability:**
+
 - **High Availability**: More HITL gates, faster response expected
 - **Limited Availability**: Fewer HITL gates, longer response times acceptable
 - **Scheduled Availability**: Configure gates around user's availability schedule
@@ -474,6 +497,7 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 **Decision Framework: When to Use HITL vs Automation**
 
 **Use Automation (Reduce HITL) When:**
+
 - **Well-Defined Work**: Clear specifications, established patterns, routine work
 - **Low Risk**: Work has low business impact, reversible changes, non-critical systems
 - **High Confidence**: Agent confidence is high, similar work completed successfully
@@ -481,6 +505,7 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 - **Limited Human Availability**: Humans have limited time for approvals
 
 **Use HITL (Increase Human Control) When:**
+
 - **Strategic Decisions**: Business-critical decisions, priority changes, scope decisions
 - **High Risk**: Critical systems, production deployments, data changes, security-sensitive work
 - **Ambiguous Requirements**: Unclear specifications, new domains, complex integrations
@@ -489,20 +514,21 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 
 **Decision Matrix:**
 
-| Factor | Use Automation | Use HITL |
-|--------|---------------|----------|
-| **Work Type** | Routine, well-defined | Strategic, ambiguous |
-| **Risk Level** | Low risk | High risk |
-| **Confidence** | High agent confidence | Low agent confidence |
-| **Business Impact** | Low impact | High impact |
-| **Reversibility** | Easily reversible | Difficult to reverse |
-| **Pattern** | Established pattern | New pattern |
-| **Domain** | Familiar domain | New domain |
-| **Compliance** | No compliance needs | Regulatory/compliance needs |
+| Factor              | Use Automation        | Use HITL                    |
+| ------------------- | --------------------- | --------------------------- |
+| **Work Type**       | Routine, well-defined | Strategic, ambiguous        |
+| **Risk Level**      | Low risk              | High risk                   |
+| **Confidence**      | High agent confidence | Low agent confidence        |
+| **Business Impact** | Low impact            | High impact                 |
+| **Reversibility**   | Easily reversible     | Difficult to reverse        |
+| **Pattern**         | Established pattern   | New pattern                 |
+| **Domain**          | Familiar domain       | New domain                  |
+| **Compliance**      | No compliance needs   | Regulatory/compliance needs |
 
 **HITL Gate Configuration by Decision Type:**
 
 **Always Require HITL:**
+
 - Feature Specification approval (strategic decision)
 - Production deployment approval (high risk)
 - Dependency overrides (strategic decision)
@@ -510,6 +536,7 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 - High-value work approval (business impact)
 
 **Automate (No HITL Required):**
+
 - Routine Work Unit creation (well-defined work)
 - Task breakdown for established patterns (high confidence)
 - Low-risk quality gate passes (automated validation sufficient)
@@ -517,6 +544,7 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 - Queue reordering (automated prioritization)
 
 **Conditional HITL (Based on Risk/Confidence):**
+
 - Work Unit Review (HITL for high-risk, auto-approve for low-risk)
 - Quality gate failures (HITL for critical failures, auto-retry for transient)
 - Task execution approval (HITL for complex work, auto-approve for routine)
@@ -535,31 +563,37 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 **Examples of Appropriate HITL Usage:**
 
 **Example 1: Feature Specification**
+
 - **HITL Required**: Yes (strategic decision)
 - **Why**: Business value, scope, and priorities require human judgment
 - **Automation**: Agents can draft specifications, but humans approve
 
 **Example 2: Routine Work Unit Creation**
+
 - **HITL Required**: Conditional (auto-approve for routine work)
 - **Why**: Routine work follows established patterns, low risk
 - **Automation**: Auto-approve if matches established patterns, HITL for new patterns
 
 **Example 3: Quality Gate Failures**
+
 - **HITL Required**: Conditional (auto-retry for transient, HITL for persistent)
 - **Why**: Transient failures can auto-retry, persistent failures need human analysis
 - **Automation**: Auto-retry transient failures, HITL for persistent failures
 
 **Example 4: Production Deployment**
+
 - **HITL Required**: Yes (high risk)
 - **Why**: Production changes have high impact, require human approval
 - **Automation**: Automated deployment after human approval
 
 **Balancing Act:**
+
 - **Too Much Automation**: Risk losing control, quality issues, misalignment
 - **Too Much HITL**: Slow TEMPO, approval bottlenecks, reduced agent efficiency
 - **Right Balance**: Strategic HITL at critical points, automation for routine work
 
 **Best Practices:**
+
 1. **Start Conservative**: Begin with more HITL, reduce as confidence grows
 2. **Monitor Effectiveness**: Track whether HITL gates catch issues
 3. **Adjust Based on Results**: Increase automation for proven patterns
