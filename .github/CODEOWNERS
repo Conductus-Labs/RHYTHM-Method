@@ -1,0 +1,79 @@
+# CODEOWNERS File for RHYTHM Method
+
+#
+
+# This file defines code owners for different parts of the repository.
+
+# Users/teams listed here can bypass branch protection on dev branch.
+
+#
+
+# Syntax:
+
+# <file_pattern> @username @team/organization
+
+#
+
+# Patterns are matched in order, so more specific patterns should come first.
+
+#
+
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+#
+
+# NOTE: Update the team/user references below based on your organization structure.
+
+# Replace @Conductus-Labs/maintainers with your actual team slug or @username
+
+# To find available teams: gh api orgs/Conductus-Labs/teams
+
+# Root level files
+
+/README.md @jnhaffey
+/LICENSE @jnhaffey
+/.gitignore @jnhaffey
+
+# Baton Framework configuration
+
+/.baton/ @jnhaffey
+/.baton/\*_/_ @jnhaffey
+
+# GitHub integration scripts
+
+/scripts/github/ @jnhaffey
+/scripts/github/\*_/_ @jnhaffey
+
+# Azure DevOps integration scripts
+
+/scripts/azure-devops/ @jnhaffey
+/scripts/azure-devops/\*_/_ @jnhaffey
+
+# Jira integration scripts
+
+/scripts/jira/ @jnhaffey
+/scripts/jira/\*_/_ @jnhaffey
+
+# Custom integration scripts
+
+/scripts/custom/ @jnhaffey
+/scripts/custom/\*_/_ @jnhaffey
+
+# GitHub Actions workflows
+
+/.github/ @jnhaffey
+/.github/\*_/_ @jnhaffey
+
+# Documentation
+
+/docs/ @jnhaffey
+/docs/\*_/_ @jnhaffey
+
+# Branch protection configuration
+
+/.branch-protection/ @jnhaffey
+/.branch-protection/\*_/_ @jnhaffey
+
+# Everything else defaults to repository owner
+
+- @jnhaffey

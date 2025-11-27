@@ -1,0 +1,138 @@
+# PR Linting Workflow
+#
+# This workflow runs linting checks on all files changed in pull requests targeting the dev branch.
+# It validates code quality, syntax, and best practices across all file types.
+#
+# Triggers:
+# - Pull requests targeting dev branch
+#
+# Requirements:
+# - All linting checks must pass before PR can be merged
+#
+# Linting Tools:
+# - ShellCheck for Bash scripts
+# - PSScriptAnalyzer for PowerShell scripts
+# - yamllint for YAML files
+# - markdownlint for Markdown files
+
+name: PR Linting
+
+on:
+    pull_request:
+        branches:
+            - dev
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+    lint:
+        name: Lint Changed Files
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0 # Full history for diff comparison
+
+            - name: Get changed files
+              id: changed-files
+              uses: tj-actions/changed-files@v44
+              with:
+                  files: |
+                      **/*.sh
+                      **/*.ps1
+                      **/*.yml
+                      **/*.yaml
+                      **/*.md
+
+            - name: Install ShellCheck
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y shellcheck
+
+            - name: Install yamllint
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: |
+                  sudo apt-get install -y yamllint
+
+            - name: Install markdownlint
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: |
+                  npm install -g markdownlint-cli
+
+            - name: Lint Bash scripts
+              if: steps.changed-files.outputs.any_changed == 'true'
+              continue-on-error: false
+              run: |
+                  echo "Linting Bash scripts..."
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                    if [[ "$file" == *.sh ]]; then
+                      echo "Checking $file..."
+                      shellcheck "$file" || exit 1
+                    fi
+                  done
+                  echo "✅ All Bash scripts passed linting"
+
+            - name: Lint PowerShell scripts
+              if: steps.changed-files.outputs.any_changed == 'true'
+              continue-on-error: false
+              run: |
+                  echo "Linting PowerShell scripts..."
+                  # Install PSScriptAnalyzer
+                  pwsh -Command "Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser"
+
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                    if [[ "$file" == *.ps1 ]]; then
+                      echo "Checking $file..."
+                      pwsh -Command "Invoke-ScriptAnalyzer -Path '$file' -Severity Error,Warning" || exit 1
+                    fi
+                  done
+                  echo "✅ All PowerShell scripts passed linting"
+
+            - name: Lint YAML files
+              if: steps.changed-files.outputs.any_changed == 'true'
+              continue-on-error: false
+              run: |
+                  echo "Linting YAML files..."
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                    if [[ "$file" == *.yml ]] || [[ "$file" == *.yaml ]]; then
+                      echo "Checking $file..."
+                      yamllint -d relaxed "$file" || exit 1
+                    fi
+                  done
+                  echo "✅ All YAML files passed linting"
+
+            - name: Lint Markdown files
+              if: steps.changed-files.outputs.any_changed == 'true'
+              continue-on-error: false
+              run: |
+                  echo "Linting Markdown files..."
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                    if [[ "$file" == *.md ]]; then
+                      echo "Checking $file..."
+                      markdownlint "$file" || exit 1
+                    fi
+                  done
+                  echo "✅ All Markdown files passed linting"
+
+            - name: Lint summary
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: |
+                  echo "## ✅ Linting Complete" >> $GITHUB_STEP_SUMMARY
+                  echo "" >> $GITHUB_STEP_SUMMARY
+                  echo "All changed files passed linting checks:" >> $GITHUB_STEP_SUMMARY
+                  echo "- Bash scripts: ShellCheck" >> $GITHUB_STEP_SUMMARY
+                  echo "- PowerShell scripts: PSScriptAnalyzer" >> $GITHUB_STEP_SUMMARY
+                  echo "- YAML files: yamllint" >> $GITHUB_STEP_SUMMARY
+                  echo "- Markdown files: markdownlint" >> $GITHUB_STEP_SUMMARY
+
+            - name: No files to lint
+              if: steps.changed-files.outputs.any_changed == 'false'
+              run: |
+                  echo "No lintable files changed in this PR"
+                  echo "## ℹ️ No Files to Lint" >> $GITHUB_STEP_SUMMARY
+                  echo "No lintable files (sh, ps1, yml, yaml, md) were changed in this pull request." >> $GITHUB_STEP_SUMMARY

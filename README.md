@@ -213,6 +213,20 @@ Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING
 
 Please open an issue to share your feedback. Your input helps make RHYTHM Method better for everyone.
 
+## Build Verification
+
+The following script packages have been built and verified:
+
+| Package | Version | Build Date | Status |
+|---------|---------|------------|--------|
+| GitHub Scripts | - | - | ⏳ Pending |
+| Azure DevOps Scripts | - | - | ⏳ Pending |
+| Jira Scripts | - | - | ⏳ Pending |
+| Custom Scripts | - | - | ⏳ Pending |
+
+> **Note:** Build verification is automatically updated when script packages are released.
+> Only packages with changes in the current release are updated.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

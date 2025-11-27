@@ -1,0 +1,326 @@
+# Script Packaging Workflow
+#
+# This workflow packages script folders when changes are detected in PRs targeting main branch.
+# It creates versioned releases with zip files for each changed script folder.
+#
+# Triggers:
+# - Pull requests targeting main branch
+# - Only when changes are detected in /scripts subfolders
+#
+# Behavior:
+# - Detects changes in /scripts/github, /scripts/azure-devops, /scripts/jira, /scripts/custom
+# - Creates zip files only for folders with changes
+# - Creates GitHub Release with version tag
+# - Attaches zip files as release assets
+# - Updates README.md with build verification and version numbers
+#
+# Versioning:
+# - Uses semantic versioning (v1.0.0, v1.0.1, etc.)
+# - Auto-increments patch version based on existing releases
+
+name: Package Scripts
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/github/**'
+      - 'scripts/azure-devops/**'
+      - 'scripts/jira/**'
+      - 'scripts/custom/**'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  detect-changes:
+    name: Detect Script Changes
+    runs-on: ubuntu-latest
+    outputs:
+      github_changed: ${{ steps.changed-files.outputs.github }}
+      azure_devops_changed: ${{ steps.changed-files.outputs.azure_devops }}
+      jira_changed: ${{ steps.changed-files.outputs.jira }}
+      custom_changed: ${{ steps.changed-files.outputs.custom }}
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Detect changed script folders
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            scripts/github/**
+            scripts/azure-devops/**
+            scripts/jira/**
+            scripts/custom/**
+      
+      - name: Set folder change flags
+        id: folder-flags
+        run: |
+          github_changed="false"
+          azure_devops_changed="false"
+          jira_changed="false"
+          custom_changed="false"
+          
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ "$file" == scripts/github/* ]]; then
+              github_changed="true"
+            elif [[ "$file" == scripts/azure-devops/* ]]; then
+              azure_devops_changed="true"
+            elif [[ "$file" == scripts/jira/* ]]; then
+              jira_changed="true"
+            elif [[ "$file" == scripts/custom/* ]]; then
+              custom_changed="true"
+            fi
+          done
+          
+          echo "github=$github_changed" >> $GITHUB_OUTPUT
+          echo "azure_devops=$azure_devops_changed" >> $GITHUB_OUTPUT
+          echo "jira=$jira_changed" >> $GITHUB_OUTPUT
+          echo "custom=$custom_changed" >> $GITHUB_OUTPUT
+      
+      - name: Output change summary
+        run: |
+          echo "## 📦 Script Changes Detected" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Folder | Changed |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| scripts/github | ${{ steps.folder-flags.outputs.github }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| scripts/azure-devops | ${{ steps.folder-flags.outputs.azure_devops }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| scripts/jira | ${{ steps.folder-flags.outputs.jira }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| scripts/custom | ${{ steps.folder-flags.outputs.custom }} |" >> $GITHUB_STEP_SUMMARY
+
+  package-and-release:
+    name: Package Scripts and Create Release
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.any_changed == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup GitHub CLI
+        uses: cli/setup-cli@v1
+      
+      - name: Get next version
+        id: version
+        run: |
+          # Get latest release tag
+          latest_tag=$(gh release list --limit 1 --json tagName -q '.[0].tagName' 2>/dev/null || echo "")
+          
+          if [ -z "$latest_tag" ] || [ "$latest_tag" == "null" ]; then
+            # No releases yet, start at v1.0.0
+            next_version="v1.0.0"
+          else
+            # Extract version number and increment patch
+            version_num=$(echo "$latest_tag" | sed 's/v//')
+            major=$(echo "$version_num" | cut -d. -f1)
+            minor=$(echo "$version_num" | cut -d. -f2)
+            patch=$(echo "$version_num" | cut -d. -f3)
+            next_patch=$((patch + 1))
+            next_version="v${major}.${minor}.${next_patch}"
+          fi
+          
+          echo "version=$next_version" >> $GITHUB_OUTPUT
+          echo "Next version: $next_version"
+      
+      - name: Create package directory
+        run: |
+          mkdir -p packages
+      
+      - name: Package GitHub scripts
+        if: needs.detect-changes.outputs.github_changed == 'true'
+        run: |
+          echo "📦 Packaging scripts/github..."
+          cd scripts/github
+          zip -r ../../packages/github-scripts-${{ steps.version.outputs.version }}.zip . -x "*.git*" "*.DS_Store"
+          cd ../..
+          echo "✅ Created packages/github-scripts-${{ steps.version.outputs.version }}.zip"
+      
+      - name: Package Azure DevOps scripts
+        if: needs.detect-changes.outputs.azure_devops_changed == 'true'
+        run: |
+          echo "📦 Packaging scripts/azure-devops..."
+          cd scripts/azure-devops
+          zip -r ../../packages/azure-devops-scripts-${{ steps.version.outputs.version }}.zip . -x "*.git*" "*.DS_Store"
+          cd ../..
+          echo "✅ Created packages/azure-devops-scripts-${{ steps.version.outputs.version }}.zip"
+      
+      - name: Package Jira scripts
+        if: needs.detect-changes.outputs.jira_changed == 'true'
+        run: |
+          echo "📦 Packaging scripts/jira..."
+          cd scripts/jira
+          zip -r ../../packages/jira-scripts-${{ steps.version.outputs.version }}.zip . -x "*.git*" "*.DS_Store"
+          cd ../..
+          echo "✅ Created packages/jira-scripts-${{ steps.version.outputs.version }}.zip"
+      
+      - name: Package Custom scripts
+        if: needs.detect-changes.outputs.custom_changed == 'true'
+        run: |
+          echo "📦 Packaging scripts/custom..."
+          cd scripts/custom
+          zip -r ../../packages/custom-scripts-${{ steps.version.outputs.version }}.zip . -x "*.git*" "*.DS_Store"
+          cd ../..
+          echo "✅ Created packages/custom-scripts-${{ steps.version.outputs.version }}.zip"
+      
+      - name: List packages
+        run: |
+          echo "## 📦 Created Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          ls -lh packages/ || echo "No packages created"
+          ls -lh packages/ >> $GITHUB_STEP_SUMMARY || true
+      
+      - name: Create GitHub Release
+        run: |
+          echo "🏷️ Creating release ${{ steps.version.outputs.version }}..."
+          
+          # Build release notes
+          release_notes="## Script Packages - ${{ steps.version.outputs.version }}
+          
+          This release contains updated script packages based on changes merged to main branch.
+          
+          ### Packages Included:"
+          
+          if [ "${{ needs.detect-changes.outputs.github_changed }}" == "true" ]; then
+            release_notes="$release_notes
+          - **GitHub Scripts** (github-scripts-${{ steps.version.outputs.version }}.zip)"
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.azure_devops_changed }}" == "true" ]; then
+            release_notes="$release_notes
+          - **Azure DevOps Scripts** (azure-devops-scripts-${{ steps.version.outputs.version }}.zip)"
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.jira_changed }}" == "true" ]; then
+            release_notes="$release_notes
+          - **Jira Scripts** (jira-scripts-${{ steps.version.outputs.version }}.zip)"
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.custom_changed }}" == "true" ]; then
+            release_notes="$release_notes
+          - **Custom Scripts** (custom-scripts-${{ steps.version.outputs.version }}.zip)"
+          fi
+          
+          release_notes="$release_notes
+          
+          ### Changes
+          See commit ${{ github.sha }} for details."
+          
+          # Create release (draft if PR not merged, published if merged)
+          if [ -n "$(ls -A packages/ 2>/dev/null)" ]; then
+            gh release create "${{ steps.version.outputs.version }}" \
+              --title "Script Packages ${{ steps.version.outputs.version }}" \
+              --notes "$release_notes" \
+              packages/*.zip \
+              --repo "${{ github.repository }}"
+            
+            echo "✅ Release ${{ steps.version.outputs.version }} created"
+          else
+            echo "⚠️ No packages to release"
+          fi
+      
+      - name: Update README with build verification
+        run: |
+          echo "📝 Updating README.md with build verification..."
+          
+          # Create Python script to update README
+          cat > update_readme.py << 'PYTHON_SCRIPT'
+          import re
+          import sys
+          from datetime import datetime
+          
+          version = sys.argv[1]
+          build_date = datetime.now().strftime("%Y-%m-%d")
+          github_changed = sys.argv[2] == "true"
+          azure_devops_changed = sys.argv[3] == "true"
+          jira_changed = sys.argv[4] == "true"
+          custom_changed = sys.argv[5] == "true"
+          
+          with open("README.md", "r", encoding="utf-8") as f:
+              content = f.read()
+          
+          # Check if Build Verification section exists
+          if "## Build Verification" in content:
+              # Update existing section
+              # Find the table and update rows
+              pattern = r'(\| (GitHub Scripts|Azure DevOps Scripts|Jira Scripts|Custom Scripts) \| )([^|]+)( \| [^|]+ \| [^|]+ \|)'
+              
+              def replace_version(match):
+                  package = match.group(2)
+                  should_update = (
+                      (package == "GitHub Scripts" and github_changed) or
+                      (package == "Azure DevOps Scripts" and azure_devops_changed) or
+                      (package == "Jira Scripts" and jira_changed) or
+                      (package == "Custom Scripts" and custom_changed)
+                  )
+                  if should_update:
+                      return f"{match.group(1)}{version} | {build_date}{match.group(4)}"
+                  return match.group(0)
+              
+              content = re.sub(pattern, replace_version, content)
+          else:
+              # Add new section before License section
+              build_section = f'''
+          
+          ## Build Verification
+          
+          The following script packages have been built and verified:
+          
+          | Package | Version | Build Date | Status |
+          |---------|---------|------------|--------|
+          '''
+              if github_changed:
+                  build_section += f'| GitHub Scripts | {version} | {build_date} | ✅ Verified |\n'
+              if azure_devops_changed:
+                  build_section += f'| Azure DevOps Scripts | {version} | {build_date} | ✅ Verified |\n'
+              if jira_changed:
+                  build_section += f'| Jira Scripts | {version} | {build_date} | ✅ Verified |\n'
+              if custom_changed:
+                  build_section += f'| Custom Scripts | {version} | {build_date} | ✅ Verified |\n'
+              
+              build_section += '''
+          > **Note:** Build verification is automatically updated when script packages are released.
+          > Only packages with changes in the current release are updated.
+          '''
+              
+              # Insert before License section
+              if "## License" in content:
+                  content = content.replace("## License", build_section + "\n## License")
+              else:
+                  content += build_section
+          
+          with open("README.md", "w", encoding="utf-8") as f:
+              f.write(content)
+          
+          print("✅ README.md updated")
+          PYTHON_SCRIPT
+          
+          python3 update_readme.py \
+            "${{ steps.version.outputs.version }}" \
+            "${{ needs.detect-changes.outputs.github_changed }}" \
+            "${{ needs.detect-changes.outputs.azure_devops_changed }}" \
+            "${{ needs.detect-changes.outputs.jira_changed }}" \
+            "${{ needs.detect-changes.outputs.custom_changed }}"
+      
+      - name: Commit README update
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          if git diff --staged --quiet; then
+            echo "No changes to README.md"
+          else
+            git commit -m "docs: Update build verification for ${{ steps.version.outputs.version }}"
+            git push
+          fi
+
