@@ -284,13 +284,22 @@ check_org_permissions() {
 
     log_info "Checking organization admin permissions..."
 
-    # Check if user has admin permissions
+    # Check if user has admin permissions using user/memberships endpoint
+    # The orgs/${org} endpoint doesn't return permission information for the authenticated user
     local has_admin
-    has_admin=$(gh api "orgs/${org}" --jq '.permissions.admin // false' 2>/dev/null || echo "false")
+    local membership_role
+    membership_role=$(gh api "user/memberships/orgs/${org}" --jq '.role' 2>/dev/null || echo "")
+    
+    if [[ "${membership_role}" == "admin" ]]; then
+        has_admin="true"
+    else
+        has_admin="false"
+    fi
 
     if [[ "${has_admin}" != "true" ]]; then
         log_error "You do not have organization admin permissions for: ${org}"
         log_info "Issue Types can only be created by organization owners/admins"
+        log_info "Your current role: ${membership_role:-unknown}"
         log_info "Please request org admin access or have an org admin run this script"
         exit 2
     fi
