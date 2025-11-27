@@ -279,8 +279,9 @@ get_repository() {
     fi
 
     # Try auto-detection
-    if repo=$(auto_detect_repository 2>&1); then
-        # Clean up any log output that might have been captured (shouldn't happen with stderr redirect, but just in case)
+    # Note: auto_detect_repository() already redirects log messages to stderr, so we don't need 2>&1 here
+    if repo=$(auto_detect_repository); then
+        # Clean up any log output that might have been captured (defensive programming)
         repo=$(echo "${repo}" | grep -E '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$' | head -n1 || echo "${repo}")
         
         if validate_repository_format "${repo}"; then
