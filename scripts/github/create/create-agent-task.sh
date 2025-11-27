@@ -6,7 +6,7 @@
 # assigned agent, Projects v2 fields, and metadata using GitHub CLI.
 #
 # Usage:
-#   ./create-work-unit.sh [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--parent-feature PARENT] [--tokens TOKENS] [--dependencies DEPS]
+#   ./create-agent-task.sh [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--parent-work-unit PARENT] [--assigned-agent AGENT] [--tokens TOKENS] [--dependencies DEPS]
 #
 # Options:
 #   --dry-run         Preview changes without applying them
