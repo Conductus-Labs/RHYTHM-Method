@@ -530,23 +530,20 @@ create_project() {
         fi
         
         # Create Projects v2 using GraphQL mutation
-        # Use -F for JSON fields (handles booleans correctly)
-        response=$(gh api graphql -F query="
-            mutation {
-                createProjectV2(input: {
-                    ownerId: \"${owner_id}\"
-                    title: \"${project_name}\"
-                    ${project_description:+"shortDescription: \"${project_description}\""}
-                    ${visibility:+"public: $([ \"${visibility}\" = \"public\" ] && echo \"true\" || echo \"false\")"}
-                }) {
-                    projectV2 {
-                        id
-                        number
-                        title
-                    }
-                }
-            }
-        " 2>&1)
+        # Build GraphQL query with proper escaping
+        local graphql_query
+        local public_flag="false"
+        if [[ "${visibility}" == "public" ]]; then
+            public_flag="true"
+        fi
+        
+        if [[ -n "${project_description}" ]]; then
+            graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\", shortDescription: \"${project_description}\", public: ${public_flag} }) { projectV2 { id number title } } }"
+        else
+            graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\", public: ${public_flag} }) { projectV2 { id number title } } }"
+        fi
+        
+        response=$(gh api graphql -F query="${graphql_query}" 2>&1)
         exit_code=$?
 
         if [[ ${exit_code} -eq 0 ]]; then
