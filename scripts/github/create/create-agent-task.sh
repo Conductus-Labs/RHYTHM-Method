@@ -746,10 +746,22 @@ main() {
     fi
 
     # Execute command
-    issue_number=$( "${create_cmd[@]}" 2>&1 | grep -oE '#[0-9]+' | grep -oE '[0-9]+' || echo "")
+    # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
+    local create_output
+    create_output=$( "${create_cmd[@]}" 2>&1 )
+    local create_exit=$?
+    
+    if [[ ${create_exit} -ne 0 ]]; then
+        log_error "Failed to create issue: ${create_output}"
+        rm -f "${body_file}"
+        exit 1
+    fi
+    
+    # Extract issue number from URL format: /issues/123 or #123
+    issue_number=$(echo "${create_output}" | grep -oE '(/issues/[0-9]+|#[0-9]+)' | grep -oE '[0-9]+' | head -1 || echo "")
 
     if [[ -z "${issue_number}" ]]; then
-        log_error "Failed to create issue"
+        log_error "Failed to parse issue number from output: ${create_output}"
         rm -f "${body_file}"
         exit 1
     fi

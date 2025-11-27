@@ -646,14 +646,26 @@ function Main {
     }
 
     # Execute command
+    # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
     $output = gh $createArgs 2>&1
+    $exitCode = $LASTEXITCODE
+    
+    if ($exitCode -ne 0) {
+        Write-Error "Failed to create issue: $output"
+        Remove-Item $bodyFile -ErrorAction SilentlyContinue
+        exit 1
+    }
+    
+    # Extract issue number from URL format: /issues/123 or #123
     $issueNumber = $null
-    if ($output -match '#(\d+)') {
+    if ($output -match '/issues/(\d+)') {
+        $issueNumber = $matches[1]
+    } elseif ($output -match '#(\d+)') {
         $issueNumber = $matches[1]
     }
 
     if (-not $issueNumber) {
-        Write-Error "Failed to create issue: $output"
+        Write-Error "Failed to parse issue number from output: $output"
         Remove-Item $bodyFile -ErrorAction SilentlyContinue
         exit 1
     }
