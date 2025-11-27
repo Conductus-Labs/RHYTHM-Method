@@ -108,10 +108,14 @@ RHYTHM Method can be integrated with various project management tools:
 
 Setup scripts for GitHub Issues, Projects, and Actions:
 
-- [GitHub Setup Guide](scripts/github/overview.md)
-- [GitHub Issues Integration](scripts/github/issues/)
-- [GitHub Projects Integration](scripts/github/projects/)
-- [GitHub Actions Workflows](scripts/github/actions/)
+- [GitHub Setup Guide](scripts/github/overview.md) - Quick start and overview
+- [Complete Documentation](scripts/github/DOCUMENTATION.md) - Comprehensive user guide
+- **Script Categories:**
+  - [Setup Scripts](scripts/github/setup/) - Initial setup (Issue Types, Projects, Templates)
+  - [Creation Scripts](scripts/github/create/) - Create Features, Work Units, Agent Tasks, Bugs
+  - [Management Scripts](scripts/github/manage/) - Sync dependencies, update project fields
+  - [Validation Scripts](scripts/github/validate/) - Validate issues and metadata
+  - [GitHub Actions](scripts/github/actions/) - Automated synchronization workflows
 
 ### Azure DevOps
 

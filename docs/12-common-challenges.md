@@ -157,7 +157,7 @@ See [Principles](04-principles.md) for detailed comparison.
 
 ### Q: Can I use RHYTHM Method with my existing project management tool?
 
-**A:** Yes! RHYTHM Method can be integrated with GitHub, Azure DevOps, Jira, and custom tools. Setup scripts are available (or coming soon) for each tool. See [Tooling](11-tooling.md) for integration options.
+**A:** Yes! RHYTHM Method can be integrated with GitHub, Azure DevOps, Jira, and custom tools. Setup scripts are available for GitHub (see [GitHub Setup Guide](../scripts/github/overview.md)), with scripts for other tools coming soon. See [Tooling](11-tooling.md) for integration options.
 
 ### Q: What if my Work Unit estimation exceeds 8 hours?
 

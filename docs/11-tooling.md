@@ -18,14 +18,16 @@ GitHub integration provides RHYTHM Method workflows using:
 - **GitHub Projects**: For project management and visualization
 - **GitHub Actions**: For automation and workflows
 
-**Setup**: See [GitHub Setup Guide](scripts/github/overview.md) *(Coming Soon)*
+**Setup**: See [GitHub Setup Guide](scripts/github/overview.md) and [Complete Documentation](scripts/github/DOCUMENTATION.md)
 
 **Features**:
 
-- Issue templates for RHYTHM Method work items
-- Project templates for RHYTHM Method projects
-- Actions workflows for automation
-- Labels for work item types
+- **Issue Types**: Native GitHub Issue Types (Feature, Work Unit, Agent Task, Bug)
+- **Issue Dependencies**: Native "blocked by" / "blocking" relationships
+- **Projects v2**: Custom fields for Status, TEMPO, Tokens, and metadata
+- **Issue Templates**: Structured issue creation forms
+- **Actions Workflows**: Automated synchronization and validation
+- **Zero-Label Approach**: All categorization via native GitHub features
 
 ### Azure DevOps
 
@@ -160,10 +162,28 @@ Setup scripts are available for each tool:
 
 ### GitHub Scripts
 
-- **Issue Templates**: Create RHYTHM Method issue templates
-- **Labels**: Create RHYTHM Method labels
-- **Project Templates**: Create project templates
-- **Actions Workflows**: Set up automation workflows
+**Setup Scripts** (`scripts/github/setup/`):
+- Create GitHub Issue Types (Feature, Work Unit, Agent Task, Bug)
+- Create GitHub Project v2 with custom fields
+- Install issue templates
+- Master setup script for complete initialization
+
+**Creation Scripts** (`scripts/github/create/`):
+- Create Feature issues
+- Create Work Unit issues
+- Create Agent Task issues
+- Create Bug issues
+
+**Management Scripts** (`scripts/github/manage/`):
+- Sync dependencies from issue body to native GitHub dependencies
+- Update Projects v2 fields from issue body metadata
+
+**Validation Scripts** (`scripts/github/validate/`):
+- Validate issue types, project fields, dependencies, and metadata
+
+**GitHub Actions** (`scripts/github/actions/`):
+- Automated synchronization workflows
+- Dependency and field synchronization
 
 ### Azure DevOps Scripts
 
