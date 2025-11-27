@@ -497,28 +497,88 @@ create_project() {
     local exit_code=0
 
     while [[ ${attempt} -lt ${max_retries} ]]; do
-        # GitHub Projects v2 API - create project for repository
-        # Note: Using repos/{repo}/projects endpoint automatically links project to repository
-        # Reference: https://docs.github.com/en/rest/projects/projects#create-a-repository-project
-        # Use -F for JSON fields (handles booleans correctly) instead of -f (form data/strings)
-        # Note: Projects v2 uses REST API endpoint repos/{owner}/{repo}/projects
-        # The endpoint creates a project and automatically links it to the repository
-        response=$(gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            "repos/${repo}/projects" \
-            -F "name=${project_name}" \
-            -F "body=${project_description}" \
-            -F "private=${visibility}" \
-            2>&1)
+        # GitHub Projects v2 API - create project using GraphQL
+        # Projects v2 requires GraphQL API, not REST API
+        # First, get the repository owner ID (needed for GraphQL mutation)
+        local owner
+        local owner_id
+        owner=$(echo "${repo}" | cut -d'/' -f1)
+        
+        # Get owner ID (organization or user)
+        owner_id=$(gh api graphql -f query="
+            query {
+                organization(login: \"${owner}\") {
+                    id
+                }
+            }
+        " --jq '.data.organization.id' 2>/dev/null || echo "")
+        
+        # If not an organization, try as user
+        if [[ -z "${owner_id}" ]]; then
+            owner_id=$(gh api graphql -f query="
+                query {
+                    user(login: \"${owner}\") {
+                        id
+                    }
+                }
+            " --jq '.data.user.id' 2>/dev/null || echo "")
+        fi
+        
+        if [[ -z "${owner_id}" ]]; then
+            log_error "Failed to get owner ID for: ${owner}"
+            return 1
+        fi
+        
+        # Create Projects v2 using GraphQL mutation
+        # Use -F for JSON fields (handles booleans correctly)
+        response=$(gh api graphql -F query="
+            mutation {
+                createProjectV2(input: {
+                    ownerId: \"${owner_id}\"
+                    title: \"${project_name}\"
+                    ${project_description:+"shortDescription: \"${project_description}\""}
+                    ${visibility:+"public: $([ \"${visibility}\" = \"public\" ] && echo \"true\" || echo \"false\")"}
+                }) {
+                    projectV2 {
+                        id
+                        number
+                        title
+                    }
+                }
+            }
+        " 2>&1)
         exit_code=$?
 
         if [[ ${exit_code} -eq 0 ]]; then
             local project_id
-            project_id=$(echo "${response}" | yq eval '.id' - 2>/dev/null || echo "")
+            project_id=$(echo "${response}" | yq eval '.data.createProjectV2.projectV2.id' - 2>/dev/null || echo "")
             if [[ -n "${project_id}" ]]; then
                 log_success "Created project: ${project_name} (ID: ${project_id})"
-                log_verbose "Project automatically linked to repository: ${repo}"
+                log_verbose "Project created via GraphQL API"
+                
+                # Link project to repository (Projects v2 requires separate mutation to link)
+                local repo_id
+                repo_id=$(gh api graphql -f query="
+                    query {
+                        repository(owner: \"${owner}\", name: \"$(echo "${repo}" | cut -d'/' -f2)\") {
+                            id
+                        }
+                    }
+                " --jq '.data.repository.id' 2>/dev/null || echo "")
+                
+                if [[ -n "${repo_id}" ]]; then
+                    gh api graphql -F query="
+                        mutation {
+                            linkProjectV2ToRepository(input: {
+                                projectId: \"${project_id}\"
+                                repositoryId: \"${repo_id}\"
+                            }) {
+                                clientMutationId
+                            }
+                        }
+                    " >/dev/null 2>&1 || log_warning "Could not automatically link project to repository"
+                fi
+                
                 echo "${project_id}"
                 return 0
             fi
