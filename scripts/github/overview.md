@@ -9,31 +9,70 @@ These scripts help you set up RHYTHM Method workflows in GitHub using:
 - GitHub Projects (for project management)
 - GitHub Actions (for automation)
 
-## Quick Start
-
-1. Review the setup guide for your use case
-2. Run the appropriate setup script
-3. Configure your repository settings
-4. Start using RHYTHM Method workflows
-
-## Scripts
-
-### Issues Integration
-
-- `setup-issue-templates.sh` - Creates RHYTHM Method issue templates
-- `setup-labels.sh` - Creates RHYTHM Method labels (Epic, Feature, Work Unit, Task, Bug)
-- `setup-workflows.sh` - Sets up automated workflows for RHYTHM Method
-
-### Projects Integration
-
-- `setup-project-template.sh` - Creates a GitHub Project template for RHYTHM Method
-- `setup-project-views.sh` - Configures project views (TEMPO, Flow, Control)
-
-### Actions Integration
-
-- `setup-actions-workflows/` - GitHub Actions workflows for RHYTHM Method automation
-
 ## Documentation
 
-See the main [RHYTHM Method Documentation](../../docs/) for methodology details.
+**📖 [Complete Documentation (DOCUMENTATION.md)](DOCUMENTATION.md)**
+
+For comprehensive documentation including:
+- Quick start guide
+- Prerequisites and setup instructions
+- Usage examples for all scripts
+- Troubleshooting guide
+- Platform-specific notes
+- API reference
+
+## Quick Start
+
+1. **Install Prerequisites:**
+   ```bash
+   gh auth login
+   # Install yq: brew install yq (macOS) or see DOCUMENTATION.md
+   ```
+
+2. **Run Setup:**
+   ```bash
+   ./scripts/github/setup/setup-all.sh
+   ```
+
+3. **Create Issues:**
+   ```bash
+   ./scripts/github/create/create-feature.sh
+   ```
+
+See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed instructions.
+
+## Script Categories
+
+### Setup Scripts (`setup/`)
+
+- `setup-issue-types.sh/.ps1` - Create GitHub Issue Types
+- `setup-project.sh/.ps1` - Create GitHub Project v2 with custom fields
+- `setup-issue-templates.sh/.ps1` - Install issue templates
+- `setup-all.sh/.ps1` - Master setup script
+
+### Creation Scripts (`create/`)
+
+- `create-feature.sh/.ps1` - Create Feature issues
+- `create-work-unit.sh/.ps1` - Create Work Unit issues
+- `create-agent-task.sh/.ps1` - Create Agent Task issues
+- `create-bug.sh/.ps1` - Create Bug issues
+
+### Management Scripts (`manage/`)
+
+- `sync-dependencies.sh/.ps1` - Sync dependencies from issue body to native dependencies
+- `update-project-fields.sh/.ps1` - Update Projects v2 fields from issue body metadata
+
+### Validation Scripts (`validate/`)
+
+- `validate-issues.sh/.ps1` - Validate issue types, project fields, dependencies, and metadata
+
+### Actions (`actions/`)
+
+- `rhythm-sync.yml` - Automated synchronization workflow
+
+## Additional Resources
+
+- **Main Documentation:** [DOCUMENTATION.md](DOCUMENTATION.md) - Complete user guide
+- **RHYTHM Method Docs:** [../../docs/](../../docs/) - Methodology details
+- **GitHub CLI Manual:** https://cli.github.com/manual/
 
