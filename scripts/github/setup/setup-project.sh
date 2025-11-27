@@ -554,26 +554,15 @@ create_project() {
                 log_verbose "Project created via GraphQL API"
                 
                 # Link project to repository (Projects v2 requires separate mutation to link)
+                local repo_name
+                repo_name=$(echo "${repo}" | cut -d'/' -f2)
                 local repo_id
-                repo_id=$(gh api graphql -f query="
-                    query {
-                        repository(owner: \"${owner}\", name: \"$(echo "${repo}" | cut -d'/' -f2)\") {
-                            id
-                        }
-                    }
-                " --jq '.data.repository.id' 2>/dev/null || echo "")
+                local repo_query="query { repository(owner: \"${owner}\", name: \"${repo_name}\") { id } }"
+                repo_id=$(gh api graphql -f query="${repo_query}" --jq '.data.repository.id' 2>/dev/null || echo "")
                 
                 if [[ -n "${repo_id}" ]]; then
-                    gh api graphql -F query="
-                        mutation {
-                            linkProjectV2ToRepository(input: {
-                                projectId: \"${project_id}\"
-                                repositoryId: \"${repo_id}\"
-                            }) {
-                                clientMutationId
-                            }
-                        }
-                    " >/dev/null 2>&1 || log_warning "Could not automatically link project to repository"
+                    local link_query="mutation { linkProjectV2ToRepository(input: { projectId: \"${project_id}\", repositoryId: \"${repo_id}\" }) { clientMutationId } }"
+                    gh api graphql -f query="${link_query}" >/dev/null 2>&1 || log_warning "Could not automatically link project to repository"
                 fi
                 
                 echo "${project_id}"
