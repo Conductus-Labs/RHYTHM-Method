@@ -164,7 +164,10 @@ validate_prerequisites() {
     if ! command -v yq &> /dev/null; then
         log_error "yq (YAML parser) is not installed"
         log_info "Install from: https://github.com/mikefarah/yq"
-        log_info "Or use: brew install yq (macOS) / apt-get install yq (Linux)"
+        log_info "Or use:"
+        log_info "  - macOS: brew install yq"
+        log_info "  - Linux: apt-get install yq (or see https://github.com/mikefarah/yq#install)"
+        log_info "  - Windows: winget install mikefarah.yq"
         exit 2
     fi
     log_verbose "yq found: $(yq --version)"
