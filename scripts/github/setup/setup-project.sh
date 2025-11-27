@@ -500,13 +500,16 @@ create_project() {
         # GitHub Projects v2 API - create project for repository
         # Note: Using repos/{repo}/projects endpoint automatically links project to repository
         # Reference: https://docs.github.com/en/rest/projects/projects#create-a-repository-project
+        # Use -F for JSON fields (handles booleans correctly) instead of -f (form data/strings)
+        # Note: Projects v2 uses REST API endpoint repos/{owner}/{repo}/projects
+        # The endpoint creates a project and automatically links it to the repository
         response=$(gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             "repos/${repo}/projects" \
-            -f "name=${project_name}" \
-            -f "body=${project_description}" \
-            -f "private=${visibility}" \
+            -F "name=${project_name}" \
+            -F "body=${project_description}" \
+            -F "private=${visibility}" \
             2>&1)
         exit_code=$?
 

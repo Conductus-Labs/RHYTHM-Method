@@ -430,14 +430,15 @@ create_issue_type() {
     local exit_code=0
 
     while [[ ${attempt} -lt ${max_retries} ]]; do
+        # Use -F for JSON fields (handles booleans correctly) instead of -f (form data/strings)
         response=$(gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             "orgs/${org}/issue-types" \
-            -f "name=${name}" \
-            -f "description=${description}" \
-            -f "is_enabled=true" \
-            -f "color=${api_color}" \
+            -F "name=${name}" \
+            -F "description=${description}" \
+            -F "is_enabled=true" \
+            -F "color=${api_color}" \
             2>&1)
         exit_code=$?
 
