@@ -257,28 +257,22 @@ function Test-IssueExistsAndType {
         [string]$ExpectedType
     )
 
-    Write-VerboseMessage "Validating issue #$IssueNumber exists and is type '$ExpectedType'..."
+    Write-VerboseMessage "Validating issue #$IssueNumber exists (expected type: '$ExpectedType')..."
 
     try {
-        $issueData = gh issue view $IssueNumber --repo $Repo --json number,type 2>&1
+        # Check if issue exists
+        # Note: Issue type is not available via REST API JSON fields
+        # We can only validate that the issue exists
+        $issueData = gh issue view $IssueNumber --repo $Repo --json number 2>&1
         if ($LASTEXITCODE -ne 0 -or -not $issueData) {
             Write-Error "Issue #$IssueNumber does not exist in repository $Repo"
             return $false
         }
 
-        if (Test-Command "yq") {
-            $issueType = $issueData | yq eval '.type // ""' - 2>&1
-            if ($LASTEXITCODE -eq 0 -and $issueType) {
-                if ($issueType -ne $ExpectedType) {
-                    Write-Error "Issue #$IssueNumber is type '$issueType', expected '$ExpectedType'"
-                    return $false
-                }
-                Write-VerboseMessage "Issue #$IssueNumber validated: type '$issueType'"
-                return $true
-            }
-        }
-
-        Write-Warning "Could not determine issue type for #$IssueNumber, continuing anyway"
+        # Issue exists - type validation not available via REST API
+        # Issue types are organization-level settings and must be checked via Projects v2 API or issue body metadata
+        Write-VerboseMessage "Issue #$IssueNumber exists (type validation skipped - not available via REST API)"
+        Write-VerboseMessage "  Note: Issue type '$ExpectedType' should be verified manually or via Projects v2 API"
         return $true
     } catch {
         Write-Error "Failed to validate issue #$IssueNumber: $_"
