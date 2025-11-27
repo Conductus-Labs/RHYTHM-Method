@@ -570,26 +570,15 @@ function Main {
 
     # Build gh issue create command
     # Note: --type flag doesn't exist in GitHub CLI
+    # Note: --add-blocked-by flag doesn't exist in gh issue create
     # Issue type must be set via Projects v2 API after creation or via web UI
+    # Dependencies must be set after creation using gh issue edit
     $createArgs = @(
         "issue", "create",
         "--repo", $repo,
         "--title", $Title,
-        "--body-file", $bodyFile,
-        "--add-blocked-by", $ParentFeature
+        "--body-file", $bodyFile
     )
-
-    # Add additional dependencies
-    if ($Dependencies) {
-        $deps = $Dependencies -split ","
-        foreach ($dep in $deps) {
-            $dep = $dep.Trim()
-            if ($dep -and $dep -ne $ParentFeature) {
-                $createArgs += "--add-blocked-by"
-                $createArgs += $dep
-            }
-        }
-    }
 
     # Execute command
     # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
@@ -617,6 +606,37 @@ function Main {
     }
 
     Write-Success "Created Work Unit issue #$issueNumber"
+
+    # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    if (-not $DryRun) {
+        # Set parent feature dependency
+        if ($ParentFeature) {
+            Write-VerboseMessage "Setting parent feature dependency: #$ParentFeature"
+            $editOutput = gh issue edit $issueNumber --add-blocked-by $ParentFeature --repo $repo 2>&1
+            if ($LASTEXITCODE -eq 0) {
+                Write-VerboseMessage "Parent feature dependency set successfully"
+            } else {
+                Write-Warning "Could not set parent feature dependency (may need to run sync-dependencies.sh)"
+            }
+        }
+        
+        # Set additional dependencies
+        if ($Dependencies) {
+            $deps = $Dependencies -split ","
+            foreach ($dep in $deps) {
+                $dep = $dep.Trim()
+                if ($dep -and $dep -ne $ParentFeature) {
+                    Write-VerboseMessage "Setting dependency: #$dep"
+                    $editOutput = gh issue edit $issueNumber --add-blocked-by $dep --repo $repo 2>&1
+                    if ($LASTEXITCODE -eq 0) {
+                        Write-VerboseMessage "Dependency #$dep set successfully"
+                    } else {
+                        Write-Warning "Could not set dependency #$dep (may need to run sync-dependencies.sh)"
+                    }
+                }
+            }
+        }
+    }
 
     # Clean up
     Remove-Item $bodyFile -ErrorAction SilentlyContinue

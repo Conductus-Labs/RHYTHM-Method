@@ -540,17 +540,8 @@ function Main {
         "--body-file", $bodyFile
     )
 
-    # Add dependencies
-    if ($Dependencies) {
-        $deps = $Dependencies -split ","
-        foreach ($dep in $deps) {
-            $dep = $dep.Trim()
-            if ($dep) {
-                $createArgs += "--add-blocked-by"
-                $createArgs += $dep
-            }
-        }
-    }
+    # Note: Dependencies will be set after creation using gh issue edit
+    # (gh issue create doesn't support --add-blocked-by flag)
 
     # Execute command
     # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
@@ -578,6 +569,23 @@ function Main {
     }
 
     Write-Success "Created Feature issue #$issueNumber"
+
+    # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    if (-not $DryRun -and $Dependencies) {
+        $deps = $Dependencies -split ","
+        foreach ($dep in $deps) {
+            $dep = $dep.Trim()
+            if ($dep) {
+                Write-VerboseMessage "Setting dependency: #$dep"
+                $editOutput = gh issue edit $issueNumber --add-blocked-by $dep --repo $repo 2>&1
+                if ($LASTEXITCODE -eq 0) {
+                    Write-VerboseMessage "Dependency #$dep set successfully"
+                } else {
+                    Write-Warning "Could not set dependency #$dep (may need to run sync-dependencies.sh)"
+                }
+            }
+        }
+    }
 
     # Clean up
     Remove-Item $bodyFile -ErrorAction SilentlyContinue

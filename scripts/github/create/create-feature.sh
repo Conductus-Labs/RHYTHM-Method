@@ -652,16 +652,8 @@ main() {
         --body-file "${body_file}"
     )
 
-    # Add dependencies
-    if [[ -n "${DEPENDENCIES}" ]]; then
-        IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
-        for dep in "${DEPS[@]}"; do
-            dep=$(echo "${dep}" | xargs)  # Trim whitespace
-            if [[ -n "${dep}" ]]; then
-                create_cmd+=(--add-blocked-by "${dep}")
-            fi
-        done
-    fi
+    # Note: Dependencies will be set after creation using gh issue edit
+    # (gh issue create doesn't support --add-blocked-by flag)
 
     # Execute command
     # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
@@ -685,6 +677,22 @@ main() {
     fi
 
     log_success "Created Feature issue #${issue_number}"
+
+    # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    if [[ "${DRY_RUN}" != "true" && -n "${DEPENDENCIES}" ]]; then
+        IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
+        for dep in "${DEPS[@]}"; do
+            dep=$(echo "${dep}" | xargs)  # Trim whitespace
+            if [[ -n "${dep}" ]]; then
+                log_verbose "Setting dependency: #${dep}"
+                if gh issue edit "${issue_number}" --add-blocked-by "${dep}" --repo "${repo}" >/dev/null 2>&1; then
+                    log_verbose "Dependency #${dep} set successfully"
+                else
+                    log_warning "Could not set dependency #${dep} (may need to run sync-dependencies.sh)"
+                fi
+            fi
+        done
+    fi
 
     # Clean up
     rm -f "${body_file}"

@@ -661,25 +661,15 @@ main() {
 
     # Build gh issue create command
     # Note: --type flag doesn't exist in GitHub CLI
+    # Note: --add-blocked-by flag doesn't exist in gh issue create
     # Issue type must be set via Projects v2 API after creation or via web UI
+    # Dependencies must be set after creation using gh issue edit
     local create_cmd=(
         gh issue create
         --repo "${repo}"
         --title "${ISSUE_TITLE}"
         --body-file "${body_file}"
-        --add-blocked-by "${PARENT_FEATURE}"
     )
-
-    # Add additional dependencies
-    if [[ -n "${DEPENDENCIES}" ]]; then
-        IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
-        for dep in "${DEPS[@]}"; do
-            dep=$(echo "${dep}" | xargs)  # Trim whitespace
-            if [[ -n "${dep}" && "${dep}" != "${PARENT_FEATURE}" ]]; then
-                create_cmd+=(--add-blocked-by "${dep}")
-            fi
-        done
-    fi
 
     # Execute command
     # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
@@ -703,6 +693,35 @@ main() {
     fi
 
     log_success "Created Work Unit issue #${issue_number}"
+
+    # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    if [[ "${DRY_RUN}" != "true" ]]; then
+        # Set parent feature dependency
+        if [[ -n "${PARENT_FEATURE}" ]]; then
+            log_verbose "Setting parent feature dependency: #${PARENT_FEATURE}"
+            if gh issue edit "${issue_number}" --add-blocked-by "${PARENT_FEATURE}" --repo "${repo}" >/dev/null 2>&1; then
+                log_verbose "Parent feature dependency set successfully"
+            else
+                log_warning "Could not set parent feature dependency (may need to run sync-dependencies.sh)"
+            fi
+        fi
+        
+        # Set additional dependencies
+        if [[ -n "${DEPENDENCIES}" ]]; then
+            IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
+            for dep in "${DEPS[@]}"; do
+                dep=$(echo "${dep}" | xargs)  # Trim whitespace
+                if [[ -n "${dep}" && "${dep}" != "${PARENT_FEATURE}" ]]; then
+                    log_verbose "Setting dependency: #${dep}"
+                    if gh issue edit "${issue_number}" --add-blocked-by "${dep}" --repo "${repo}" >/dev/null 2>&1; then
+                        log_verbose "Dependency #${dep} set successfully"
+                    else
+                        log_warning "Could not set dependency #${dep} (may need to run sync-dependencies.sh)"
+                    fi
+                fi
+            done
+        fi
+    fi
 
     # Clean up
     rm -f "${body_file}"

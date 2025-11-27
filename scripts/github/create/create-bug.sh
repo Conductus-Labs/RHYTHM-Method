@@ -812,18 +812,15 @@ main() {
 
     # Build gh issue create command
     # Note: --type flag doesn't exist in GitHub CLI
+    # Note: --add-blocked-by flag doesn't exist in gh issue create
     # Issue type must be set via Projects v2 API after creation or via web UI
+    # Dependencies must be set after creation using gh issue edit
     local create_cmd=(
         gh issue create
         --repo "${repo}"
         --title "${ISSUE_TITLE}"
         --body-file "${body_file}"
     )
-
-    # Add dependency if parented to work unit
-    if [[ "${BUG_RELATIONSHIP}" == "parented" && -n "${PARENT_WORK_UNIT}" ]]; then
-        create_cmd+=(--add-blocked-by "${PARENT_WORK_UNIT}")
-    fi
 
     # Execute command
     # gh issue create outputs URL format: https://github.com/owner/repo/issues/123
@@ -847,6 +844,19 @@ main() {
     fi
 
     log_success "Created Bug issue #${issue_number}"
+
+    # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    if [[ "${DRY_RUN}" != "true" ]]; then
+        # Set dependency if parented to work unit
+        if [[ "${BUG_RELATIONSHIP}" == "parented" && -n "${PARENT_WORK_UNIT}" ]]; then
+            log_verbose "Setting parent work unit dependency: #${PARENT_WORK_UNIT}"
+            if gh issue edit "${issue_number}" --add-blocked-by "${PARENT_WORK_UNIT}" --repo "${repo}" >/dev/null 2>&1; then
+                log_verbose "Parent work unit dependency set successfully"
+            else
+                log_warning "Could not set parent work unit dependency (may need to run sync-dependencies.sh)"
+            fi
+        fi
+    fi
 
     # Clean up
     rm -f "${body_file}"
