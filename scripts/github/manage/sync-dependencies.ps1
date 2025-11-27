@@ -288,12 +288,20 @@ function Sync-IssueDependencies {
                 Write-Info "[DRY RUN] Would add dependency: issue #$IssueNumber blocked by #$dep"
             } else {
                 Write-VerboseMessage "Adding dependency: issue #$IssueNumber blocked by #$dep"
-                $result = gh issue edit $IssueNumber --repo $Repo --add-blocked-by $dep 2>&1
+                
+                # Validate dependency issue exists
+                $depExists = gh issue view $dep --repo $Repo --json number 2>&1
                 if ($LASTEXITCODE -eq 0) {
-                    Write-Success "Added dependency: #$IssueNumber blocked by #$dep"
-                    $addedCount++
+                    $result = gh issue edit $IssueNumber --repo $Repo --add-blocked-by $dep 2>&1
+                    if ($LASTEXITCODE -eq 0) {
+                        Write-Success "Added dependency: #$IssueNumber blocked by #$dep"
+                        $addedCount++
+                    } else {
+                        Write-Warning "Failed to add dependency: #$IssueNumber blocked by #$dep"
+                        Write-VerboseMessage "Error: $result"
+                    }
                 } else {
-                    Write-Warning "Failed to add dependency: #$IssueNumber blocked by #$dep"
+                    Write-Warning "Dependency issue #$dep does not exist, skipping"
                 }
             }
         }

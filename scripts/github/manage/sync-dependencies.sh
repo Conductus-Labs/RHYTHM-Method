@@ -333,11 +333,20 @@ sync_issue_dependencies() {
                 log_info "[DRY RUN] Would add dependency: issue #${issue_number} blocked by #${dep}"
             else
                 log_verbose "Adding dependency: issue #${issue_number} blocked by #${dep}"
-                if gh issue edit "${issue_number}" --repo "${repo}" --add-blocked-by "${dep}" &> /dev/null; then
-                    log_success "Added dependency: #${issue_number} blocked by #${dep}"
-                    ((added_count++))
+                
+                # Validate dependency issue exists
+                local dep_exists
+                if dep_exists=$(gh issue view "${dep}" --repo "${repo}" --json number 2>/dev/null); then
+                    local error_output
+                    if error_output=$(gh issue edit "${issue_number}" --repo "${repo}" --add-blocked-by "${dep}" 2>&1); then
+                        log_success "Added dependency: #${issue_number} blocked by #${dep}"
+                        ((added_count++))
+                    else
+                        log_warning "Failed to add dependency: #${issue_number} blocked by #${dep}"
+                        log_verbose "Error: ${error_output}"
+                    fi
                 else
-                    log_warning "Failed to add dependency: #${issue_number} blocked by #${dep}"
+                    log_warning "Dependency issue #${dep} does not exist, skipping"
                 fi
             fi
         else

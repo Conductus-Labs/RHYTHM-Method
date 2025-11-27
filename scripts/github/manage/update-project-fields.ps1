@@ -473,6 +473,91 @@ function Normalize-Tempo {
     }
 }
 
+# Check if issue is in project
+function Test-IssueInProject {
+    param(
+        [string]$ProjectId,
+        [string]$IssueNodeId
+    )
+
+    Write-VerboseMessage "Checking if issue is in project..."
+
+    try {
+        $response = gh api graphql -f query="
+            query {
+                node(id: `"$ProjectId`") {
+                    ... on ProjectV2 {
+                        items(first: 100) {
+                            nodes {
+                                content {
+                                    ... on Issue {
+                                        id
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        " 2>&1
+
+        if ($LASTEXITCODE -ne 0) {
+            return $false
+        }
+
+        # Check if issue node ID is in the response
+        return $response -match [regex]::Escape($IssueNodeId)
+    } catch {
+        return $false
+    }
+}
+
+# Add issue to project if not already added
+function Ensure-IssueInProject {
+    param(
+        [string]$ProjectId,
+        [string]$IssueNodeId
+    )
+
+    if (Test-IssueInProject $ProjectId $IssueNodeId) {
+        Write-VerboseMessage "Issue is already in project"
+        return $true
+    }
+
+    Write-VerboseMessage "Adding issue to project..."
+
+    if ($DryRun) {
+        Write-VerboseMessage "[DRY RUN] Would add issue to project"
+        return $true
+    }
+
+    try {
+        $response = gh api graphql -f query="
+            mutation {
+                addProjectV2ItemById(input: {
+                    projectId: `"$ProjectId`"
+                    contentId: `"$IssueNodeId`"
+                }) {
+                    item {
+                        id
+                    }
+                }
+            }
+        " 2>&1
+
+        if ($LASTEXITCODE -eq 0) {
+            Write-VerboseMessage "Issue added to project"
+            return $true
+        } else {
+            Write-Warning "Could not add issue to project (may already be added): $response"
+            return $false
+        }
+    } catch {
+        Write-Warning "Failed to add issue to project: $_"
+        return $false
+    }
+}
+
 # Update project fields for a single issue
 function Update-IssueProjectFields {
     param(
@@ -489,6 +574,9 @@ function Update-IssueProjectFields {
         Write-Warning "Skipping issue #$IssueNumber - cannot get node ID"
         return $false
     }
+
+    # Ensure issue is in project
+    Ensure-IssueInProject $ProjectId $issueNodeId | Out-Null
 
     # Get issue body
     $body = Get-IssueBody $Repo $IssueNumber

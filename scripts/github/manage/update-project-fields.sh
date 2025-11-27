@@ -501,6 +501,83 @@ normalize_tempo() {
     esac
 }
 
+# Check if issue is in project
+is_issue_in_project() {
+    local project_id=$1
+    local issue_node_id=$2
+
+    log_verbose "Checking if issue is in project..."
+
+    # Query project to see if issue is a member
+    local response
+    response=$(gh api graphql -f query="
+        query {
+            node(id: \"${project_id}\") {
+                ... on ProjectV2 {
+                    items(first: 100) {
+                        nodes {
+                            content {
+                                ... on Issue {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    " 2>&1) || {
+        # If query fails, assume issue might not be in project
+        return 1
+    }
+
+    # Check if issue node ID is in the response
+    if echo "${response}" | grep -q "${issue_node_id}"; then
+        return 0
+    fi
+
+    return 1
+}
+
+# Add issue to project if not already added
+ensure_issue_in_project() {
+    local project_id=$1
+    local issue_node_id=$2
+
+    if is_issue_in_project "${project_id}" "${issue_node_id}"; then
+        log_verbose "Issue is already in project"
+        return 0
+    fi
+
+    log_verbose "Adding issue to project..."
+
+    if [[ "${DRY_RUN}" == "true" ]]; then
+        log_verbose "[DRY RUN] Would add issue to project"
+        return 0
+    fi
+
+    # Add issue to project using Projects v2 API
+    local response
+    response=$(gh api graphql -f query="
+        mutation {
+            addProjectV2ItemById(input: {
+                projectId: \"${project_id}\"
+                contentId: \"${issue_node_id}\"
+            }) {
+                item {
+                    id
+                }
+            }
+        }
+    " 2>&1) || {
+        log_warning "Could not add issue to project (may already be added): ${response}"
+        return 1
+    }
+
+    log_verbose "Issue added to project"
+    return 0
+}
+
 # Update project fields for a single issue
 update_issue_project_fields() {
     local repo=$1
@@ -515,6 +592,9 @@ update_issue_project_fields() {
         log_warning "Skipping issue #${issue_number} - cannot get node ID"
         return 1
     fi
+
+    # Ensure issue is in project
+    ensure_issue_in_project "${project_id}" "${issue_node_id}" || true
 
     # Get issue body
     local body
