@@ -554,11 +554,23 @@ create_project() {
             return 1
         fi
         
+        # Get repository ID to link project at creation time (optional but recommended)
+        local repo_name
+        repo_name=$(echo "${repo}" | cut -d'/' -f2)
+        local repo_id
+        local repo_query="query { repository(owner: \"${owner}\", name: \"${repo_name}\") { id } }"
+        repo_id=$(gh api graphql -f query="${repo_query}" --jq '.data.repository.id' 2>/dev/null || echo "")
+        
         # Create Projects v2 using GraphQL mutation
         # Note: CreateProjectV2Input only accepts: ownerId, title, repositoryId, teamId, clientMutationId
         # Description and visibility cannot be set at creation time
+        # If repositoryId is provided, project is automatically linked to repository
         local graphql_query
-        graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\" }) { projectV2 { id number title } } }"
+        if [[ -n "${repo_id}" ]]; then
+            graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\", repositoryId: \"${repo_id}\" }) { projectV2 { id number title } } }"
+        else
+            graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\" }) { projectV2 { id number title } } }"
+        fi
         
         response=$(gh api graphql -F query="${graphql_query}" 2>&1)
         exit_code=$?
@@ -568,18 +580,10 @@ create_project() {
             project_id=$(echo "${response}" | yq eval '.data.createProjectV2.projectV2.id' - 2>/dev/null || echo "")
             if [[ -n "${project_id}" ]]; then
                 log_success "Created project: ${project_name} (ID: ${project_id})"
-                log_verbose "Project created via GraphQL API"
-                
-                # Link project to repository (Projects v2 requires separate mutation to link)
-                local repo_name
-                repo_name=$(echo "${repo}" | cut -d'/' -f2)
-                local repo_id
-                local repo_query="query { repository(owner: \"${owner}\", name: \"${repo_name}\") { id } }"
-                repo_id=$(gh api graphql -f query="${repo_query}" --jq '.data.repository.id' 2>/dev/null || echo "")
-                
                 if [[ -n "${repo_id}" ]]; then
-                    local link_query="mutation { linkProjectV2ToRepository(input: { projectId: \"${project_id}\", repositoryId: \"${repo_id}\" }) { clientMutationId } }"
-                    gh api graphql -f query="${link_query}" >/dev/null 2>&1 || log_warning "Could not automatically link project to repository"
+                    log_verbose "Project automatically linked to repository: ${repo}"
+                else
+                    log_verbose "Project created via GraphQL API (not linked to repository)"
                 fi
                 
                 # Note: Project description and visibility cannot be set via CreateProjectV2Input
