@@ -216,10 +216,11 @@ ensure_config_file() {
 
 # Auto-detect organization from current repository
 auto_detect_organization() {
-    log_info "Auto-detecting organization from current repository..."
+    # Note: Log messages are sent to stderr so they don't interfere with command substitution
+    log_info "Auto-detecting organization from current repository..." >&2
 
     if ! gh repo view --json owner --jq '.owner.login' >/dev/null 2>&1; then
-        log_warning "Could not auto-detect organization from current repository"
+        log_warning "Could not auto-detect organization from current repository" >&2
         return 1
     fi
 
@@ -227,11 +228,12 @@ auto_detect_organization() {
     org=$(gh repo view --json owner --jq '.owner.login' 2>/dev/null)
     
     if [[ -z "${org}" ]]; then
-        log_warning "Could not auto-detect organization"
+        log_warning "Could not auto-detect organization" >&2
         return 1
     fi
 
-    log_verbose "Auto-detected organization: ${org}"
+    log_verbose "Auto-detected organization: ${org}" >&2
+    # Output only the organization name to stdout (for command substitution)
     echo "${org}"
     return 0
 }
@@ -251,10 +253,18 @@ get_organization() {
     fi
 
     # Try auto-detection
+    # Note: auto_detect_organization() already redirects log messages to stderr, so we don't need 2>&1 here
     if org=$(auto_detect_organization); then
-        log_info "Auto-detected organization: ${org}"
-        read -p "Use this organization? [Y/n]: " confirm
-        if [[ "${confirm}" =~ ^[Nn]$ ]]; then
+        # Clean up any log output that might have been captured (defensive programming)
+        org=$(echo "${org}" | grep -E '^[a-zA-Z0-9_.-]+$' | head -n1 || echo "${org}")
+        
+        if [[ -n "${org}" ]]; then
+            log_info "Auto-detected organization: ${org}"
+            read -p "Use this organization? [Y/n]: " confirm
+            if [[ "${confirm}" =~ ^[Nn]$ ]]; then
+                org=""
+            fi
+        else
             org=""
         fi
     fi
@@ -288,7 +298,23 @@ check_org_permissions() {
     # The orgs/${org} endpoint doesn't return permission information for the authenticated user
     local has_admin
     local membership_role
-    membership_role=$(gh api "user/memberships/orgs/${org}" --jq '.role' 2>/dev/null || echo "")
+    local api_response
+    
+    # Clean up org name in case it contains log output (defensive)
+    org=$(echo "${org}" | grep -E '^[a-zA-Z0-9_.-]+$' | head -n1 || echo "${org}")
+    
+    api_response=$(gh api "user/memberships/orgs/${org}" 2>/dev/null || echo "")
+    
+    if [[ -z "${api_response}" ]]; then
+        log_error "Failed to check organization membership for: ${org}"
+        log_info "This may indicate:"
+        log_info "  1. Missing 'admin:org' scope - run: gh auth refresh -s admin:org"
+        log_info "  2. Organization name is incorrect"
+        log_info "  3. You are not a member of this organization"
+        exit 2
+    fi
+    
+    membership_role=$(echo "${api_response}" | jq -r '.role // ""' 2>/dev/null || echo "")
     
     if [[ "${membership_role}" == "admin" ]]; then
         has_admin="true"
@@ -300,6 +326,10 @@ check_org_permissions() {
         log_error "You do not have organization admin permissions for: ${org}"
         log_info "Issue Types can only be created by organization owners/admins"
         log_info "Your current role: ${membership_role:-unknown}"
+        if [[ -z "${membership_role}" ]]; then
+            log_info "Unable to determine role - this may indicate missing 'admin:org' scope"
+            log_info "Try running: gh auth refresh -s admin:org"
+        fi
         log_info "Please request org admin access or have an org admin run this script"
         exit 2
     fi
