@@ -492,23 +492,26 @@ create_project() {
     local project_description=$3
     local visibility=$4
 
-    log_info "Creating GitHub Project v2: ${project_name}"
+    # Note: Log messages are sent to stderr so they don't interfere with command substitution
+    log_info "Creating GitHub Project v2: ${project_name}" >&2
 
     if [[ "${DRY_RUN}" == "true" ]]; then
-        log_info "[DRY RUN] Would create project: ${project_name}"
-        log_info "[DRY RUN]   Description: ${project_description}"
-        log_info "[DRY RUN]   Visibility: ${visibility}"
-        log_info "[DRY RUN]   Repository: ${repo}"
+        log_info "[DRY RUN] Would create project: ${project_name}" >&2
+        log_info "[DRY RUN]   Description: ${project_description}" >&2
+        log_info "[DRY RUN]   Visibility: ${visibility}" >&2
+        log_info "[DRY RUN]   Repository: ${repo}" >&2
+        # Output only the project ID to stdout (for command substitution)
         echo "dry-run-project-id"
         return 0
     fi
 
     # Check if project already exists
     if project_exists "${repo}" "${project_name}"; then
-        log_warning "Project '${project_name}' already exists"
+        log_warning "Project '${project_name}' already exists" >&2
         local existing_id
         if existing_id=$(get_project_id "${repo}" "${project_name}"); then
-            log_info "Using existing project ID: ${existing_id}"
+            log_info "Using existing project ID: ${existing_id}" >&2
+            # Output only the project ID to stdout (for command substitution)
             echo "${existing_id}"
             return 0
         fi
@@ -550,7 +553,7 @@ create_project() {
         fi
         
         if [[ -z "${owner_id}" ]]; then
-            log_error "Failed to get owner ID for: ${owner}"
+            log_error "Failed to get owner ID for: ${owner}" >&2
             return 1
         fi
         
@@ -579,22 +582,23 @@ create_project() {
             local project_id
             project_id=$(echo "${response}" | yq eval '.data.createProjectV2.projectV2.id' - 2>/dev/null || echo "")
             if [[ -n "${project_id}" ]]; then
-                log_success "Created project: ${project_name} (ID: ${project_id})"
+                log_success "Created project: ${project_name} (ID: ${project_id})" >&2
                 if [[ -n "${repo_id}" ]]; then
-                    log_verbose "Project automatically linked to repository: ${repo}"
+                    log_verbose "Project automatically linked to repository: ${repo}" >&2
                 else
-                    log_verbose "Project created via GraphQL API (not linked to repository)"
+                    log_verbose "Project created via GraphQL API (not linked to repository)" >&2
                 fi
                 
                 # Note: Project description and visibility cannot be set via CreateProjectV2Input
                 # These would need to be set via updateProjectV2 mutation if needed
                 if [[ -n "${project_description}" ]]; then
-                    log_verbose "Note: Project description cannot be set at creation time (GitHub API limitation)"
+                    log_verbose "Note: Project description cannot be set at creation time (GitHub API limitation)" >&2
                 fi
                 if [[ "${visibility}" != "private" ]]; then
-                    log_verbose "Note: Project visibility cannot be set at creation time (GitHub API limitation)"
+                    log_verbose "Note: Project visibility cannot be set at creation time (GitHub API limitation)" >&2
                 fi
                 
+                # Output only the project ID to stdout (for command substitution)
                 echo "${project_id}"
                 return 0
             fi
@@ -604,12 +608,12 @@ create_project() {
         if echo "${response}" | grep -qiE "rate limit|429|too many requests"; then
             attempt=$((attempt + 1))
             if [[ ${attempt} -lt ${max_retries} ]]; then
-                log_warning "Rate limit hit, waiting ${retry_delay}s before retry (attempt ${attempt}/${max_retries})..."
+                log_warning "Rate limit hit, waiting ${retry_delay}s before retry (attempt ${attempt}/${max_retries})..." >&2
                 sleep ${retry_delay}
                 retry_delay=$((retry_delay * 2))  # Exponential backoff
                 continue
             else
-                log_error "Rate limit exceeded after ${max_retries} attempts. Please try again later."
+                log_error "Rate limit exceeded after ${max_retries} attempts. Please try again later." >&2
                 return 1
             fi
         fi
@@ -620,14 +624,14 @@ create_project() {
 
         # Other errors - don't retry
         if [[ -n "${http_status}" ]]; then
-            log_error "Failed to create project '${project_name}' (HTTP ${http_status}): ${response}"
+            log_error "Failed to create project '${project_name}' (HTTP ${http_status}): ${response}" >&2
         else
-            log_error "Failed to create project '${project_name}': ${response}"
+            log_error "Failed to create project '${project_name}': ${response}" >&2
         fi
         return ${exit_code}
     done
 
-    log_error "Failed to create project '${project_name}' after ${max_retries} attempts"
+    log_error "Failed to create project '${project_name}' after ${max_retries} attempts" >&2
     return 1
 }
 
