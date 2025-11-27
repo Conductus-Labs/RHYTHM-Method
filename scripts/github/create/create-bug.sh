@@ -325,32 +325,23 @@ validate_issue_exists_and_type() {
     local issue_number=$2
     local expected_type=$3
 
-    log_verbose "Validating issue #${issue_number} exists and is type '${expected_type}'..."
+    log_verbose "Validating issue #${issue_number} exists (expected type: '${expected_type}')..."
 
     # Check if issue exists
+    # Note: Issue type is not available via REST API JSON fields
+    # We can only validate that the issue exists
     local issue_data
-    issue_data=$(gh issue view "${issue_number}" --repo "${repo}" --json number,type 2>/dev/null || echo "")
+    issue_data=$(gh issue view "${issue_number}" --repo "${repo}" --json number 2>/dev/null || echo "")
     
     if [[ -z "${issue_data}" ]]; then
         log_error "Issue #${issue_number} does not exist in repository ${repo}"
         return 1
     fi
 
-    # Check issue type
-    local issue_type
-    issue_type=$(echo "${issue_data}" | yq eval '.type // ""' - 2>/dev/null || echo "")
-    
-    if [[ -z "${issue_type}" ]]; then
-        log_warning "Could not determine issue type for #${issue_number}, continuing anyway"
-        return 0
-    fi
-
-    if [[ "${issue_type}" != "${expected_type}" ]]; then
-        log_error "Issue #${issue_number} is type '${issue_type}', expected '${expected_type}'"
-        return 1
-    fi
-
-    log_verbose "Issue #${issue_number} validated: type '${issue_type}'"
+    # Issue exists - type validation not available via REST API
+    # Issue types are organization-level settings and must be checked via Projects v2 API or issue body metadata
+    log_verbose "Issue #${issue_number} exists (type validation skipped - not available via REST API)"
+    log_verbose "  Note: Issue type '${expected_type}' should be verified manually or via Projects v2 API"
     return 0
 }
 
