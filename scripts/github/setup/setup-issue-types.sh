@@ -311,9 +311,9 @@ check_org_permissions() {
     # Clean up org name in case it contains log output (defensive)
     org=$(echo "${org}" | grep -E '^[a-zA-Z0-9_.-]+$' | head -n1 || echo "${org}")
     
-    api_response=$(gh api "user/memberships/orgs/${org}" 2>/dev/null || echo "")
+    membership_role=$(gh api "user/memberships/orgs/${org}" --jq '.role // ""' 2>/dev/null || echo "")
     
-    if [[ -z "${api_response}" ]]; then
+    if [[ -z "${membership_role}" ]]; then
         log_error "Failed to check organization membership for: ${org}"
         log_info "This may indicate:"
         log_info "  1. Missing 'admin:org' scope - run: gh auth refresh -s admin:org"
@@ -321,8 +321,6 @@ check_org_permissions() {
         log_info "  3. You are not a member of this organization"
         exit 2
     fi
-    
-    membership_role=$(echo "${api_response}" | jq -r '.role // ""' 2>/dev/null || echo "")
     
     if [[ "${membership_role}" == "admin" ]]; then
         has_admin="true"
