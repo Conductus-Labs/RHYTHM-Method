@@ -46,6 +46,7 @@ PROJECT_CONFIG_FILE="${REPO_ROOT}/.baton/project.config.yml"
 DRY_RUN=false
 VERBOSE=false
 SHOW_HELP=false
+NON_INTERACTIVE=false
 
 # Colors for output
 RED='\033[0;31m'
@@ -129,6 +130,10 @@ parse_args() {
                 ;;
             --help|-h)
                 SHOW_HELP=true
+                shift
+                ;;
+            --non-interactive)
+                NON_INTERACTIVE=true
                 shift
                 ;;
             *)
@@ -218,11 +223,12 @@ ensure_field_ids_file() {
 }
 
 # Auto-detect repository from current git repository
+# Note: Log messages are sent to stderr so they don't interfere with command substitution
 auto_detect_repository() {
-    log_info "Auto-detecting repository from current git repository..."
+    log_info "Auto-detecting repository from current git repository..." >&2
 
     if ! gh repo view --json owner,name --jq '.owner.login + "/" + .name' >/dev/null 2>&1; then
-        log_warning "Could not auto-detect repository from current git repository"
+        log_warning "Could not auto-detect repository from current git repository" >&2
         return 1
     fi
 
@@ -230,11 +236,12 @@ auto_detect_repository() {
     repo=$(gh repo view --json owner,name --jq '.owner.login + "/" + .name' 2>/dev/null)
     
     if [[ -z "${repo}" ]]; then
-        log_warning "Could not auto-detect repository"
+        log_warning "Could not auto-detect repository" >&2
         return 1
     fi
 
-    log_verbose "Auto-detected repository: ${repo}"
+    log_verbose "Auto-detected repository: ${repo}" >&2
+    # Output only the repository string to stdout (for command substitution)
     echo "${repo}"
     return 0
 }
@@ -272,12 +279,21 @@ get_repository() {
     fi
 
     # Try auto-detection
-    if repo=$(auto_detect_repository); then
+    if repo=$(auto_detect_repository 2>&1); then
+        # Clean up any log output that might have been captured (shouldn't happen with stderr redirect, but just in case)
+        repo=$(echo "${repo}" | grep -E '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$' | head -n1 || echo "${repo}")
+        
         if validate_repository_format "${repo}"; then
             log_info "Auto-detected repository: ${repo}"
-            read -p "Use this repository? [Y/n]: " confirm
-            if [[ "${confirm}" =~ ^[Nn]$ ]]; then
-                repo=""
+            if [[ "${NON_INTERACTIVE}" == "true" ]]; then
+                # In non-interactive mode, use auto-detected repository without prompting
+                echo "${repo}"
+                return 0
+            else
+                read -p "Use this repository? [Y/n]: " confirm
+                if [[ "${confirm}" =~ ^[Nn]$ ]]; then
+                    repo=""
+                fi
             fi
         else
             log_warning "Auto-detected repository format is invalid, will prompt for new value"
@@ -286,12 +302,20 @@ get_repository() {
     fi
 
     # Prompt user if still not set
-    while [[ -z "${repo}" ]]; do
-        read -p "Enter GitHub repository (format: org/repo): " repo
-        if [[ -z "${repo}" ]]; then
+    if [[ -z "${repo}" ]]; then
+        if [[ "${NON_INTERACTIVE}" == "true" ]]; then
             log_error "Repository name is required"
+            log_info "Could not auto-detect repository and non-interactive mode is enabled"
+            log_info "Please set repository in config file or run in interactive mode"
             exit 2
         fi
+        
+        while [[ -z "${repo}" ]]; do
+            read -p "Enter GitHub repository (format: org/repo): " repo
+            if [[ -z "${repo}" ]]; then
+                log_error "Repository name is required"
+                exit 2
+            fi
         if ! validate_repository_format "${repo}"; then
             repo=""
             continue
