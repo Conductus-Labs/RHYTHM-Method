@@ -47,7 +47,6 @@ param(
 $ScriptDir = $PSScriptRoot
 $RepoRoot = Resolve-Path (Join-Path $ScriptDir "..\..\..")
 $ConfigFile = Join-Path $RepoRoot ".baton\github-config.yml"
-$FieldIdsFile = Join-Path $RepoRoot ".baton\github-field-ids.yml"
 
 # Set error action preference
 $ErrorActionPreference = "Stop"
@@ -125,7 +124,7 @@ function Test-Prerequisites {
         exit 1
     }
 
-    $authStatus = gh auth status 2>&1
+    $null = gh auth status 2>&1
     if ($LASTEXITCODE -ne 0) {
         Write-Error "GitHub CLI is not authenticated"
         Write-Info "Run: gh auth login"
@@ -220,13 +219,13 @@ function Get-DependenciesFromMetadata {
     }
 
     # Extract issue numbers (format: #123, #456, etc.)
-    $matches = [regex]::Matches($dependenciesLine.Line, '#(\d+)')
-    if ($matches.Count -eq 0) {
+    $depMatches = [regex]::Matches($dependenciesLine.Line, '#(\d+)')
+    if ($depMatches.Count -eq 0) {
         Write-VerboseMessage "No issue numbers found in Dependencies field"
         return @()
     }
 
-    $issueNumbers = $matches | ForEach-Object { $_.Groups[1].Value }
+    $issueNumbers = $depMatches | ForEach-Object { $_.Groups[1].Value }
     return $issueNumbers
 }
 
@@ -290,7 +289,7 @@ function Sync-IssueDependencies {
                 Write-VerboseMessage "Adding dependency: issue #$IssueNumber blocked by #$dep"
                 
                 # Validate dependency issue exists
-                $depExists = gh issue view $dep --repo $Repo --json number 2>&1
+                $null = gh issue view $dep --repo $Repo --json number 2>&1
                 if ($LASTEXITCODE -eq 0) {
                     $result = gh issue edit $IssueNumber --repo $Repo --add-blocked-by $dep 2>&1
                     if ($LASTEXITCODE -eq 0) {
