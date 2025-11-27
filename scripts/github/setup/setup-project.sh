@@ -316,11 +316,14 @@ get_repository() {
                 log_error "Repository name is required"
                 exit 2
             fi
-        if ! validate_repository_format "${repo}"; then
-            repo=""
-            continue
-        fi
-    done
+            if ! validate_repository_format "${repo}"; then
+                log_error "Invalid repository format: ${repo}"
+                log_info "Repository must be in format: org/repo (e.g., Conductus-Labs/RHYTHM-Method)"
+                repo=""
+                continue
+            fi
+        done
+    fi
 
     # Update config file
     if [[ -f "${CONFIG_FILE}" ]]; then
