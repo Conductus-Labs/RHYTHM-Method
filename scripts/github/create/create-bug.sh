@@ -361,7 +361,9 @@ get_issue_node_id() {
     return 0
 }
 
-# Set issue dependency (blocked by) using GitHub REST API
+# Set issue dependency (blocked by)
+# Note: GitHub CLI and REST API don't currently support setting dependencies programmatically
+# This function logs a warning and suggests using sync-dependencies.sh or manual setup
 set_issue_dependency() {
     local repo=$1
     local issue_number=$2
@@ -374,36 +376,23 @@ set_issue_dependency() {
         return 0
     fi
 
-    # GitHub Issue Dependencies API - set blocked-by relationship
-    # Uses REST API: POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies
-    local owner
-    local repo_name
-    owner=$(echo "${repo}" | cut -d'/' -f1)
-    repo_name=$(echo "${repo}" | cut -d'/' -f2)
-
-    local response
-    response=$(gh api \
-        --method POST \
-        -H "Accept: application/vnd.github+json" \
-        "repos/${owner}/${repo_name}/issues/${issue_number}/dependencies" \
-        -f "blocked_by[]=${blocked_by_issue}" \
-        2>&1)
-    local exit_code=$?
-
-    if [[ ${exit_code} -eq 0 ]]; then
-        log_verbose "Dependency set successfully: #${issue_number} blocked by #${blocked_by_issue}"
-        return 0
-    else
-        # Check if dependency already exists (might return 422 or other error)
-        if echo "${response}" | grep -qiE "already exists|duplicate|422"; then
-            log_verbose "Dependency already exists: #${issue_number} blocked by #${blocked_by_issue}"
-            return 0
-        else
-            log_warning "Could not set dependency: #${issue_number} blocked by #${blocked_by_issue}"
-            log_verbose "Error: ${response}"
-            return 1
-        fi
-    fi
+    # GitHub Issue Dependencies API limitations:
+    # - gh issue create doesn't support --add-blocked-by
+    # - gh issue edit doesn't support --add-blocked-by
+    # - REST API endpoint format is not publicly documented/available
+    # 
+    # Workaround: Dependencies should be set via:
+    # 1. sync-dependencies.sh script (reads from issue body metadata)
+    # 2. GitHub web UI (manual setup)
+    # 3. Future: GraphQL API if/when available
+    
+    log_warning "Dependency setting not available via GitHub CLI or REST API"
+    log_warning "To set dependency #${issue_number} blocked by #${blocked_by_issue}:"
+    log_warning "  1. Run: ./scripts/github/manage/sync-dependencies.sh --issue ${issue_number}"
+    log_warning "  2. Or set manually via GitHub web UI"
+    log_verbose "Issue created successfully - dependency can be set separately"
+    
+    return 0
 }
 
 # Add issue to project
