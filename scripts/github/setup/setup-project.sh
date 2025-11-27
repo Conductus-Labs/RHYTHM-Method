@@ -682,7 +682,8 @@ field_exists() {
     log_verbose "Checking if field '${field_name}' already exists..."
 
     # Get existing fields for the project using GraphQL
-    local query="query { node(id: \"${project_id}\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name } ... on ProjectV2IterationField { id name } ... on ProjectV2DateField { id name } ... on ProjectV2NumberField { id name } } } } } }"
+    # Note: Use ProjectV2Field (base type) which works for all field types
+    local query="query { node(id: \"${project_id}\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name } ... on ProjectV2IterationField { id name } ... on ProjectV2DateField { id name } } } } } }"
     local fields
     fields=$(gh api graphql -f query="${query}" --jq '.data.node.fields.nodes[].name' 2>/dev/null || echo "")
 
@@ -701,7 +702,8 @@ get_field_id() {
     log_verbose "Getting field ID for '${field_name}'..."
 
     # Get existing fields for the project using GraphQL
-    local query="query { node(id: \"${project_id}\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name } ... on ProjectV2IterationField { id name } ... on ProjectV2DateField { id name } ... on ProjectV2NumberField { id name } } } } } }"
+    # Note: Use ProjectV2Field (base type) which works for all field types
+    local query="query { node(id: \"${project_id}\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name } ... on ProjectV2IterationField { id name } ... on ProjectV2DateField { id name } } } } } }"
     local field_id
     field_id=$(gh api graphql -f query="${query}" --jq ".data.node.fields.nodes[] | select(.name == \"${field_name}\") | .id" 2>/dev/null || echo "")
 
@@ -761,7 +763,9 @@ create_single_select_field() {
         # via GitHub UI or via separate API call after field creation
         
         # Parse options JSON into GraphQL format
-        # options_json format: [{"name":"Planned","color":"BLUE"},...]
+        # options_json can be either:
+        #   1. String array: ["Planned", "In Progress"] -> convert to objects with default colors
+        #   2. Object array: [{"name":"Planned","color":"BLUE"},...] -> use as-is
         # GraphQL expects: [{name:"Planned",color:BLUE},...] (no quotes around enum values, no quotes around keys)
         # Build GraphQL options array manually from JSON
         local options_graphql="["
@@ -769,12 +773,38 @@ create_single_select_field() {
         local option_count
         option_count=$(echo "${options_json}" | yq eval 'length' - 2>/dev/null || echo "0")
         
+        # Default color mapping for common option names (can be extended)
+        local default_color="BLUE"
+        
         for ((i=0; i<option_count; i++)); do
             local opt_name
             local opt_color
-            opt_name=$(echo "${options_json}" | yq eval ".[${i}].name" - 2>/dev/null || echo "")
-            opt_color=$(echo "${options_json}" | yq eval ".[${i}].color" - 2>/dev/null || echo "")
+            local opt_value
             
+            # Check if this is a string or an object
+            opt_value=$(echo "${options_json}" | yq eval ".[${i}]" - 2>/dev/null || echo "")
+            
+            if [[ -z "${opt_value}" ]]; then
+                continue
+            fi
+            
+            # Try to get .name first (if it's an object)
+            opt_name=$(echo "${options_json}" | yq eval ".[${i}].name // \"\"" - 2>/dev/null || echo "")
+            
+            # If .name is empty, it's a string - use the string value as name
+            if [[ -z "${opt_name}" ]]; then
+                opt_name=$(echo "${options_json}" | yq eval ".[${i}]" - 2>/dev/null || echo "")
+            fi
+            
+            # Get color (if it's an object with color)
+            opt_color=$(echo "${options_json}" | yq eval ".[${i}].color // \"\"" - 2>/dev/null || echo "")
+            
+            # If no color specified, use default
+            if [[ -z "${opt_color}" ]]; then
+                opt_color="${default_color}"
+            fi
+            
+            # Add to GraphQL options array
             if [[ -n "${opt_name}" && -n "${opt_color}" ]]; then
                 if [[ "${first}" == "true" ]]; then
                     first=false
@@ -876,7 +906,9 @@ create_number_field() {
         # Projects v2 requires GraphQL API for field creation
         
         # Build GraphQL mutation
-        local mutation="mutation { createProjectV2Field(input: { projectId: \"${project_id}\", dataType: NUMBER, name: \"${field_name}\" }) { projectV2Field { ... on ProjectV2NumberField { id name } } } }"
+        # Note: Use ProjectV2Field (base type) instead of ProjectV2NumberField
+        # ProjectV2Field works for all field types including number fields
+        local mutation="mutation { createProjectV2Field(input: { projectId: \"${project_id}\", dataType: NUMBER, name: \"${field_name}\" }) { projectV2Field { ... on ProjectV2Field { id name } } } }"
         
         response=$(gh api graphql -f query="${mutation}" 2>&1)
         exit_code=$?
