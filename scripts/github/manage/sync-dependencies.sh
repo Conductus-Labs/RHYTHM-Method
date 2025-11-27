@@ -276,6 +276,75 @@ get_existing_blocked_by() {
     return 0
 }
 
+# Set issue dependency (blocked by) using GitHub REST API
+# Note: This endpoint may return 404 if not available for the repository/organization
+set_issue_dependency() {
+    local repo=$1
+    local issue_number=$2
+    local blocked_by_issue=$3
+
+    log_verbose "Setting dependency: issue #${issue_number} blocked by #${blocked_by_issue}..."
+
+    # Parse owner and repo name
+    local owner
+    local repo_name
+    owner=$(echo "${repo}" | cut -d'/' -f1)
+    repo_name=$(echo "${repo}" | cut -d'/' -f2)
+
+    # Get blocked-by issue ID (numeric ID, not issue number)
+    local blocked_by_issue_id
+    blocked_by_issue_id=$(gh api "repos/${owner}/${repo_name}/issues/${blocked_by_issue}" --jq '.id' 2>/dev/null || echo "")
+    
+    if [[ -z "${blocked_by_issue_id}" || "${blocked_by_issue_id}" == "null" ]]; then
+        log_warning "Could not get issue ID for blocked-by issue #${blocked_by_issue}"
+        return 1
+    fi
+
+    # GitHub REST API: Add issue dependency (blocked by)
+    # POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies
+    # Body: { "blocked_by_issue_id": <integer> }
+    # Note: blocked_by_issue_id must be the numeric ID, not the issue number
+    # Documentation: https://docs.github.com/en/rest/issues/issue-dependencies?apiVersion=2022-11-28
+    # 
+    # IMPORTANT: This endpoint may return 404 if:
+    # 1. Issue dependencies feature is not enabled for the repository/organization
+    # 2. The feature requires specific GitHub plan (Enterprise, etc.)
+    # 3. The endpoint is not available in the current API version
+    # 4. Fine-grained token doesn't have "Issues" write permission
+    #
+    # If the endpoint is not available, dependencies are stored in issue body metadata
+    # and can be set manually via GitHub web UI
+    local response
+    response=$(gh api \
+        --method POST \
+        -H "Accept: application/vnd.github+json" \
+        "repos/${owner}/${repo_name}/issues/${issue_number}/dependencies" \
+        -F "blocked_by_issue_id=${blocked_by_issue_id}" \
+        2>&1)
+    local exit_code=$?
+
+    if [[ ${exit_code} -eq 0 ]]; then
+        log_success "Set dependency: #${issue_number} is now blocked by #${blocked_by_issue}"
+        return 0
+    else
+        # Check for 404 - endpoint may not be available
+        if echo "${response}" | grep -qiE "404|Not Found"; then
+            log_warning "Dependency API endpoint not available (404) for issue #${issue_number}"
+            log_verbose "The GitHub REST API endpoint for dependencies is not available for this repository."
+            log_verbose "Dependencies are stored in issue body metadata and can be set manually via GitHub web UI."
+            return 1
+        # Check if dependency already exists or other expected errors
+        elif echo "${response}" | grep -qiE "already exists|duplicate|422"; then
+            log_verbose "Dependency already exists: #${issue_number} is already blocked by #${blocked_by_issue}"
+            return 0
+        else
+            log_warning "Could not set dependency: #${issue_number} blocked by #${blocked_by_issue}"
+            log_verbose "Error: ${response}"
+            return 1
+        fi
+    fi
+}
+
 # Sync dependencies for a single issue
 sync_issue_dependencies() {
     local repo=$1
@@ -337,13 +406,13 @@ sync_issue_dependencies() {
                 # Validate dependency issue exists
                 local dep_exists
                 if dep_exists=$(gh issue view "${dep}" --repo "${repo}" --json number 2>/dev/null); then
-                    local error_output
-                    if error_output=$(gh issue edit "${issue_number}" --repo "${repo}" --add-blocked-by "${dep}" 2>&1); then
-                        log_success "Added dependency: #${issue_number} blocked by #${dep}"
+                    # Use REST API to set dependency (gh issue edit --add-blocked-by doesn't exist)
+                    if set_issue_dependency "${repo}" "${issue_number}" "${dep}"; then
                         ((added_count++))
                     else
-                        log_warning "Failed to add dependency: #${issue_number} blocked by #${dep}"
-                        log_verbose "Error: ${error_output}"
+                        # Dependency setting failed (likely 404 - API not available)
+                        # Dependencies are still recorded in issue body metadata
+                        log_verbose "Dependency will remain in issue body metadata for manual processing"
                     fi
                 else
                     log_warning "Dependency issue #${dep} does not exist, skipping"

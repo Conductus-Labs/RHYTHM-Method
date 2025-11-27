@@ -122,6 +122,16 @@ Before you begin, verify you have:
    - Required to create issues, update dependencies, and modify project fields
    - Standard contributor permissions
 
+**⚠️ IMPORTANT: Fine-Grained Token Required for Issue Dependencies**
+
+The GitHub REST API endpoint for setting issue dependencies ("blocked by" relationships) **requires a fine-grained personal access token** with "Issues: Write" permission. Classic tokens (even with `repo` scope) will not work for this endpoint.
+
+**See [FINE_GRAINED_PERMISSIONS.md](./FINE_GRAINED_PERMISSIONS.md) for:**
+- Complete list of required fine-grained token permissions
+- Step-by-step token creation and configuration
+- Token authentication instructions
+- Troubleshooting permission issues
+
 ### Authentication
 
 All scripts use GitHub CLI authentication. Ensure you're authenticated:
@@ -136,6 +146,20 @@ gh auth login
 # For CI/CD, use token authentication
 echo "$GITHUB_TOKEN" | gh auth login --with-token
 ```
+
+**Fine-Grained Token for Issue Dependencies:**
+
+If you need to set issue dependencies ("blocked by" relationships), you must use a fine-grained personal access token:
+
+```bash
+# Authenticate with fine-grained token
+echo "YOUR_FINE_GRAINED_TOKEN" | gh auth login --with-token
+
+# Verify token type (should show github_pat_ prefix)
+gh auth status
+```
+
+**See [FINE_GRAINED_PERMISSIONS.md](./FINE_GRAINED_PERMISSIONS.md) for complete token setup instructions.**
 
 ## Setup Instructions
 
@@ -539,6 +563,28 @@ chmod +x scripts/github/**/*.sh
 - Check issue numbers in dependencies list
 - Scripts will skip invalid dependency numbers with a warning
 
+#### Issue: "Dependency API endpoint not available (404)"
+
+**Problem:**
+The GitHub REST API endpoint for setting issue dependencies returns 404 "Not Found" errors, even with correct permissions.
+
+**Root Cause:**
+The issue dependencies API endpoint may not be:
+- Enabled for your repository/organization
+- Available in the current GitHub API version
+- Accessible due to organization/repository settings
+- Available for your GitHub plan (may require Enterprise plan)
+
+**Solution:**
+
+1. **Dependencies are automatically stored in issue body metadata** - This is the primary workaround
+2. **Set dependencies manually via GitHub web UI** - Click on the issue and use the dependency UI
+3. **Use sync-dependencies.sh script** - It attempts API calls but handles failures gracefully
+4. **Check if feature is enabled** - Verify in repository/organization settings if available
+5. **Verify GitHub plan** - Issue dependencies may require Enterprise plan
+
+**Note:** Parent/child relationships (sub-issues) work correctly via the sub-issues API endpoint. Only "blocked by" dependencies are affected by this limitation.
+
 ### Debugging
 
 Enable verbose output for detailed debugging:
@@ -663,23 +709,26 @@ gh api orgs/{org}/issue-types/{id} -X PATCH \
 
 Manage native GitHub Issue Dependencies (blocked by / blocking relationships).
 
-**Create a dependency (mark issue as blocked by another):**
+**⚠️ IMPORTANT: API Endpoint Limitations**
 
-```bash
-gh issue edit {issue-number} --add-blocked-by {blocking-issue-number}
-```
+The GitHub REST API endpoint for setting issue dependencies (`POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies`) may return 404 "Not Found" errors even with correct permissions. This can occur if:
 
-**Remove a dependency:**
+- Issue dependencies feature is not enabled for the repository/organization
+- The feature requires a specific GitHub plan (Enterprise, etc.)
+- The endpoint is not available in the current API version
 
-```bash
-gh issue edit {issue-number} --remove-blocked-by {blocking-issue-number}
-```
+**Workaround:** Dependencies are automatically recorded in issue body metadata. They can be:
+1. Set manually via GitHub web UI
+2. Processed by the `sync-dependencies.sh` script (which attempts API calls but handles failures gracefully)
+3. Tracked in Projects v2 custom fields for visualization
 
 **List dependencies for an issue:**
 
 ```bash
 gh issue view {issue-number} --json blockedBy,blocking
 ```
+
+**Note:** The `gh issue edit --add-blocked-by` command does not exist in GitHub CLI. Dependencies must be set via REST API (if available) or manually via GitHub web UI.
 
 #### Projects v2
 

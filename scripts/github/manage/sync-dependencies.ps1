@@ -248,6 +248,68 @@ function Get-ExistingBlockedBy {
     return @()
 }
 
+# Set issue dependency (blocked by) using GitHub REST API
+# Note: This endpoint may return 404 if not available for the repository/organization
+function Set-IssueDependency {
+    param(
+        [string]$Repo,
+        [string]$IssueNumber,
+        [string]$BlockedByIssue
+    )
+
+    Write-VerboseMessage "Setting dependency: issue #$IssueNumber blocked by #$BlockedByIssue..."
+
+    # Parse owner and repo name
+    $owner = ($Repo -split "/")[0]
+    $repoName = ($Repo -split "/")[1]
+
+    # Get blocked-by issue ID (numeric ID, not issue number)
+    $blockedByIssueId = gh api "repos/$owner/$repoName/issues/$BlockedByIssue" --jq '.id' 2>&1
+    
+    if ($LASTEXITCODE -ne 0 -or -not $blockedByIssueId -or $blockedByIssueId -eq "null") {
+        Write-Warning "Could not get issue ID for blocked-by issue #$BlockedByIssue"
+        return $false
+    }
+
+    # GitHub REST API: Add issue dependency (blocked by)
+    # POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies
+    # Body: { "blocked_by_issue_id": <integer> }
+    # Note: blocked_by_issue_id must be the numeric ID, not the issue number
+    # Documentation: https://docs.github.com/en/rest/issues/issue-dependencies?apiVersion=2022-11-28
+    # 
+    # IMPORTANT: This endpoint may return 404 if:
+    # 1. Issue dependencies feature is not enabled for the repository/organization
+    # 2. The feature requires specific GitHub plan (Enterprise, etc.)
+    # 3. The endpoint is not available in the current API version
+    # 4. Fine-grained token doesn't have "Issues" write permission
+    #
+    # If the endpoint is not available, dependencies are stored in issue body metadata
+    # and can be set manually via GitHub web UI
+    $response = gh api --method POST -H "Accept: application/vnd.github+json" "repos/$owner/$repoName/issues/$IssueNumber/dependencies" -F "blocked_by_issue_id=$blockedByIssueId" 2>&1
+    $exitCode = $LASTEXITCODE
+
+    if ($exitCode -eq 0) {
+        Write-Success "Set dependency: #$IssueNumber is now blocked by #$BlockedByIssue"
+        return $true
+    } else {
+        # Check for 404 - endpoint may not be available
+        if ($response -match "404|Not Found") {
+            Write-Warning "Dependency API endpoint not available (404) for issue #$IssueNumber"
+            Write-VerboseMessage "The GitHub REST API endpoint for dependencies is not available for this repository."
+            Write-VerboseMessage "Dependencies are stored in issue body metadata and can be set manually via GitHub web UI."
+            return $false
+        # Check if dependency already exists or other expected errors
+        } elseif ($response -match "already exists|duplicate|422") {
+            Write-VerboseMessage "Dependency already exists: #$IssueNumber is already blocked by #$BlockedByIssue"
+            return $true
+        } else {
+            Write-Warning "Could not set dependency: #$IssueNumber blocked by #$BlockedByIssue"
+            Write-VerboseMessage "Error: $response"
+            return $false
+        }
+    }
+}
+
 # Sync dependencies for a single issue
 function Sync-IssueDependencies {
     param(
@@ -291,13 +353,13 @@ function Sync-IssueDependencies {
                 # Validate dependency issue exists
                 $null = gh issue view $dep --repo $Repo --json number 2>&1
                 if ($LASTEXITCODE -eq 0) {
-                    $result = gh issue edit $IssueNumber --repo $Repo --add-blocked-by $dep 2>&1
-                    if ($LASTEXITCODE -eq 0) {
-                        Write-Success "Added dependency: #$IssueNumber blocked by #$dep"
+                    # Use REST API to set dependency (gh issue edit --add-blocked-by doesn't exist)
+                    if (Set-IssueDependency -Repo $Repo -IssueNumber $IssueNumber -BlockedByIssue $dep) {
                         $addedCount++
                     } else {
-                        Write-Warning "Failed to add dependency: #$IssueNumber blocked by #$dep"
-                        Write-VerboseMessage "Error: $result"
+                        # Dependency setting failed (likely 404 - API not available)
+                        # Dependencies are still recorded in issue body metadata
+                        Write-VerboseMessage "Dependency will remain in issue body metadata for manual processing"
                     }
                 } else {
                     Write-Warning "Dependency issue #$dep does not exist, skipping"
