@@ -555,18 +555,10 @@ create_project() {
         fi
         
         # Create Projects v2 using GraphQL mutation
-        # Build GraphQL query with proper escaping
+        # Note: CreateProjectV2Input only accepts: ownerId, title, repositoryId, teamId, clientMutationId
+        # Description and visibility cannot be set at creation time
         local graphql_query
-        local public_flag="false"
-        if [[ "${visibility}" == "public" ]]; then
-            public_flag="true"
-        fi
-        
-        if [[ -n "${project_description}" ]]; then
-            graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\", shortDescription: \"${project_description}\", public: ${public_flag} }) { projectV2 { id number title } } }"
-        else
-            graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\", public: ${public_flag} }) { projectV2 { id number title } } }"
-        fi
+        graphql_query="mutation { createProjectV2(input: { ownerId: \"${owner_id}\", title: \"${project_name}\" }) { projectV2 { id number title } } }"
         
         response=$(gh api graphql -F query="${graphql_query}" 2>&1)
         exit_code=$?
@@ -588,6 +580,15 @@ create_project() {
                 if [[ -n "${repo_id}" ]]; then
                     local link_query="mutation { linkProjectV2ToRepository(input: { projectId: \"${project_id}\", repositoryId: \"${repo_id}\" }) { clientMutationId } }"
                     gh api graphql -f query="${link_query}" >/dev/null 2>&1 || log_warning "Could not automatically link project to repository"
+                fi
+                
+                # Note: Project description and visibility cannot be set via CreateProjectV2Input
+                # These would need to be set via updateProjectV2 mutation if needed
+                if [[ -n "${project_description}" ]]; then
+                    log_verbose "Note: Project description cannot be set at creation time (GitHub API limitation)"
+                fi
+                if [[ "${visibility}" != "private" ]]; then
+                    log_verbose "Note: Project visibility cannot be set at creation time (GitHub API limitation)"
                 fi
                 
                 echo "${project_id}"
