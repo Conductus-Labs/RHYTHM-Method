@@ -695,15 +695,11 @@ main() {
     log_success "Created Work Unit issue #${issue_number}"
 
     # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    # Note: gh issue edit also doesn't support --add-blocked-by, so we use REST API directly
     if [[ "${DRY_RUN}" != "true" ]]; then
         # Set parent feature dependency
         if [[ -n "${PARENT_FEATURE}" ]]; then
-            log_verbose "Setting parent feature dependency: #${PARENT_FEATURE}"
-            if gh issue edit "${issue_number}" --add-blocked-by "${PARENT_FEATURE}" --repo "${repo}" >/dev/null 2>&1; then
-                log_verbose "Parent feature dependency set successfully"
-            else
-                log_warning "Could not set parent feature dependency (may need to run sync-dependencies.sh)"
-            fi
+            set_issue_dependency "${repo}" "${issue_number}" "${PARENT_FEATURE}" || true
         fi
         
         # Set additional dependencies
@@ -712,12 +708,7 @@ main() {
             for dep in "${DEPS[@]}"; do
                 dep=$(echo "${dep}" | xargs)  # Trim whitespace
                 if [[ -n "${dep}" && "${dep}" != "${PARENT_FEATURE}" ]]; then
-                    log_verbose "Setting dependency: #${dep}"
-                    if gh issue edit "${issue_number}" --add-blocked-by "${dep}" --repo "${repo}" >/dev/null 2>&1; then
-                        log_verbose "Dependency #${dep} set successfully"
-                    else
-                        log_warning "Could not set dependency #${dep} (may need to run sync-dependencies.sh)"
-                    fi
+                    set_issue_dependency "${repo}" "${issue_number}" "${dep}" || true
                 fi
             done
         fi

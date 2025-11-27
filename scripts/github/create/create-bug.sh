@@ -846,15 +846,11 @@ main() {
     log_success "Created Bug issue #${issue_number}"
 
     # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    # Note: gh issue edit also doesn't support --add-blocked-by, so we use REST API directly
     if [[ "${DRY_RUN}" != "true" ]]; then
         # Set dependency if parented to work unit
         if [[ "${BUG_RELATIONSHIP}" == "parented" && -n "${PARENT_WORK_UNIT}" ]]; then
-            log_verbose "Setting parent work unit dependency: #${PARENT_WORK_UNIT}"
-            if gh issue edit "${issue_number}" --add-blocked-by "${PARENT_WORK_UNIT}" --repo "${repo}" >/dev/null 2>&1; then
-                log_verbose "Parent work unit dependency set successfully"
-            else
-                log_warning "Could not set parent work unit dependency (may need to run sync-dependencies.sh)"
-            fi
+            set_issue_dependency "${repo}" "${issue_number}" "${PARENT_WORK_UNIT}" || true
         fi
     fi
 

@@ -679,17 +679,13 @@ main() {
     log_success "Created Feature issue #${issue_number}"
 
     # Set dependencies after creation (gh issue create doesn't support --add-blocked-by)
+    # Note: gh issue edit also doesn't support --add-blocked-by, so we use REST API directly
     if [[ "${DRY_RUN}" != "true" && -n "${DEPENDENCIES}" ]]; then
         IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
         for dep in "${DEPS[@]}"; do
             dep=$(echo "${dep}" | xargs)  # Trim whitespace
             if [[ -n "${dep}" ]]; then
-                log_verbose "Setting dependency: #${dep}"
-                if gh issue edit "${issue_number}" --add-blocked-by "${dep}" --repo "${repo}" >/dev/null 2>&1; then
-                    log_verbose "Dependency #${dep} set successfully"
-                else
-                    log_warning "Could not set dependency #${dep} (may need to run sync-dependencies.sh)"
-                fi
+                set_issue_dependency "${repo}" "${issue_number}" "${dep}" || true
             fi
         done
     fi
