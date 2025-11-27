@@ -697,12 +697,13 @@ function Main {
     }
 
     # Build gh issue create command
+    # Note: --type flag doesn't exist in GitHub CLI
+    # Issue type must be set via Projects v2 API after creation or via web UI
     $createArgs = @(
         "issue", "create",
         "--repo", $repo,
         "--title", $Title,
-        "--body-file", $bodyFile,
-        "--type", "Bug"
+        "--body-file", $bodyFile
     )
 
     # Add dependency if parented to work unit
