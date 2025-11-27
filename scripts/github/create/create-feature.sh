@@ -301,6 +301,51 @@ get_issue_node_id() {
     return 0
 }
 
+# Set issue dependency (blocked by) using GitHub REST API
+set_issue_dependency() {
+    local repo=$1
+    local issue_number=$2
+    local blocked_by_issue=$3
+
+    log_verbose "Setting dependency: issue #${issue_number} blocked by #${blocked_by_issue}..."
+
+    if [[ "${DRY_RUN}" == "true" ]]; then
+        log_verbose "[DRY RUN] Would set dependency: #${issue_number} blocked by #${blocked_by_issue}"
+        return 0
+    fi
+
+    # GitHub Issue Dependencies API - set blocked-by relationship
+    # Uses REST API: POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies
+    local owner
+    local repo_name
+    owner=$(echo "${repo}" | cut -d'/' -f1)
+    repo_name=$(echo "${repo}" | cut -d'/' -f2)
+
+    local response
+    response=$(gh api \
+        --method POST \
+        -H "Accept: application/vnd.github+json" \
+        "repos/${owner}/${repo_name}/issues/${issue_number}/dependencies" \
+        -f "blocked_by[]=${blocked_by_issue}" \
+        2>&1)
+    local exit_code=$?
+
+    if [[ ${exit_code} -eq 0 ]]; then
+        log_verbose "Dependency set successfully: #${issue_number} blocked by #${blocked_by_issue}"
+        return 0
+    else
+        # Check if dependency already exists (might return 422 or other error)
+        if echo "${response}" | grep -qiE "already exists|duplicate|422"; then
+            log_verbose "Dependency already exists: #${issue_number} blocked by #${blocked_by_issue}"
+            return 0
+        else
+            log_warning "Could not set dependency: #${issue_number} blocked by #${blocked_by_issue}"
+            log_verbose "Error: ${response}"
+            return 1
+        fi
+    fi
+}
+
 # Add issue to project
 add_issue_to_project() {
     local project_id=$1
