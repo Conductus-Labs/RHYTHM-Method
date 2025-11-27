@@ -74,7 +74,7 @@ log_error() {
 
 log_verbose() {
     if [[ "${VERBOSE}" == "true" ]]; then
-        echo -e "${BLUE}[VERBOSE]${NC} $1"
+        echo -e "${BLUE}[VERBOSE]${NC} $1" >&2
     fi
 }
 
