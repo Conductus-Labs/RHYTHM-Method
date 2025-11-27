@@ -5,6 +5,7 @@ Setup scripts and workflows for integrating RHYTHM Method with GitHub.
 ## Overview
 
 These scripts help you set up RHYTHM Method workflows in GitHub using:
+
 - GitHub Issues (for work items)
 - GitHub Projects (for project management)
 - GitHub Actions (for automation)
@@ -14,6 +15,7 @@ These scripts help you set up RHYTHM Method workflows in GitHub using:
 **📖 [Complete Documentation (DOCUMENTATION.md)](DOCUMENTATION.md)**
 
 For comprehensive documentation including:
+
 - Quick start guide
 - Prerequisites and setup instructions
 - Usage examples for all scripts
@@ -24,17 +26,20 @@ For comprehensive documentation including:
 ## Quick Start
 
 1. **Install Prerequisites:**
+   
    ```bash
    gh auth login
    # Install yq: brew install yq (macOS) or see DOCUMENTATION.md
    ```
 
 2. **Run Setup:**
+   
    ```bash
    ./scripts/github/setup/setup-all.sh
    ```
 
 3. **Create Issues:**
+   
    ```bash
    ./scripts/github/create/create-feature.sh
    ```
@@ -75,4 +80,3 @@ See [DOCUMENTATION.md](DOCUMENTATION.md) for detailed instructions.
 - **Main Documentation:** [DOCUMENTATION.md](DOCUMENTATION.md) - Complete user guide
 - **RHYTHM Method Docs:** [../../docs/](../../docs/) - Methodology details
 - **GitHub CLI Manual:** https://cli.github.com/manual/
-
