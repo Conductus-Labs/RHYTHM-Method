@@ -1,0 +1,354 @@
+# RHYTHM Method Sync Workflow
+#
+# This workflow automates synchronization of GitHub Issues with RHYTHM Method metadata.
+# It syncs dependencies from issue body metadata to native GitHub Issue Dependencies,
+# and syncs Projects v2 custom fields from issue body metadata.
+#
+# Features:
+# - Automatic sync on issue opened/edited/commented
+# - Manual dispatch with optional dry-run mode
+# - Scheduled daily sync (optional)
+# - Error handling and rate limit management
+# - Validation reporting
+# - Issue comments with sync results
+#
+# Requirements:
+# - GitHub CLI (gh) installed
+# - Management scripts from Agent-Task-07
+# - Validation scripts from Agent-Task-08
+# - Repository write permissions for issues and projects
+#
+# Usage:
+# - Automatic: Triggers on issue events
+# - Manual: Use "Run workflow" button in Actions tab
+# - Scheduled: Runs daily at 2 AM UTC
+#
+# Installation:
+# This workflow file should be copied to .github/workflows/rhythm-sync.yml
+# to be used by GitHub Actions. It can be installed via a setup script.
+#
+# Documentation: See .baton/notes/Feature-01/Agent-Task-09.md
+
+name: RHYTHM Method Sync
+
+on:
+  # Trigger on issue opened
+  issues:
+    types: [opened, edited]
+  
+  # Trigger on issue comment (for HITL checkpoints)
+  issue_comment:
+    types: [created]
+  
+  # Manual workflow dispatch
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to sync (leave empty to sync all issues)'
+        required: false
+        type: string
+      dry_run:
+        description: 'Run in dry-run mode (preview changes without applying)'
+        required: false
+        type: boolean
+        default: false
+  
+  # Scheduled daily sync (optional - runs at 2 AM UTC)
+  schedule:
+    - cron: '0 2 * * *'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  sync:
+    name: Sync Dependencies and Project Fields
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write      # Required to update issue dependencies and add comments
+      contents: read     # Required to read repository files and scripts
+      pull-requests: read # Required for issue dependencies (blocked by relationships)
+      # Note: Projects v2 permissions are handled via GITHUB_TOKEN
+      # The token must have write access to projects (configured in repository settings)
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup GitHub CLI
+        uses: cli/setup-cli@v1
+        with:
+          version: latest
+      
+      - name: Authenticate GitHub CLI
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+      
+      - name: Determine issue number
+        id: determine_issue
+        run: |
+          ISSUE_NUMBER=""
+          
+          # Check if triggered by issue event
+          if [ "${{ github.event_name }}" == "issues" ]; then
+            ISSUE_NUMBER="${{ github.event.issue.number }}"
+            echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
+            echo "triggered_by=issue_event" >> $GITHUB_OUTPUT
+            
+            # For edited events, we sync regardless
+            # The scripts are idempotent, so it's safe to run even if body didn't change
+            # GitHub's changes object may not always be available, so we sync on all edits
+            if [ "${{ github.event.action }}" == "edited" ]; then
+              echo "body_changed=unknown" >> $GITHUB_OUTPUT
+            fi
+          # Check if triggered by issue comment
+          elif [ "${{ github.event_name }}" == "issue_comment" ]; then
+            # Skip if comment is on a PR, not an issue
+            # GitHub API: issue.pull_request is null for issues, non-null for PRs
+            if [ -n "${{ github.event.issue.pull_request }}" ]; then
+              echo "Skipping: Comment is on a PR, not an issue"
+              echo "issue_number=" >> $GITHUB_OUTPUT
+              echo "triggered_by=skipped_pr_comment" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            ISSUE_NUMBER="${{ github.event.issue.number }}"
+            echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
+            echo "triggered_by=issue_comment" >> $GITHUB_OUTPUT
+          # Check if triggered by workflow_dispatch
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            ISSUE_NUMBER="${{ github.event.inputs.issue_number }}"
+            if [ -n "${ISSUE_NUMBER}" ]; then
+              echo "issue_number=${ISSUE_NUMBER}" >> $GITHUB_OUTPUT
+              echo "triggered_by=manual" >> $GITHUB_OUTPUT
+            else
+              echo "issue_number=" >> $GITHUB_OUTPUT
+              echo "triggered_by=manual_all" >> $GITHUB_OUTPUT
+            fi
+          # Scheduled run - sync all issues
+          elif [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "issue_number=" >> $GITHUB_OUTPUT
+            echo "triggered_by=scheduled" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/github/manage/*.sh
+          chmod +x scripts/github/validate/*.sh
+      
+      - name: Sync Dependencies
+        id: sync_dependencies
+        continue-on-error: true
+        run: |
+          set +e
+          
+          ISSUE_NUMBER="${{ steps.determine_issue.outputs.issue_number }}"
+          DRY_RUN="${{ github.event.inputs.dry_run }}"
+          
+          SYNC_CMD="./scripts/github/manage/sync-dependencies.sh --verbose"
+          
+          if [ "${DRY_RUN}" == "true" ]; then
+            SYNC_CMD="${SYNC_CMD} --dry-run"
+          fi
+          
+          if [ -n "${ISSUE_NUMBER}" ]; then
+            SYNC_CMD="${SYNC_CMD} --issue ${ISSUE_NUMBER}"
+          else
+            SYNC_CMD="${SYNC_CMD} --all"
+          fi
+          
+          echo "Running: ${SYNC_CMD}"
+          # Capture output to check for rate limits
+          ${SYNC_CMD} 2>&1 | tee sync-deps-output.txt
+          SYNC_DEPS_EXIT=${PIPESTATUS[0]}
+          
+          echo "sync_deps_exit=${SYNC_DEPS_EXIT}" >> $GITHUB_OUTPUT
+          
+          # Check for rate limit errors in output
+          if grep -qi "rate limit\|429\|API rate limit" sync-deps-output.txt 2>/dev/null; then
+            echo "sync_deps_rate_limited=true" >> $GITHUB_OUTPUT
+          else
+            echo "sync_deps_rate_limited=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ ${SYNC_DEPS_EXIT} -eq 0 ]; then
+            echo "sync_deps_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "sync_deps_status=failed" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Sync Projects v2 Fields
+        id: sync_fields
+        continue-on-error: true
+        run: |
+          set +e
+          
+          ISSUE_NUMBER="${{ steps.determine_issue.outputs.issue_number }}"
+          DRY_RUN="${{ github.event.inputs.dry_run }}"
+          
+          SYNC_CMD="./scripts/github/manage/update-project-fields.sh --verbose"
+          
+          if [ "${DRY_RUN}" == "true" ]; then
+            SYNC_CMD="${SYNC_CMD} --dry-run"
+          fi
+          
+          if [ -n "${ISSUE_NUMBER}" ]; then
+            SYNC_CMD="${SYNC_CMD} --issue ${ISSUE_NUMBER}"
+          else
+            SYNC_CMD="${SYNC_CMD} --all"
+          fi
+          
+          echo "Running: ${SYNC_CMD}"
+          # Capture output to check for rate limits
+          ${SYNC_CMD} 2>&1 | tee sync-fields-output.txt
+          SYNC_FIELDS_EXIT=${PIPESTATUS[0]}
+          
+          echo "sync_fields_exit=${SYNC_FIELDS_EXIT}" >> $GITHUB_OUTPUT
+          
+          # Check for rate limit errors in output
+          if grep -qi "rate limit\|429\|API rate limit" sync-fields-output.txt 2>/dev/null; then
+            echo "sync_fields_rate_limited=true" >> $GITHUB_OUTPUT
+          else
+            echo "sync_fields_rate_limited=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ ${SYNC_FIELDS_EXIT} -eq 0 ]; then
+            echo "sync_fields_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "sync_fields_status=failed" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Validate Sync (Optional)
+        id: validate
+        continue-on-error: true
+        run: |
+          set +e
+          
+          ISSUE_NUMBER="${{ steps.determine_issue.outputs.issue_number }}"
+          
+          VALIDATE_CMD="./scripts/github/validate/validate-issues.sh --verbose"
+          
+          if [ -n "${ISSUE_NUMBER}" ]; then
+            VALIDATE_CMD="${VALIDATE_CMD} --issue ${ISSUE_NUMBER}"
+          else
+            VALIDATE_CMD="${VALIDATE_CMD} --all"
+          fi
+          
+          echo "Running: ${VALIDATE_CMD}"
+          ${VALIDATE_CMD} 2>&1 | tee validation-report.txt
+          VALIDATE_EXIT=$?
+          
+          echo "validate_exit=${VALIDATE_EXIT}" >> $GITHUB_OUTPUT
+          
+          if [ ${VALIDATE_EXIT} -eq 0 ]; then
+            echo "validate_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "validate_status=warnings_or_errors" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Upload Validation Report
+        if: always() && steps.validate.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report
+          path: validation-report.txt
+          if-no-files-found: ignore
+      
+      - name: Comment on Issue
+        if: |
+          always() && 
+          steps.determine_issue.outputs.issue_number != '' && 
+          (github.event_name == 'issues' || github.event_name == 'issue_comment' || github.event_name == 'workflow_dispatch')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = '${{ steps.determine_issue.outputs.issue_number }}';
+            const triggeredBy = '${{ steps.determine_issue.outputs.triggered_by }}';
+            const syncDepsStatus = '${{ steps.sync_dependencies.outputs.sync_deps_status }}';
+            const syncFieldsStatus = '${{ steps.sync_fields.outputs.sync_fields_status }}';
+            const validateStatus = '${{ steps.validate.outputs.validate_status }}';
+            const dryRun = '${{ github.event.inputs.dry_run }}' === 'true';
+            
+            let comment = '## 🔄 RHYTHM Method Sync Results\n\n';
+            
+            if (dryRun) {
+              comment += '⚠️ **Dry-run mode** - No changes were applied\n\n';
+            }
+            
+            comment += `**Triggered by:** ${triggeredBy}\n`;
+            comment += `**Issue:** #${issueNumber}\n\n`;
+            
+            comment += '### Sync Results\n\n';
+            
+            // Dependencies sync
+            if (syncDepsStatus === 'success') {
+              comment += '✅ **Dependencies:** Synced successfully\n';
+            } else if (syncDepsStatus === 'failed') {
+              comment += '❌ **Dependencies:** Sync failed\n';
+            } else {
+              comment += '⏭️ **Dependencies:** Skipped\n';
+            }
+            
+            // Fields sync
+            if (syncFieldsStatus === 'success') {
+              comment += '✅ **Projects v2 Fields:** Synced successfully\n';
+            } else if (syncFieldsStatus === 'failed') {
+              comment += '❌ **Projects v2 Fields:** Sync failed\n';
+            } else {
+              comment += '⏭️ **Projects v2 Fields:** Skipped\n';
+            }
+            
+            // Validation
+            if (validateStatus === 'success') {
+              comment += '✅ **Validation:** All checks passed\n';
+            } else if (validateStatus === 'warnings_or_errors') {
+              comment += '⚠️ **Validation:** Warnings or errors found (see validation report artifact)\n';
+            } else {
+              comment += '⏭️ **Validation:** Skipped\n';
+            }
+            
+            comment += '\n---\n';
+            comment += '*This comment was automatically generated by the RHYTHM Method Sync workflow.*';
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: comment
+            });
+      
+      - name: Handle Rate Limits
+        if: failure()
+        run: |
+          # Check if the error is related to rate limits by checking step outputs
+          RATE_LIMITED=false
+          if [ "${{ steps.sync_dependencies.outputs.sync_deps_rate_limited }}" == "true" ] || \
+             [ "${{ steps.sync_fields.outputs.sync_fields_rate_limited }}" == "true" ]; then
+            RATE_LIMITED=true
+          fi
+          
+          # Also check output files if they exist
+          if [ -f sync-deps-output.txt ] && grep -qi "rate limit\|429\|API rate limit" sync-deps-output.txt 2>/dev/null; then
+            RATE_LIMITED=true
+          fi
+          if [ -f sync-fields-output.txt ] && grep -qi "rate limit\|429\|API rate limit" sync-fields-output.txt 2>/dev/null; then
+            RATE_LIMITED=true
+          fi
+          
+          if [ "${RATE_LIMITED}" == "true" ]; then
+            echo "⚠️ GitHub API rate limit encountered. The workflow will retry on the next scheduled run."
+            exit 0
+          fi
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "## RHYTHM Method Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ steps.determine_issue.outputs.triggered_by }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Issue:** ${{ steps.determine_issue.outputs.issue_number || 'All issues' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Results" >> $GITHUB_STEP_SUMMARY
+          echo "- **Dependencies Sync:** ${{ steps.sync_dependencies.outputs.sync_deps_status || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Fields Sync:** ${{ steps.sync_fields.outputs.sync_fields_status || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Validation:** ${{ steps.validate.outputs.validate_status || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+
