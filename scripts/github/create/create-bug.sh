@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 #
-# Create GitHub Feature Issue for RHYTHM Method
+# Create GitHub Bug Issue for RHYTHM Method
 # 
-# This script creates a Feature issue with proper issue type, Projects v2 fields,
-# and metadata using GitHub CLI.
+# This script creates a Bug issue with proper issue type, relationship type (parented/related),
+# Projects v2 fields, and metadata using GitHub CLI.
 #
 # Usage:
-#   ./create-feature.sh [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--tempo TEMPO] [--tokens TOKENS] [--dependencies DEPS]
+#   ./create-bug.sh [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--relationship TYPE] [--parent-work-unit PARENT] [--related-feature FEATURE] [--severity SEVERITY] [--steps STEPS] [--expected EXPECTED] [--actual ACTUAL]
 #
 # Options:
-#   --dry-run       Preview changes without applying them
-#   --verbose       Show detailed output
-#   --help          Show this help message
-#   --title         Issue title (required if not interactive)
-#   --description   Issue description (required if not interactive)
-#   --body-file     Path to issue body file (alternative to --description)
-#   --tempo         TEMPO level (High, Moderate, Controlled) - default: Moderate
-#   --tokens        Estimated tokens (number)
-#   --dependencies  Comma-separated list of issue numbers this depends on (e.g., "45,46")
+#   --dry-run           Preview changes without applying them
+#   --verbose           Show detailed output
+#   --help              Show this help message
+#   --title             Bug title (required if not interactive)
+#   --description       Bug description (required if not interactive)
+#   --body-file         Path to issue body file (alternative to --description)
+#   --relationship      Relationship type: "parented" or "related" (required if not interactive)
+#   --parent-work-unit  Parent Work Unit issue number (required if relationship is "parented")
+#   --related-feature   Related Feature issue number (required if relationship is "related")
+#   --severity          Severity level: Critical, High, Medium, Low (required if not interactive)
+#   --steps             Steps to reproduce (optional)
+#   --expected          Expected behavior (optional)
+#   --actual            Actual behavior (optional)
 #
 # Requirements:
 #   - GitHub CLI (gh) installed and authenticated
@@ -26,8 +30,10 @@
 #
 # Features:
 #   - Interactive mode (default) or parameter-based mode
-#   - Creates issue with "Feature" issue type
-#   - Sets Projects v2 custom fields (Status, TEMPO, Estimated Tokens)
+#   - Creates issue with "Bug" issue type
+#   - Sets relationship type (parented to Work Unit or related to Feature)
+#   - Sets native dependency if parented to work unit
+#   - Sets Projects v2 custom fields (Status, Bug Relationship, Severity)
 #   - Links issue to Project if configured
 #   - Supports dry-run mode
 #
@@ -43,7 +49,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CONFIG_FILE="${REPO_ROOT}/.baton/github-config.yml"
 FIELD_IDS_FILE="${REPO_ROOT}/.baton/github-field-ids.yml"
-TEMPLATE_FILE="${REPO_ROOT}/.github/ISSUE_TEMPLATE/feature.yml"
+TEMPLATE_FILE="${REPO_ROOT}/.github/ISSUE_TEMPLATE/bug.yml"
 
 # Flags
 DRY_RUN=false
@@ -55,9 +61,13 @@ INTERACTIVE=true
 ISSUE_TITLE=""
 ISSUE_DESCRIPTION=""
 ISSUE_BODY_FILE=""
-TEMPO_LEVEL="Moderate"
-ESTIMATED_TOKENS=""
-DEPENDENCIES=""
+BUG_RELATIONSHIP=""
+PARENT_WORK_UNIT=""
+RELATED_FEATURE=""
+SEVERITY=""
+STEPS_TO_REPRODUCE=""
+EXPECTED_BEHAVIOR=""
+ACTUAL_BEHAVIOR=""
 
 # Colors for output
 RED='\033[0;31m'
@@ -92,26 +102,30 @@ log_verbose() {
 # Show help message
 show_help() {
     cat << EOF
-Create GitHub Feature Issue for RHYTHM Method
+Create GitHub Bug Issue for RHYTHM Method
 
-This script creates a Feature issue with proper issue type, Projects v2 fields,
-and metadata using GitHub CLI.
+This script creates a Bug issue with proper issue type, relationship type (parented/related),
+Projects v2 fields, and metadata using GitHub CLI.
 
 USAGE:
-    ${0##*/} [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--tempo TEMPO] [--tokens TOKENS] [--dependencies DEPS]
+    ${0##*/} [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--relationship TYPE] [--parent-work-unit PARENT] [--related-feature FEATURE] [--severity SEVERITY] [--steps STEPS] [--expected EXPECTED] [--actual ACTUAL]
 
 OPTIONS:
-    --dry-run       Preview changes without applying them
-    --verbose       Show detailed output
-    --help          Show this help message
+    --dry-run           Preview changes without applying them
+    --verbose           Show detailed output
+    --help              Show this help message
 
 PARAMETERS (for non-interactive mode):
-    --title         Issue title (required if not interactive)
-    --description   Issue description (required if not interactive)
-    --body-file     Path to issue body file (alternative to --description)
-    --tempo         TEMPO level (High, Moderate, Controlled) - default: Moderate
-    --tokens        Estimated tokens (number)
-    --dependencies  Comma-separated list of issue numbers this depends on (e.g., "45,46")
+    --title             Bug title (required if not interactive)
+    --description       Bug description (required if not interactive)
+    --body-file         Path to issue body file (alternative to --description)
+    --relationship      Relationship type: "parented" or "related" (required if not interactive)
+    --parent-work-unit  Parent Work Unit issue number (required if relationship is "parented")
+    --related-feature   Related Feature issue number (required if relationship is "related")
+    --severity          Severity level: Critical, High, Medium, Low (required if not interactive)
+    --steps             Steps to reproduce (optional)
+    --expected          Expected behavior (optional)
+    --actual            Actual behavior (optional)
 
 REQUIREMENTS:
     - GitHub CLI (gh) installed and authenticated
@@ -122,17 +136,17 @@ EXAMPLES:
     # Interactive mode
     ${0##*/}
 
-    # Non-interactive mode
-    ${0##*/} --title "User Authentication" --description "Implement user authentication system" --tempo High --tokens 5000
+    # Non-interactive mode (parented bug)
+    ${0##*/} --title "Login fails with valid credentials" --description "Bug description" --relationship parented --parent-work-unit 46 --severity High
 
-    # With dependencies
-    ${0##*/} --title "Feature" --description "Description" --dependencies "45,46"
+    # Non-interactive mode (related bug)
+    ${0##*/} --title "Feature bug" --description "Bug description" --relationship related --related-feature 45 --severity Medium
 
     # Preview changes
-    ${0##*/} --title "Feature" --description "Description" --dry-run
+    ${0##*/} --title "Bug" --description "Description" --relationship parented --parent-work-unit 46 --severity High --dry-run
 
     # Verbose output
-    ${0##*/} --title "Feature" --description "Description" --verbose
+    ${0##*/} --title "Bug" --description "Description" --relationship related --related-feature 45 --severity Critical --verbose
 EOF
     exit 0
 }
@@ -168,18 +182,38 @@ parse_args() {
                 INTERACTIVE=false
                 shift 2
                 ;;
-            --tempo)
-                TEMPO_LEVEL="$2"
+            --relationship)
+                BUG_RELATIONSHIP="$2"
                 INTERACTIVE=false
                 shift 2
                 ;;
-            --tokens)
-                ESTIMATED_TOKENS="$2"
+            --parent-work-unit)
+                PARENT_WORK_UNIT="$2"
                 INTERACTIVE=false
                 shift 2
                 ;;
-            --dependencies)
-                DEPENDENCIES="$2"
+            --related-feature)
+                RELATED_FEATURE="$2"
+                INTERACTIVE=false
+                shift 2
+                ;;
+            --severity)
+                SEVERITY="$2"
+                INTERACTIVE=false
+                shift 2
+                ;;
+            --steps)
+                STEPS_TO_REPRODUCE="$2"
+                INTERACTIVE=false
+                shift 2
+                ;;
+            --expected)
+                EXPECTED_BEHAVIOR="$2"
+                INTERACTIVE=false
+                shift 2
+                ;;
+            --actual)
+                ACTUAL_BEHAVIOR="$2"
                 INTERACTIVE=false
                 shift 2
                 ;;
@@ -285,6 +319,41 @@ get_field_id() {
     return 0
 }
 
+# Validate issue exists and has correct type
+validate_issue_exists_and_type() {
+    local repo=$1
+    local issue_number=$2
+    local expected_type=$3
+
+    log_verbose "Validating issue #${issue_number} exists and is type '${expected_type}'..."
+
+    # Check if issue exists
+    local issue_data
+    issue_data=$(gh issue view "${issue_number}" --repo "${repo}" --json number,type 2>/dev/null || echo "")
+    
+    if [[ -z "${issue_data}" ]]; then
+        log_error "Issue #${issue_number} does not exist in repository ${repo}"
+        return 1
+    fi
+
+    # Check issue type
+    local issue_type
+    issue_type=$(echo "${issue_data}" | yq eval '.type // ""' - 2>/dev/null || echo "")
+    
+    if [[ -z "${issue_type}" ]]; then
+        log_warning "Could not determine issue type for #${issue_number}, continuing anyway"
+        return 0
+    fi
+
+    if [[ "${issue_type}" != "${expected_type}" ]]; then
+        log_error "Issue #${issue_number} is type '${issue_type}', expected '${expected_type}'"
+        return 1
+    fi
+
+    log_verbose "Issue #${issue_number} validated: type '${issue_type}'"
+    return 0
+}
+
 # Get issue node ID (GraphQL ID) from issue number
 get_issue_node_id() {
     local repo=$1
@@ -344,30 +413,8 @@ get_option_id() {
 
     log_verbose "Querying option ID for '${option_name}' in field ${field_id}..."
 
-    # Query field options using GraphQL API
-    local response
-    response=$(gh api graphql -f query="
-        query {
-            node(id: \"${project_id}\") {
-                ... on ProjectV2 {
-                    field(name: \"\") {
-                        ... on ProjectV2SingleSelectField {
-                            id
-                            options {
-                                id
-                                name
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    " 2>&1) || {
-        log_warning "Could not query field options: ${response}"
-        return 1
-    }
-
     # Query all fields to find the one we need
+    local response
     response=$(gh api graphql -f query="
         query {
             node(id: \"${project_id}\") {
@@ -502,41 +549,85 @@ update_project_number_field() {
 
 # Interactive prompt for issue details
 prompt_issue_details() {
-    log_info "Enter Feature details:"
+    log_info "Enter Bug details:"
     echo
 
     # Title
     while [[ -z "${ISSUE_TITLE}" ]]; do
-        read -p "Feature title: " ISSUE_TITLE
+        read -p "Bug title: " ISSUE_TITLE
         if [[ -z "${ISSUE_TITLE}" ]]; then
             log_error "Title is required"
         fi
     done
 
+    # Relationship type
+    if [[ -z "${BUG_RELATIONSHIP}" ]]; then
+        log_info "Bug relationship type:"
+        echo "  1) Parented to Work Unit"
+        echo "  2) Related to Feature"
+        read -p "Select [1]: " rel_choice
+        case "${rel_choice:-1}" in
+            1) BUG_RELATIONSHIP="parented" ;;
+            2) BUG_RELATIONSHIP="related" ;;
+            *) BUG_RELATIONSHIP="parented" ;;
+        esac
+    fi
+
+    # Parent Work Unit or Related Feature
+    if [[ "${BUG_RELATIONSHIP}" == "parented" ]]; then
+        while [[ -z "${PARENT_WORK_UNIT}" ]]; do
+            read -p "Parent Work Unit issue number (e.g., 46): " PARENT_WORK_UNIT
+            if [[ -z "${PARENT_WORK_UNIT}" ]]; then
+                log_error "Parent Work Unit is required for parented bugs"
+            fi
+        done
+    elif [[ "${BUG_RELATIONSHIP}" == "related" ]]; then
+        while [[ -z "${RELATED_FEATURE}" ]]; do
+            read -p "Related Feature issue number (e.g., 45): " RELATED_FEATURE
+            if [[ -z "${RELATED_FEATURE}" ]]; then
+                log_error "Related Feature is required for related bugs"
+            fi
+        done
+    fi
+
+    # Severity
+    if [[ -z "${SEVERITY}" ]]; then
+        log_info "Severity level:"
+        echo "  1) Critical"
+        echo "  2) High"
+        echo "  3) Medium"
+        echo "  4) Low"
+        read -p "Select [3]: " sev_choice
+        case "${sev_choice:-3}" in
+            1) SEVERITY="Critical" ;;
+            2) SEVERITY="High" ;;
+            3) SEVERITY="Medium" ;;
+            4) SEVERITY="Low" ;;
+            *) SEVERITY="Medium" ;;
+        esac
+    fi
+
     # Description
     if [[ -z "${ISSUE_DESCRIPTION}" && -z "${ISSUE_BODY_FILE}" ]]; then
-        log_info "Enter feature description (end with Ctrl+D or empty line):"
+        log_info "Enter bug description (end with Ctrl+D or empty line):"
         ISSUE_DESCRIPTION=$(cat)
     fi
 
-    # TEMPO
-    log_info "TEMPO level:"
-    echo "  1) High"
-    echo "  2) Moderate (default)"
-    echo "  3) Controlled"
-    read -p "Select [2]: " tempo_choice
-    case "${tempo_choice:-2}" in
-        1) TEMPO_LEVEL="High" ;;
-        2) TEMPO_LEVEL="Moderate" ;;
-        3) TEMPO_LEVEL="Controlled" ;;
-        *) TEMPO_LEVEL="Moderate" ;;
-    esac
+    # Steps to reproduce
+    if [[ -z "${STEPS_TO_REPRODUCE}" ]]; then
+        log_info "Steps to reproduce (optional, end with Ctrl+D or empty line):"
+        STEPS_TO_REPRODUCE=$(cat)
+    fi
 
-    # Estimated tokens
-    read -p "Estimated tokens (optional): " ESTIMATED_TOKENS
+    # Expected behavior
+    if [[ -z "${EXPECTED_BEHAVIOR}" ]]; then
+        read -p "Expected behavior (optional): " EXPECTED_BEHAVIOR
+    fi
 
-    # Dependencies
-    read -p "Dependencies (comma-separated issue numbers, e.g., 45,46): " DEPENDENCIES
+    # Actual behavior
+    if [[ -z "${ACTUAL_BEHAVIOR}" ]]; then
+        read -p "Actual behavior (optional): " ACTUAL_BEHAVIOR
+    fi
 }
 
 # Create issue body with metadata
@@ -552,20 +643,54 @@ create_issue_body() {
         return 1
     fi
 
+    # Build full body with bug-specific sections
+    if [[ -n "${STEPS_TO_REPRODUCE}" ]]; then
+        body_content="${body_content}
+
+## Steps to Reproduce
+${STEPS_TO_REPRODUCE}"
+    fi
+
+    if [[ -n "${EXPECTED_BEHAVIOR}" ]]; then
+        body_content="${body_content}
+
+## Expected Behavior
+${EXPECTED_BEHAVIOR}"
+    fi
+
+    if [[ -n "${ACTUAL_BEHAVIOR}" ]]; then
+        body_content="${body_content}
+
+## Actual Behavior
+${ACTUAL_BEHAVIOR}"
+    fi
+
     # Append RHYTHM Method metadata
+    local priority="normal"
+    if [[ "${BUG_RELATIONSHIP}" == "parented" ]]; then
+        priority="highest"
+    fi
+
     body_content="${body_content}
 
 ---
 
 <!-- RHYTHM Method Metadata -->
-**Feature ID:** feat-XXX (auto-generated)
-**Parent:** Project Manifest (.baton/project.manifest.md)
+**Bug ID:** bug-XXX (auto-generated)
+**Relationship:** ${BUG_RELATIONSHIP}"
+    
+    if [[ "${BUG_RELATIONSHIP}" == "parented" && -n "${PARENT_WORK_UNIT}" ]]; then
+        body_content="${body_content}
+**Parent Work Unit:** #${PARENT_WORK_UNIT}"
+    elif [[ "${BUG_RELATIONSHIP}" == "related" && -n "${RELATED_FEATURE}" ]]; then
+        body_content="${body_content}
+**Related Feature:** #${RELATED_FEATURE}"
+    fi
+
+    body_content="${body_content}
 **Status:** planned
-**TEMPO:** ${TEMPO_LEVEL}
-**Priority Level:** level-0 (calculated from dependencies)
-**Estimated Tokens:** ${ESTIMATED_TOKENS:-}
-**Actual Tokens:** [updated during execution]
-**Work Units:** [count] (linked issues)"
+**Priority:** ${priority} (parented bugs always highest)
+**Severity:** ${SEVERITY}"
 
     echo "${body_content}"
 }
@@ -579,8 +704,8 @@ main() {
         exit 0
     fi
 
-    log_info "Create GitHub Feature Issue for RHYTHM Method"
-    log_info "=============================================="
+    log_info "Create GitHub Bug Issue for RHYTHM Method"
+    log_info "=========================================="
 
     if [[ "${DRY_RUN}" == "true" ]]; then
         log_warning "DRY RUN MODE - No changes will be made"
@@ -623,21 +748,73 @@ main() {
     body_file=$(mktemp)
     echo "${issue_body}" > "${body_file}"
 
-    log_info "Creating Feature issue..."
+    # Validate relationship type
+    if [[ -z "${BUG_RELATIONSHIP}" ]]; then
+        log_error "Bug relationship type is required (parented or related)"
+        exit 2
+    fi
+
+    if [[ "${BUG_RELATIONSHIP}" != "parented" && "${BUG_RELATIONSHIP}" != "related" ]]; then
+        log_error "Invalid relationship type: ${BUG_RELATIONSHIP}. Must be 'parented' or 'related'"
+        exit 2
+    fi
+
+    # Validate relationship-specific requirements
+    if [[ "${BUG_RELATIONSHIP}" == "parented" && -z "${PARENT_WORK_UNIT}" ]]; then
+        log_error "Parent Work Unit issue number is required for parented bugs"
+        exit 2
+    fi
+
+    if [[ "${BUG_RELATIONSHIP}" == "related" && -z "${RELATED_FEATURE}" ]]; then
+        log_error "Related Feature issue number is required for related bugs"
+        exit 2
+    fi
+
+    # Validate severity
+    if [[ -z "${SEVERITY}" ]]; then
+        log_error "Severity is required"
+        exit 2
+    fi
+
+    # Validate parent/related issue exists and is correct type
+    if [[ "${DRY_RUN}" != "true" ]]; then
+        if [[ "${BUG_RELATIONSHIP}" == "parented" ]]; then
+            if ! validate_issue_exists_and_type "${repo}" "${PARENT_WORK_UNIT}" "Work Unit"; then
+                log_error "Parent Work Unit validation failed"
+                exit 2
+            fi
+        elif [[ "${BUG_RELATIONSHIP}" == "related" ]]; then
+            if ! validate_issue_exists_and_type "${repo}" "${RELATED_FEATURE}" "Feature"; then
+                log_error "Related Feature validation failed"
+                exit 2
+            fi
+        fi
+    fi
+
+    log_info "Creating Bug issue..."
     log_verbose "Title: ${ISSUE_TITLE}"
-    log_verbose "TEMPO: ${TEMPO_LEVEL}"
-    log_verbose "Estimated Tokens: ${ESTIMATED_TOKENS:-none}"
+    log_verbose "Relationship: ${BUG_RELATIONSHIP}"
+    if [[ "${BUG_RELATIONSHIP}" == "parented" ]]; then
+        log_verbose "Parent Work Unit: #${PARENT_WORK_UNIT}"
+    else
+        log_verbose "Related Feature: #${RELATED_FEATURE}"
+    fi
+    log_verbose "Severity: ${SEVERITY}"
 
     # Create issue
     local issue_number
     if [[ "${DRY_RUN}" == "true" ]]; then
         log_info "[DRY RUN] Would create issue:"
         log_info "  Title: ${ISSUE_TITLE}"
-        log_info "  Type: Feature"
-        log_info "  Body: (see ${body_file})"
-        if [[ -n "${DEPENDENCIES}" ]]; then
-            log_info "  Dependencies: ${DEPENDENCIES}"
+        log_info "  Type: Bug"
+        log_info "  Relationship: ${BUG_RELATIONSHIP}"
+        if [[ "${BUG_RELATIONSHIP}" == "parented" ]]; then
+            log_info "  Parent Work Unit: #${PARENT_WORK_UNIT}"
+        else
+            log_info "  Related Feature: #${RELATED_FEATURE}"
         fi
+        log_info "  Severity: ${SEVERITY}"
+        log_info "  Body: (see ${body_file})"
         rm -f "${body_file}"
         exit 0
     fi
@@ -648,18 +825,12 @@ main() {
         --repo "${repo}"
         --title "${ISSUE_TITLE}"
         --body-file "${body_file}"
-        --type "Feature"
+        --type "Bug"
     )
 
-    # Add dependencies
-    if [[ -n "${DEPENDENCIES}" ]]; then
-        IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
-        for dep in "${DEPS[@]}"; do
-            dep=$(echo "${dep}" | xargs)  # Trim whitespace
-            if [[ -n "${dep}" ]]; then
-                create_cmd+=(--add-blocked-by "${dep}")
-            fi
-        done
+    # Add dependency if parented to work unit
+    if [[ "${BUG_RELATIONSHIP}" == "parented" && -n "${PARENT_WORK_UNIT}" ]]; then
+        create_cmd+=(--add-blocked-by "${PARENT_WORK_UNIT}")
     fi
 
     # Execute command
@@ -671,7 +842,7 @@ main() {
         exit 1
     fi
 
-    log_success "Created Feature issue #${issue_number}"
+    log_success "Created Bug issue #${issue_number}"
 
     # Clean up
     rm -f "${body_file}"
@@ -693,23 +864,28 @@ main() {
                 update_project_single_select_field "${project_id}" "${issue_node_id}" "${status_field_id}" "Status" "Planned" || true
             fi
 
-            # Update TEMPO field
-            local tempo_field_id
-            if tempo_field_id=$(get_field_id "TEMPO"); then
-                update_project_single_select_field "${project_id}" "${issue_node_id}" "${tempo_field_id}" "TEMPO" "${TEMPO_LEVEL}" || true
+            # Update Bug Relationship field
+            local bug_relationship_field_id
+            if bug_relationship_field_id=$(get_field_id "Bug Relationship"); then
+                # Map relationship type to field value
+                local relationship_value
+                if [[ "${BUG_RELATIONSHIP}" == "parented" ]]; then
+                    relationship_value="Parented"
+                else
+                    relationship_value="Related"
+                fi
+                update_project_single_select_field "${project_id}" "${issue_node_id}" "${bug_relationship_field_id}" "Bug Relationship" "${relationship_value}" || true
             fi
 
-            # Update Estimated Tokens field
-            if [[ -n "${ESTIMATED_TOKENS}" ]]; then
-                local tokens_field_id
-                if tokens_field_id=$(get_field_id "Estimated Tokens"); then
-                    update_project_number_field "${project_id}" "${issue_node_id}" "${tokens_field_id}" "${ESTIMATED_TOKENS}" || true
-                fi
+            # Update Severity field
+            local severity_field_id
+            if severity_field_id=$(get_field_id "Severity"); then
+                update_project_single_select_field "${project_id}" "${issue_node_id}" "${severity_field_id}" "Severity" "${SEVERITY}" || true
             fi
         fi
     fi
 
-    log_success "Feature issue #${issue_number} created successfully"
+    log_success "Bug issue #${issue_number} created successfully"
     log_info "View issue: https://github.com/${repo}/issues/${issue_number}"
 }
 

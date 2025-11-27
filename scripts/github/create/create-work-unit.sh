@@ -286,6 +286,41 @@ get_field_id() {
     return 0
 }
 
+# Validate issue exists and has correct type
+validate_issue_exists_and_type() {
+    local repo=$1
+    local issue_number=$2
+    local expected_type=$3
+
+    log_verbose "Validating issue #${issue_number} exists and is type '${expected_type}'..."
+
+    # Check if issue exists
+    local issue_data
+    issue_data=$(gh issue view "${issue_number}" --repo "${repo}" --json number,type 2>/dev/null || echo "")
+    
+    if [[ -z "${issue_data}" ]]; then
+        log_error "Issue #${issue_number} does not exist in repository ${repo}"
+        return 1
+    fi
+
+    # Check issue type
+    local issue_type
+    issue_type=$(echo "${issue_data}" | yq eval '.type // ""' - 2>/dev/null || echo "")
+    
+    if [[ -z "${issue_type}" ]]; then
+        log_warning "Could not determine issue type for #${issue_number}, continuing anyway"
+        return 0
+    fi
+
+    if [[ "${issue_type}" != "${expected_type}" ]]; then
+        log_error "Issue #${issue_number} is type '${issue_type}', expected '${expected_type}'"
+        return 1
+    fi
+
+    log_verbose "Issue #${issue_number} validated: type '${issue_type}'"
+    return 0
+}
+
 # Get issue node ID (GraphQL ID) from issue number
 get_issue_node_id() {
     local repo=$1
@@ -337,19 +372,81 @@ add_issue_to_project() {
     return 0
 }
 
-# Update Projects v2 field value
-update_project_field() {
+# Get option ID for a single-select field value
+get_option_id() {
+    local project_id=$1
+    local field_id=$2
+    local option_name=$3
+
+    log_verbose "Querying option ID for '${option_name}' in field ${field_id}..."
+
+    # Query all fields to find the one we need
+    local response
+    response=$(gh api graphql -f query="
+        query {
+            node(id: \"${project_id}\") {
+                ... on ProjectV2 {
+                    fields(first: 50) {
+                        nodes {
+                            ... on ProjectV2SingleSelectField {
+                                id
+                                name
+                                options {
+                                    id
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    " 2>&1) || {
+        log_warning "Could not query project fields: ${response}"
+        return 1
+    }
+
+    # Extract option ID using jq or yq
+    local option_id
+    if command -v jq &> /dev/null; then
+        option_id=$(echo "${response}" | jq -r ".data.node.fields.nodes[] | select(.id == \"${field_id}\") | .options[] | select(.name == \"${option_name}\") | .id" 2>/dev/null || echo "")
+    elif command -v yq &> /dev/null; then
+        # yq parsing for GraphQL response
+        option_id=$(echo "${response}" | yq eval '.data.node.fields.nodes[] | select(.id == "'"${field_id}"'") | .options[] | select(.name == "'"${option_name}"'") | .id' - 2>/dev/null || echo "")
+    fi
+
+    if [[ -z "${option_id}" || "${option_id}" == "null" ]]; then
+        log_warning "Could not find option ID for '${option_name}' in field ${field_id}"
+        return 1
+    fi
+
+    echo "${option_id}"
+    return 0
+}
+
+# Update Projects v2 single-select field value
+update_project_single_select_field() {
     local project_id=$1
     local issue_node_id=$2
     local field_id=$3
-    local field_value=$4
+    local field_name=$4
+    local option_name=$5
 
-    log_verbose "Updating field value: ${field_value}..."
+    log_verbose "Updating single-select field '${field_name}' to '${option_name}'..."
 
     if [[ "${DRY_RUN}" == "true" ]]; then
-        log_verbose "[DRY RUN] Would update field to: ${field_value}"
+        log_verbose "[DRY RUN] Would update field '${field_name}' to: ${option_name}"
         return 0
     fi
+
+    # Get option ID
+    local option_id
+    if ! option_id=$(get_option_id "${project_id}" "${field_id}" "${option_name}"); then
+        log_warning "Could not get option ID for '${option_name}', skipping field update"
+        return 1
+    fi
+
+    log_verbose "Found option ID: ${option_id}"
 
     # Update field value using Projects v2 GraphQL API
     local response
@@ -360,7 +457,7 @@ update_project_field() {
                 itemId: \"${issue_node_id}\"
                 fieldId: \"${field_id}\"
                 value: {
-                    singleSelectOptionId: \"${field_value}\"
+                    singleSelectOptionId: \"${option_id}\"
                 }
             }) {
                 projectV2Item {
@@ -373,7 +470,7 @@ update_project_field() {
         return 1
     }
 
-    log_verbose "Field value updated"
+    log_verbose "Field '${field_name}' updated to '${option_name}'"
     return 0
 }
 
@@ -543,6 +640,14 @@ main() {
         exit 2
     fi
 
+    # Validate parent feature exists and is correct type
+    if [[ "${DRY_RUN}" != "true" ]]; then
+        if ! validate_issue_exists_and_type "${repo}" "${PARENT_FEATURE}" "Feature"; then
+            log_error "Parent Feature validation failed"
+            exit 2
+        fi
+    fi
+
     log_info "Creating Work Unit issue..."
     log_verbose "Title: ${ISSUE_TITLE}"
     log_verbose "Parent Feature: #${PARENT_FEATURE}"
@@ -612,19 +717,7 @@ main() {
             # Update Status field (set to "Planned")
             local status_field_id
             if status_field_id=$(get_field_id "Status"); then
-                # Get Status option ID (need to query project for option IDs)
-                # For now, we'll use the field update API which accepts option names
-                log_verbose "Status field ID: ${status_field_id}"
-                # Note: Projects v2 API requires option IDs, not names
-                # This is a limitation - we may need to query options first
-                log_warning "Status field update requires option ID lookup (not implemented yet)"
-            fi
-
-            # Update TEMPO field
-            local tempo_field_id
-            if tempo_field_id=$(get_field_id "TEMPO"); then
-                log_verbose "TEMPO field ID: ${tempo_field_id}"
-                log_warning "TEMPO field update requires option ID lookup (not implemented yet)"
+                update_project_single_select_field "${project_id}" "${issue_node_id}" "${status_field_id}" "Status" "Planned" || true
             fi
 
             # Update Estimated Tokens field

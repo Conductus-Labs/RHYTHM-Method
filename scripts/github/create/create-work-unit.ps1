@@ -1,21 +1,21 @@
-# Create GitHub Feature Issue for RHYTHM Method
+# Create GitHub Work Unit Issue for RHYTHM Method
 # 
-# This script creates a Feature issue with proper issue type, Projects v2 fields,
-# and metadata using GitHub CLI.
+# This script creates a Work Unit issue with proper issue type, parent feature dependency,
+# Projects v2 fields, and metadata using GitHub CLI.
 #
 # Usage:
-#   .\create-feature.ps1 [-DryRun] [-Verbose] [-Help] [-Title TITLE] [-Description DESC] [-BodyFile FILE] [-Tempo TEMPO] [-Tokens TOKENS] [-Dependencies DEPS]
+#   .\create-work-unit.ps1 [-DryRun] [-Verbose] [-Help] [-Title TITLE] [-Description DESC] [-BodyFile FILE] [-ParentFeature PARENT] [-Tokens TOKENS] [-Dependencies DEPS]
 #
 # Options:
-#   -DryRun       Preview changes without applying them
-#   -Verbose      Show detailed output
-#   -Help         Show this help message
-#   -Title        Issue title (required if not interactive)
-#   -Description  Issue description (required if not interactive)
-#   -BodyFile     Path to issue body file (alternative to -Description)
-#   -Tempo        TEMPO level (High, Moderate, Controlled) - default: Moderate
-#   -Tokens       Estimated tokens (number)
-#   -Dependencies Comma-separated list of issue numbers this depends on (e.g., "45,46")
+#   -DryRun         Preview changes without applying them
+#   -Verbose        Show detailed output
+#   -Help           Show this help message
+#   -Title          Issue title (required if not interactive)
+#   -Description    Issue description (required if not interactive)
+#   -BodyFile       Path to issue body file (alternative to -Description)
+#   -ParentFeature  Parent Feature issue number (required if not interactive)
+#   -Tokens         Estimated tokens (number)
+#   -Dependencies   Comma-separated list of issue numbers this depends on (e.g., "46,47")
 #
 # Requirements:
 #   - GitHub CLI (gh) installed and authenticated
@@ -24,8 +24,9 @@
 #
 # Features:
 #   - Interactive mode (default) or parameter-based mode
-#   - Creates issue with "Feature" issue type
-#   - Sets Projects v2 custom fields (Status, TEMPO, Estimated Tokens)
+#   - Creates issue with "Work Unit" issue type
+#   - Sets native dependency on parent feature
+#   - Sets Projects v2 custom fields (Status, Estimated Tokens)
 #   - Links issue to Project if configured
 #   - Supports dry-run mode
 #
@@ -41,8 +42,7 @@ param(
     [string]$Title = "",
     [string]$Description = "",
     [string]$BodyFile = "",
-    [ValidateSet("High", "Moderate", "Controlled")]
-    [string]$Tempo = "Moderate",
+    [string]$ParentFeature = "",
     [string]$Tokens = "",
     [string]$Dependencies = ""
 )
@@ -53,13 +53,13 @@ $ScriptDir = $PSScriptRoot
 $RepoRoot = Resolve-Path (Join-Path $ScriptDir "..\..\..")
 $ConfigFile = Join-Path $RepoRoot ".baton\github-config.yml"
 $FieldIdsFile = Join-Path $RepoRoot ".baton\github-field-ids.yml"
-$TemplateFile = Join-Path $RepoRoot ".github\ISSUE_TEMPLATE\feature.yml"
+$TemplateFile = Join-Path $RepoRoot ".github\ISSUE_TEMPLATE\work-unit.yml"
 
 # Set error action preference
 $ErrorActionPreference = "Stop"
 
 # Determine if interactive mode
-$Interactive = $Title -eq "" -and $Description -eq "" -and $BodyFile -eq ""
+$Interactive = $Title -eq "" -and $Description -eq "" -and $BodyFile -eq "" -and $ParentFeature -eq ""
 
 # Logging functions
 function Write-Info {
@@ -92,26 +92,26 @@ function Write-VerboseMessage {
 # Show help message
 function Show-Help {
     $helpText = @"
-Create GitHub Feature Issue for RHYTHM Method
+Create GitHub Work Unit Issue for RHYTHM Method
 
-This script creates a Feature issue with proper issue type, Projects v2 fields,
-and metadata using GitHub CLI.
+This script creates a Work Unit issue with proper issue type, parent feature dependency,
+Projects v2 fields, and metadata using GitHub CLI.
 
 USAGE:
-    .\create-feature.ps1 [OPTIONS] [-Title TITLE] [-Description DESC] [-BodyFile FILE] [-Tempo TEMPO] [-Tokens TOKENS] [-Dependencies DEPS]
+    .\create-work-unit.ps1 [OPTIONS] [-Title TITLE] [-Description DESC] [-BodyFile FILE] [-ParentFeature PARENT] [-Tokens TOKENS] [-Dependencies DEPS]
 
 OPTIONS:
-    -DryRun       Preview changes without applying them
-    -Verbose      Show detailed output
-    -Help         Show this help message
+    -DryRun         Preview changes without applying them
+    -Verbose        Show detailed output
+    -Help           Show this help message
 
 PARAMETERS (for non-interactive mode):
-    -Title        Issue title (required if not interactive)
-    -Description  Issue description (required if not interactive)
-    -BodyFile     Path to issue body file (alternative to -Description)
-    -Tempo        TEMPO level (High, Moderate, Controlled) - default: Moderate
-    -Tokens       Estimated tokens (number)
-    -Dependencies Comma-separated list of issue numbers this depends on (e.g., "45,46")
+    -Title          Issue title (required if not interactive)
+    -Description    Issue description (required if not interactive)
+    -BodyFile       Path to issue body file (alternative to -Description)
+    -ParentFeature  Parent Feature issue number (required if not interactive)
+    -Tokens         Estimated tokens (number)
+    -Dependencies   Comma-separated list of issue numbers this depends on (e.g., "46,47")
 
 REQUIREMENTS:
     - GitHub CLI (gh) installed and authenticated
@@ -120,19 +120,19 @@ REQUIREMENTS:
 
 EXAMPLES:
     # Interactive mode
-    .\create-feature.ps1
+    .\create-work-unit.ps1
 
     # Non-interactive mode
-    .\create-feature.ps1 -Title "User Authentication" -Description "Implement user authentication system" -Tempo High -Tokens 5000
+    .\create-work-unit.ps1 -Title "Login API" -Description "Implement login API endpoint" -ParentFeature 45 -Tokens 1500
 
     # With dependencies
-    .\create-feature.ps1 -Title "Feature" -Description "Description" -Dependencies "45,46"
+    .\create-work-unit.ps1 -Title "Work Unit" -Description "Description" -ParentFeature 45 -Dependencies "46,47"
 
     # Preview changes
-    .\create-feature.ps1 -Title "Feature" -Description "Description" -DryRun
+    .\create-work-unit.ps1 -Title "Work Unit" -Description "Description" -ParentFeature 45 -DryRun
 
     # Verbose output
-    .\create-feature.ps1 -Title "Feature" -Description "Description" -Verbose
+    .\create-work-unit.ps1 -Title "Work Unit" -Description "Description" -ParentFeature 45 -Verbose
 "@
     Write-Host $helpText
     exit 0
@@ -249,6 +249,43 @@ function Get-FieldId {
     return $null
 }
 
+# Validate issue exists and has correct type
+function Test-IssueExistsAndType {
+    param(
+        [string]$Repo,
+        [string]$IssueNumber,
+        [string]$ExpectedType
+    )
+
+    Write-VerboseMessage "Validating issue #$IssueNumber exists and is type '$ExpectedType'..."
+
+    try {
+        $issueData = gh issue view $IssueNumber --repo $Repo --json number,type 2>&1
+        if ($LASTEXITCODE -ne 0 -or -not $issueData) {
+            Write-Error "Issue #$IssueNumber does not exist in repository $Repo"
+            return $false
+        }
+
+        if (Test-Command "yq") {
+            $issueType = $issueData | yq eval '.type // ""' - 2>&1
+            if ($LASTEXITCODE -eq 0 -and $issueType) {
+                if ($issueType -ne $ExpectedType) {
+                    Write-Error "Issue #$IssueNumber is type '$issueType', expected '$ExpectedType'"
+                    return $false
+                }
+                Write-VerboseMessage "Issue #$IssueNumber validated: type '$issueType'"
+                return $true
+            }
+        }
+
+        Write-Warning "Could not determine issue type for #$IssueNumber, continuing anyway"
+        return $true
+    } catch {
+        Write-Error "Failed to validate issue #$IssueNumber: $_"
+        return $false
+    }
+}
+
 # Get option ID for a single-select field value
 function Get-OptionId {
     param(
@@ -260,7 +297,6 @@ function Get-OptionId {
     Write-VerboseMessage "Querying option ID for '$OptionName' in field $FieldId..."
 
     try {
-        # Query all fields to find the one we need
         $response = gh api graphql -f query="
             query {
                 node(id: `"$ProjectId`") {
@@ -287,7 +323,6 @@ function Get-OptionId {
             return $null
         }
 
-        # Extract option ID using jq or yq
         $optionId = $null
         if (Test-Command "jq") {
             $optionId = $response | jq -r ".data.node.fields.nodes[] | select(.id == `"$FieldId`") | .options[] | select(.name == `"$OptionName`") | .id" 2>&1
@@ -324,7 +359,6 @@ function Update-ProjectSingleSelectField {
         return $true
     }
 
-    # Get option ID
     $optionId = Get-OptionId $ProjectId $FieldId $OptionName
     if (-not $optionId) {
         Write-Warning "Could not get option ID for '$OptionName', skipping field update"
@@ -334,7 +368,6 @@ function Update-ProjectSingleSelectField {
     Write-VerboseMessage "Found option ID: $optionId"
 
     try {
-        # Update field value using Projects v2 GraphQL API
         $response = gh api graphql -f query="
             mutation {
                 updateProjectV2ItemFieldValue(input: {
@@ -403,14 +436,16 @@ function New-IssueBody {
 ---
 
 <!-- RHYTHM Method Metadata -->
-**Feature ID:** feat-XXX (auto-generated)
-**Parent:** Project Manifest (.baton/project.manifest.md)
+**Work Unit ID:** wu-XXX (auto-generated)
+**Parent Feature:** #$ParentFeature
 **Status:** planned
-**TEMPO:** $Tempo
 **Priority Level:** level-0 (calculated from dependencies)
 **Estimated Tokens:** $Tokens
 **Actual Tokens:** [updated during execution]
-**Work Units:** [count] (linked issues)
+**Estimated Duration:** [hours] (target: up to 8 hours)
+**Actual Duration:** [tracked during execution]
+**Agent Tasks:** [count] (linked issues)
+**Dependencies:** $Dependencies (also tracked via native dependencies)
 "@
 
     return $bodyContent + $metadata
@@ -418,20 +453,28 @@ function New-IssueBody {
 
 # Interactive prompt for issue details
 function Request-IssueDetails {
-    Write-Info "Enter Feature details:"
+    Write-Info "Enter Work Unit details:"
     Write-Host ""
 
     # Title
     while ($Title -eq "") {
-        $Title = Read-Host "Feature title"
+        $Title = Read-Host "Work Unit title"
         if ($Title -eq "") {
             Write-Error "Title is required"
         }
     }
 
+    # Parent Feature
+    while ($ParentFeature -eq "") {
+        $ParentFeature = Read-Host "Parent Feature issue number (e.g., 45)"
+        if ($ParentFeature -eq "") {
+            Write-Error "Parent Feature is required"
+        }
+    }
+
     # Description
     if ($Description -eq "" -and $BodyFile -eq "") {
-        Write-Info "Enter feature description (end with Ctrl+Z then Enter):"
+        Write-Info "Enter work unit description (end with Ctrl+Z then Enter):"
         $Description = @()
         while ($true) {
             $line = Read-Host
@@ -443,24 +486,11 @@ function Request-IssueDetails {
         $Description = $Description -join "`n"
     }
 
-    # TEMPO
-    Write-Info "TEMPO level:"
-    Write-Host "  1) High"
-    Write-Host "  2) Moderate (default)"
-    Write-Host "  3) Controlled"
-    $tempoChoice = Read-Host "Select [2]"
-    switch ($tempoChoice) {
-        "1" { $script:Tempo = "High" }
-        "2" { $script:Tempo = "Moderate" }
-        "3" { $script:Tempo = "Controlled" }
-        default { $script:Tempo = "Moderate" }
-    }
-
     # Estimated tokens
     $script:Tokens = Read-Host "Estimated tokens (optional)"
 
     # Dependencies
-    $script:Dependencies = Read-Host "Dependencies (comma-separated issue numbers, e.g., 45,46)"
+    $script:Dependencies = Read-Host "Dependencies (comma-separated issue numbers, e.g., 46,47)"
 }
 
 # Main function
@@ -469,8 +499,8 @@ function Main {
         Show-Help
     }
 
-    Write-Info "Create GitHub Feature Issue for RHYTHM Method"
-    Write-Info "=============================================="
+    Write-Info "Create GitHub Work Unit Issue for RHYTHM Method"
+    Write-Info "================================================"
 
     if ($DryRun) {
         Write-Warning "DRY RUN MODE - No changes will be made"
@@ -497,6 +527,19 @@ function Main {
         exit 2
     }
 
+    if ($ParentFeature -eq "") {
+        Write-Error "Parent Feature issue number is required"
+        exit 2
+    }
+
+    # Validate parent feature exists and is correct type
+    if (-not $DryRun) {
+        if (-not (Test-IssueExistsAndType $repo $ParentFeature "Feature")) {
+            Write-Error "Parent Feature validation failed"
+            exit 2
+        }
+    }
+
     if ($Description -eq "" -and $BodyFile -eq "") {
         Write-Error "Issue description or body file is required"
         exit 2
@@ -512,16 +555,17 @@ function Main {
     $bodyFile = [System.IO.Path]::GetTempFileName()
     $issueBody | Out-File -FilePath $bodyFile -Encoding UTF8
 
-    Write-Info "Creating Feature issue..."
+    Write-Info "Creating Work Unit issue..."
     Write-VerboseMessage "Title: $Title"
-    Write-VerboseMessage "TEMPO: $Tempo"
+    Write-VerboseMessage "Parent Feature: #$ParentFeature"
     Write-VerboseMessage "Estimated Tokens: $(if ($Tokens) { $Tokens } else { 'none' })"
 
     # Create issue
     if ($DryRun) {
         Write-Info "[DRY RUN] Would create issue:"
         Write-Info "  Title: $Title"
-        Write-Info "  Type: Feature"
+        Write-Info "  Type: Work Unit"
+        Write-Info "  Parent Feature: #$ParentFeature"
         Write-Info "  Body: (see $bodyFile)"
         if ($Dependencies) {
             Write-Info "  Dependencies: $Dependencies"
@@ -536,15 +580,16 @@ function Main {
         "--repo", $repo,
         "--title", $Title,
         "--body-file", $bodyFile,
-        "--type", "Feature"
+        "--type", "Work Unit",
+        "--add-blocked-by", $ParentFeature
     )
 
-    # Add dependencies
+    # Add additional dependencies
     if ($Dependencies) {
         $deps = $Dependencies -split ","
         foreach ($dep in $deps) {
             $dep = $dep.Trim()
-            if ($dep) {
+            if ($dep -and $dep -ne $ParentFeature) {
                 $createArgs += "--add-blocked-by"
                 $createArgs += $dep
             }
@@ -564,7 +609,7 @@ function Main {
         exit 1
     }
 
-    Write-Success "Created Feature issue #$issueNumber"
+    Write-Success "Created Work Unit issue #$issueNumber"
 
     # Clean up
     Remove-Item $bodyFile -ErrorAction SilentlyContinue
@@ -574,7 +619,6 @@ function Main {
     if ($projectId) {
         Write-Info "Linking issue to project and updating fields..."
 
-        # Get issue node ID
         $issueNodeId = Get-IssueNodeId $repo $issueNumber
         if ($issueNodeId) {
             # Update Status field (set to "Planned")
@@ -582,26 +626,10 @@ function Main {
             if ($statusFieldId) {
                 Update-ProjectSingleSelectField $projectId $issueNodeId $statusFieldId "Status" "Planned" | Out-Null
             }
-
-            # Update TEMPO field
-            $tempoFieldId = Get-FieldId "TEMPO"
-            if ($tempoFieldId) {
-                Update-ProjectSingleSelectField $projectId $issueNodeId $tempoFieldId "TEMPO" $Tempo | Out-Null
-            }
-
-            # Update Estimated Tokens field
-            if ($Tokens) {
-                $tokensFieldId = Get-FieldId "Estimated Tokens"
-                if ($tokensFieldId) {
-                    # Number field update (simplified - no option ID needed)
-                    Write-VerboseMessage "Updating Estimated Tokens field..."
-                    # Note: Number field updates would go here if needed
-                }
-            }
         }
     }
 
-    Write-Success "Feature issue #$issueNumber created successfully"
+    Write-Success "Work Unit issue #$issueNumber created successfully"
     Write-Info "View issue: https://github.com/$repo/issues/$issueNumber"
 }
 

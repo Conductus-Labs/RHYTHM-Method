@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 #
-# Create GitHub Feature Issue for RHYTHM Method
+# Create GitHub Agent Task Issue for RHYTHM Method
 # 
-# This script creates a Feature issue with proper issue type, Projects v2 fields,
-# and metadata using GitHub CLI.
+# This script creates an Agent Task issue with proper issue type, parent work unit dependency,
+# assigned agent, Projects v2 fields, and metadata using GitHub CLI.
 #
 # Usage:
-#   ./create-feature.sh [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--tempo TEMPO] [--tokens TOKENS] [--dependencies DEPS]
+#   ./create-work-unit.sh [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--parent-feature PARENT] [--tokens TOKENS] [--dependencies DEPS]
 #
 # Options:
-#   --dry-run       Preview changes without applying them
-#   --verbose       Show detailed output
-#   --help          Show this help message
-#   --title         Issue title (required if not interactive)
-#   --description   Issue description (required if not interactive)
-#   --body-file     Path to issue body file (alternative to --description)
-#   --tempo         TEMPO level (High, Moderate, Controlled) - default: Moderate
-#   --tokens        Estimated tokens (number)
-#   --dependencies  Comma-separated list of issue numbers this depends on (e.g., "45,46")
+#   --dry-run         Preview changes without applying them
+#   --verbose         Show detailed output
+#   --help            Show this help message
+#   --title           Issue title (required if not interactive)
+#   --description     Issue description (required if not interactive)
+#   --body-file        Path to issue body file (alternative to --description)
+#   --parent-feature  Parent Feature issue number (required if not interactive)
+#   --tokens          Estimated tokens (number)
+#   --dependencies    Comma-separated list of issue numbers this depends on (e.g., "46,47")
 #
 # Requirements:
 #   - GitHub CLI (gh) installed and authenticated
@@ -26,8 +26,9 @@
 #
 # Features:
 #   - Interactive mode (default) or parameter-based mode
-#   - Creates issue with "Feature" issue type
-#   - Sets Projects v2 custom fields (Status, TEMPO, Estimated Tokens)
+#   - Creates issue with "Agent Task" issue type
+#   - Sets native dependency on parent work unit
+#   - Sets Projects v2 custom fields (Status, Assigned Agent, Estimated Tokens)
 #   - Links issue to Project if configured
 #   - Supports dry-run mode
 #
@@ -43,7 +44,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CONFIG_FILE="${REPO_ROOT}/.baton/github-config.yml"
 FIELD_IDS_FILE="${REPO_ROOT}/.baton/github-field-ids.yml"
-TEMPLATE_FILE="${REPO_ROOT}/.github/ISSUE_TEMPLATE/feature.yml"
+TEMPLATE_FILE="${REPO_ROOT}/.github/ISSUE_TEMPLATE/agent-task.yml"
+PROJECT_CONFIG_FILE="${REPO_ROOT}/.baton/project.config.yml"
 
 # Flags
 DRY_RUN=false
@@ -55,7 +57,8 @@ INTERACTIVE=true
 ISSUE_TITLE=""
 ISSUE_DESCRIPTION=""
 ISSUE_BODY_FILE=""
-TEMPO_LEVEL="Moderate"
+PARENT_WORK_UNIT=""
+ASSIGNED_AGENT=""
 ESTIMATED_TOKENS=""
 DEPENDENCIES=""
 
@@ -92,26 +95,27 @@ log_verbose() {
 # Show help message
 show_help() {
     cat << EOF
-Create GitHub Feature Issue for RHYTHM Method
+Create GitHub Agent Task Issue for RHYTHM Method
 
-This script creates a Feature issue with proper issue type, Projects v2 fields,
-and metadata using GitHub CLI.
+This script creates an Agent Task issue with proper issue type, parent work unit dependency,
+assigned agent, Projects v2 fields, and metadata using GitHub CLI.
 
 USAGE:
-    ${0##*/} [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--tempo TEMPO] [--tokens TOKENS] [--dependencies DEPS]
+    ${0##*/} [OPTIONS] [--title TITLE] [--description DESC] [--body-file FILE] [--parent-work-unit PARENT] [--assigned-agent AGENT] [--tokens TOKENS] [--dependencies DEPS]
 
 OPTIONS:
-    --dry-run       Preview changes without applying them
-    --verbose       Show detailed output
-    --help          Show this help message
+    --dry-run           Preview changes without applying them
+    --verbose           Show detailed output
+    --help              Show this help message
 
 PARAMETERS (for non-interactive mode):
-    --title         Issue title (required if not interactive)
-    --description   Issue description (required if not interactive)
-    --body-file     Path to issue body file (alternative to --description)
-    --tempo         TEMPO level (High, Moderate, Controlled) - default: Moderate
-    --tokens        Estimated tokens (number)
-    --dependencies  Comma-separated list of issue numbers this depends on (e.g., "45,46")
+    --title             Issue title (required if not interactive)
+    --description       Issue description (required if not interactive)
+    --body-file         Path to issue body file (alternative to --description)
+    --parent-work-unit  Parent Work Unit issue number (required if not interactive)
+    --assigned-agent    Assigned agent name (required if not interactive)
+    --tokens            Estimated tokens (number)
+    --dependencies      Comma-separated list of issue numbers this depends on (e.g., "47,48")
 
 REQUIREMENTS:
     - GitHub CLI (gh) installed and authenticated
@@ -123,16 +127,16 @@ EXAMPLES:
     ${0##*/}
 
     # Non-interactive mode
-    ${0##*/} --title "User Authentication" --description "Implement user authentication system" --tempo High --tokens 5000
+    ${0##*/} --title "Create Login Handler" --description "Create login API handler" --parent-work-unit 46 --assigned-agent cli-engineer-agent --tokens 500
 
     # With dependencies
-    ${0##*/} --title "Feature" --description "Description" --dependencies "45,46"
+    ${0##*/} --title "Agent Task" --description "Description" --parent-work-unit 46 --assigned-agent cli-engineer-agent --dependencies "47,48"
 
     # Preview changes
-    ${0##*/} --title "Feature" --description "Description" --dry-run
+    ${0##*/} --title "Agent Task" --description "Description" --parent-work-unit 46 --assigned-agent cli-engineer-agent --dry-run
 
     # Verbose output
-    ${0##*/} --title "Feature" --description "Description" --verbose
+    ${0##*/} --title "Agent Task" --description "Description" --parent-work-unit 46 --assigned-agent cli-engineer-agent --verbose
 EOF
     exit 0
 }
@@ -168,8 +172,13 @@ parse_args() {
                 INTERACTIVE=false
                 shift 2
                 ;;
-            --tempo)
-                TEMPO_LEVEL="$2"
+            --parent-work-unit)
+                PARENT_WORK_UNIT="$2"
+                INTERACTIVE=false
+                shift 2
+                ;;
+            --assigned-agent)
+                ASSIGNED_AGENT="$2"
                 INTERACTIVE=false
                 shift 2
                 ;;
@@ -285,6 +294,41 @@ get_field_id() {
     return 0
 }
 
+# Validate issue exists and has correct type
+validate_issue_exists_and_type() {
+    local repo=$1
+    local issue_number=$2
+    local expected_type=$3
+
+    log_verbose "Validating issue #${issue_number} exists and is type '${expected_type}'..."
+
+    # Check if issue exists
+    local issue_data
+    issue_data=$(gh issue view "${issue_number}" --repo "${repo}" --json number,type 2>/dev/null || echo "")
+    
+    if [[ -z "${issue_data}" ]]; then
+        log_error "Issue #${issue_number} does not exist in repository ${repo}"
+        return 1
+    fi
+
+    # Check issue type
+    local issue_type
+    issue_type=$(echo "${issue_data}" | yq eval '.type // ""' - 2>/dev/null || echo "")
+    
+    if [[ -z "${issue_type}" ]]; then
+        log_warning "Could not determine issue type for #${issue_number}, continuing anyway"
+        return 0
+    fi
+
+    if [[ "${issue_type}" != "${expected_type}" ]]; then
+        log_error "Issue #${issue_number} is type '${issue_type}', expected '${expected_type}'"
+        return 1
+    fi
+
+    log_verbose "Issue #${issue_number} validated: type '${issue_type}'"
+    return 0
+}
+
 # Get issue node ID (GraphQL ID) from issue number
 get_issue_node_id() {
     local repo=$1
@@ -344,30 +388,8 @@ get_option_id() {
 
     log_verbose "Querying option ID for '${option_name}' in field ${field_id}..."
 
-    # Query field options using GraphQL API
-    local response
-    response=$(gh api graphql -f query="
-        query {
-            node(id: \"${project_id}\") {
-                ... on ProjectV2 {
-                    field(name: \"\") {
-                        ... on ProjectV2SingleSelectField {
-                            id
-                            options {
-                                id
-                                name
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    " 2>&1) || {
-        log_warning "Could not query field options: ${response}"
-        return 1
-    }
-
     # Query all fields to find the one we need
+    local response
     response=$(gh api graphql -f query="
         query {
             node(id: \"${project_id}\") {
@@ -500,43 +522,77 @@ update_project_number_field() {
     return 0
 }
 
+# Get available agents from project.config.yml
+get_available_agents() {
+    if [[ ! -f "${PROJECT_CONFIG_FILE}" ]]; then
+        log_warning "Project config file not found, cannot list available agents"
+        return 1
+    fi
+
+    local agents
+    agents=$(yq eval '.agents.enabled[].name' "${PROJECT_CONFIG_FILE}" 2>/dev/null || echo "")
+    
+    if [[ -z "${agents}" ]]; then
+        log_warning "No agents found in project config"
+        return 1
+    fi
+
+    echo "${agents}"
+    return 0
+}
+
 # Interactive prompt for issue details
 prompt_issue_details() {
-    log_info "Enter Feature details:"
+    log_info "Enter Agent Task details:"
     echo
 
     # Title
     while [[ -z "${ISSUE_TITLE}" ]]; do
-        read -p "Feature title: " ISSUE_TITLE
+        read -p "Agent Task title: " ISSUE_TITLE
         if [[ -z "${ISSUE_TITLE}" ]]; then
             log_error "Title is required"
         fi
     done
 
-    # Description
-    if [[ -z "${ISSUE_DESCRIPTION}" && -z "${ISSUE_BODY_FILE}" ]]; then
-        log_info "Enter feature description (end with Ctrl+D or empty line):"
-        ISSUE_DESCRIPTION=$(cat)
+    # Parent Work Unit
+    while [[ -z "${PARENT_WORK_UNIT}" ]]; do
+        read -p "Parent Work Unit issue number (e.g., 46): " PARENT_WORK_UNIT
+        if [[ -z "${PARENT_WORK_UNIT}" ]]; then
+            log_error "Parent Work Unit is required"
+        fi
+    done
+
+    # Assigned Agent
+    if [[ -z "${ASSIGNED_AGENT}" ]]; then
+        local available_agents
+        available_agents=$(get_available_agents || echo "")
+        
+        if [[ -n "${available_agents}" ]]; then
+            log_info "Available agents:"
+            echo "${available_agents}" | while read -r agent; do
+                echo "  - ${agent}"
+            done
+        fi
+        
+        while [[ -z "${ASSIGNED_AGENT}" ]]; do
+            read -p "Assigned agent: " ASSIGNED_AGENT
+            if [[ -z "${ASSIGNED_AGENT}" ]]; then
+                log_error "Assigned agent is required"
+            fi
+        done
     fi
 
-    # TEMPO
-    log_info "TEMPO level:"
-    echo "  1) High"
-    echo "  2) Moderate (default)"
-    echo "  3) Controlled"
-    read -p "Select [2]: " tempo_choice
-    case "${tempo_choice:-2}" in
-        1) TEMPO_LEVEL="High" ;;
-        2) TEMPO_LEVEL="Moderate" ;;
-        3) TEMPO_LEVEL="Controlled" ;;
-        *) TEMPO_LEVEL="Moderate" ;;
-    esac
+    # Description
+    if [[ -z "${ISSUE_DESCRIPTION}" && -z "${ISSUE_BODY_FILE}" ]]; then
+        log_info "Enter agent task description (end with Ctrl+D or empty line):"
+        ISSUE_DESCRIPTION=$(cat)
+    fi
 
     # Estimated tokens
     read -p "Estimated tokens (optional): " ESTIMATED_TOKENS
 
     # Dependencies
-    read -p "Dependencies (comma-separated issue numbers, e.g., 45,46): " DEPENDENCIES
+    read -p "Dependencies (comma-separated issue numbers, e.g., 47,48): " DEPENDENCIES
 }
 
 # Create issue body with metadata
@@ -558,14 +614,16 @@ create_issue_body() {
 ---
 
 <!-- RHYTHM Method Metadata -->
-**Feature ID:** feat-XXX (auto-generated)
-**Parent:** Project Manifest (.baton/project.manifest.md)
+**Task ID:** task-XXX (auto-generated)
+**Parent Work Unit:** #${PARENT_WORK_UNIT}
+**Assigned Agent:** ${ASSIGNED_AGENT}
 **Status:** planned
-**TEMPO:** ${TEMPO_LEVEL}
 **Priority Level:** level-0 (calculated from dependencies)
 **Estimated Tokens:** ${ESTIMATED_TOKENS:-}
 **Actual Tokens:** [updated during execution]
-**Work Units:** [count] (linked issues)"
+**Estimated Duration:** [typically 30 minutes to 2 hours]
+**Actual Duration:** [tracked during execution]
+**Dependencies:** ${DEPENDENCIES:-} (also tracked via native dependencies)"
 
     echo "${body_content}"
 }
@@ -579,8 +637,8 @@ main() {
         exit 0
     fi
 
-    log_info "Create GitHub Feature Issue for RHYTHM Method"
-    log_info "=============================================="
+    log_info "Create GitHub Agent Task Issue for RHYTHM Method"
+    log_info "=================================================="
 
     if [[ "${DRY_RUN}" == "true" ]]; then
         log_warning "DRY RUN MODE - No changes will be made"
@@ -623,9 +681,30 @@ main() {
     body_file=$(mktemp)
     echo "${issue_body}" > "${body_file}"
 
-    log_info "Creating Feature issue..."
+    # Validate parent work unit
+    if [[ -z "${PARENT_WORK_UNIT}" ]]; then
+        log_error "Parent Work Unit issue number is required"
+        exit 2
+    fi
+
+    # Validate assigned agent
+    if [[ -z "${ASSIGNED_AGENT}" ]]; then
+        log_error "Assigned agent is required"
+        exit 2
+    fi
+
+    # Validate parent work unit exists and is correct type
+    if [[ "${DRY_RUN}" != "true" ]]; then
+        if ! validate_issue_exists_and_type "${repo}" "${PARENT_WORK_UNIT}" "Work Unit"; then
+            log_error "Parent Work Unit validation failed"
+            exit 2
+        fi
+    fi
+
+    log_info "Creating Agent Task issue..."
     log_verbose "Title: ${ISSUE_TITLE}"
-    log_verbose "TEMPO: ${TEMPO_LEVEL}"
+    log_verbose "Parent Work Unit: #${PARENT_WORK_UNIT}"
+    log_verbose "Assigned Agent: ${ASSIGNED_AGENT}"
     log_verbose "Estimated Tokens: ${ESTIMATED_TOKENS:-none}"
 
     # Create issue
@@ -633,7 +712,9 @@ main() {
     if [[ "${DRY_RUN}" == "true" ]]; then
         log_info "[DRY RUN] Would create issue:"
         log_info "  Title: ${ISSUE_TITLE}"
-        log_info "  Type: Feature"
+        log_info "  Type: Agent Task"
+        log_info "  Parent Work Unit: #${PARENT_WORK_UNIT}"
+        log_info "  Assigned Agent: ${ASSIGNED_AGENT}"
         log_info "  Body: (see ${body_file})"
         if [[ -n "${DEPENDENCIES}" ]]; then
             log_info "  Dependencies: ${DEPENDENCIES}"
@@ -648,15 +729,16 @@ main() {
         --repo "${repo}"
         --title "${ISSUE_TITLE}"
         --body-file "${body_file}"
-        --type "Feature"
+        --type "Agent Task"
+        --add-blocked-by "${PARENT_WORK_UNIT}"
     )
 
-    # Add dependencies
+    # Add additional dependencies
     if [[ -n "${DEPENDENCIES}" ]]; then
         IFS=',' read -ra DEPS <<< "${DEPENDENCIES}"
         for dep in "${DEPS[@]}"; do
             dep=$(echo "${dep}" | xargs)  # Trim whitespace
-            if [[ -n "${dep}" ]]; then
+            if [[ -n "${dep}" && "${dep}" != "${PARENT_WORK_UNIT}" ]]; then
                 create_cmd+=(--add-blocked-by "${dep}")
             fi
         done
@@ -671,7 +753,7 @@ main() {
         exit 1
     fi
 
-    log_success "Created Feature issue #${issue_number}"
+    log_success "Created Agent Task issue #${issue_number}"
 
     # Clean up
     rm -f "${body_file}"
@@ -693,10 +775,10 @@ main() {
                 update_project_single_select_field "${project_id}" "${issue_node_id}" "${status_field_id}" "Status" "Planned" || true
             fi
 
-            # Update TEMPO field
-            local tempo_field_id
-            if tempo_field_id=$(get_field_id "TEMPO"); then
-                update_project_single_select_field "${project_id}" "${issue_node_id}" "${tempo_field_id}" "TEMPO" "${TEMPO_LEVEL}" || true
+            # Update Assigned Agent field
+            local assigned_agent_field_id
+            if assigned_agent_field_id=$(get_field_id "Assigned Agent"); then
+                update_project_single_select_field "${project_id}" "${issue_node_id}" "${assigned_agent_field_id}" "Assigned Agent" "${ASSIGNED_AGENT}" || true
             fi
 
             # Update Estimated Tokens field
@@ -709,10 +791,11 @@ main() {
         fi
     fi
 
-    log_success "Feature issue #${issue_number} created successfully"
+    log_success "Agent Task issue #${issue_number} created successfully"
     log_info "View issue: https://github.com/${repo}/issues/${issue_number}"
 }
 
 # Run main function
 main "$@"
+
 
