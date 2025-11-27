@@ -3,8 +3,16 @@
 # Sync Dependencies Script for RHYTHM Method
 # 
 # This script reads issue body metadata and syncs dependencies to native GitHub Issue Dependencies.
-# It parses the "Dependencies:" field from the RHYTHM Method metadata section and creates
-# "blocked by" relationships using GitHub CLI.
+# It parses the "Dependencies:" field from the RHYTHM Method metadata section and attempts to create
+# "blocked by" relationships using GitHub REST API.
+#
+# IMPORTANT: The GitHub REST API endpoint for dependencies may return 404 errors if:
+# - Issue dependencies feature is not enabled for the repository/organization
+# - The feature requires a specific GitHub plan (Enterprise, etc.)
+# - The endpoint is not available in the current API version
+#
+# If the API endpoint is unavailable, dependencies remain in issue body metadata and can be
+# set manually via GitHub web UI. The script handles API failures gracefully.
 #
 # Usage:
 #   ./sync-dependencies.sh [OPTIONS] [--issue ISSUE_NUMBER] [--all]
