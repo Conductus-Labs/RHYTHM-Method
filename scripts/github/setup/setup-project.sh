@@ -431,9 +431,21 @@ project_exists() {
 
     log_verbose "Checking if project '${project_name}' already exists..."
 
-    # List projects for the repository
+    # Projects v2 requires GraphQL API
+    # Get owner (organization or user) from repository
+    local owner
+    owner=$(echo "${repo}" | cut -d'/' -f1)
+    
+    # Query Projects v2 for the owner using GraphQL
+    local query="query { organization(login: \"${owner}\") { projectsV2(first: 100) { nodes { title id } } } }"
     local projects
-    projects=$(gh api "repos/${repo}/projects" --jq '.[].name' 2>/dev/null || echo "")
+    projects=$(gh api graphql -f query="${query}" --jq '.data.organization.projectsV2.nodes[]?.title' 2>/dev/null || echo "")
+    
+    # If not an organization, try as user
+    if [[ -z "${projects}" ]]; then
+        query="query { user(login: \"${owner}\") { projectsV2(first: 100) { nodes { title id } } } }"
+        projects=$(gh api graphql -f query="${query}" --jq '.data.user.projectsV2.nodes[]?.title' 2>/dev/null || echo "")
+    fi
 
     if echo "${projects}" | grep -q "^${project_name}$"; then
         return 0
@@ -449,8 +461,21 @@ get_project_id() {
 
     log_verbose "Getting project ID for '${project_name}'..."
 
+    # Projects v2 requires GraphQL API
+    # Get owner (organization or user) from repository
+    local owner
+    owner=$(echo "${repo}" | cut -d'/' -f1)
+    
+    # Query Projects v2 for the owner using GraphQL
+    local query="query { organization(login: \"${owner}\") { projectsV2(first: 100) { nodes { title id } } } }"
     local project_id
-    project_id=$(gh api "repos/${repo}/projects" --jq ".[] | select(.name == \"${project_name}\") | .id" 2>/dev/null || echo "")
+    project_id=$(gh api graphql -f query="${query}" --jq ".data.organization.projectsV2.nodes[] | select(.title == \"${project_name}\") | .id" 2>/dev/null || echo "")
+    
+    # If not an organization, try as user
+    if [[ -z "${project_id}" ]]; then
+        query="query { user(login: \"${owner}\") { projectsV2(first: 100) { nodes { title id } } } }"
+        project_id=$(gh api graphql -f query="${query}" --jq ".data.user.projectsV2.nodes[] | select(.title == \"${project_name}\") | .id" 2>/dev/null || echo "")
+    fi
 
     if [[ -n "${project_id}" ]]; then
         echo "${project_id}"
