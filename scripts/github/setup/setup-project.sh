@@ -681,9 +681,10 @@ field_exists() {
 
     log_verbose "Checking if field '${field_name}' already exists..."
 
-    # Get existing fields for the project
+    # Get existing fields for the project using GraphQL
+    local query="query { node(id: \"${project_id}\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name } ... on ProjectV2IterationField { id name } ... on ProjectV2DateField { id name } ... on ProjectV2NumberField { id name } } } } } }"
     local fields
-    fields=$(gh api "projects/${project_id}/fields" --jq '.[].name' 2>/dev/null || echo "")
+    fields=$(gh api graphql -f query="${query}" --jq '.data.node.fields.nodes[].name' 2>/dev/null || echo "")
 
     if echo "${fields}" | grep -q "^${field_name}$"; then
         return 0
@@ -699,8 +700,10 @@ get_field_id() {
 
     log_verbose "Getting field ID for '${field_name}'..."
 
+    # Get existing fields for the project using GraphQL
+    local query="query { node(id: \"${project_id}\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name } ... on ProjectV2IterationField { id name } ... on ProjectV2DateField { id name } ... on ProjectV2NumberField { id name } } } } } }"
     local field_id
-    field_id=$(gh api "projects/${project_id}/fields" --jq ".[] | select(.name == \"${field_name}\") | .id" 2>/dev/null || echo "")
+    field_id=$(gh api graphql -f query="${query}" --jq ".data.node.fields.nodes[] | select(.name == \"${field_name}\") | .id" 2>/dev/null || echo "")
 
     if [[ -n "${field_id}" ]]; then
         echo "${field_id}"
@@ -752,24 +755,46 @@ create_single_select_field() {
     local exit_code=0
 
     while [[ ${attempt} -lt ${max_retries} ]]; do
-        # GitHub Projects v2 API - create custom field
-        # Note: Projects v2 uses GraphQL API primarily, but REST API is available via gh api
-        # Reference: https://docs.github.com/en/rest/projects/fields#create-a-project-field
+        # GitHub Projects v2 API - create custom field using GraphQL
+        # Projects v2 requires GraphQL API for field creation
         # Note: Default values are not supported in field creation API - they must be set manually
         # via GitHub UI or via separate API call after field creation
-        response=$(gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            "projects/${project_id}/fields" \
-            -f "name=${field_name}" \
-            -f "dataType=single_select" \
-            -f "options=${options_json}" \
-            2>&1)
+        
+        # Parse options JSON into GraphQL format
+        # options_json format: [{"name":"Planned","color":"BLUE"},...]
+        # GraphQL expects: [{name:"Planned",color:BLUE},...] (no quotes around enum values, no quotes around keys)
+        # Build GraphQL options array manually from JSON
+        local options_graphql="["
+        local first=true
+        local option_count
+        option_count=$(echo "${options_json}" | yq eval 'length' - 2>/dev/null || echo "0")
+        
+        for ((i=0; i<option_count; i++)); do
+            local opt_name
+            local opt_color
+            opt_name=$(echo "${options_json}" | yq eval ".[${i}].name" - 2>/dev/null || echo "")
+            opt_color=$(echo "${options_json}" | yq eval ".[${i}].color" - 2>/dev/null || echo "")
+            
+            if [[ -n "${opt_name}" && -n "${opt_color}" ]]; then
+                if [[ "${first}" == "true" ]]; then
+                    first=false
+                else
+                    options_graphql+=","
+                fi
+                options_graphql+="{name:\"${opt_name}\",color:${opt_color}}"
+            fi
+        done
+        options_graphql+="]"
+        
+        # Build GraphQL mutation
+        local mutation="mutation { createProjectV2Field(input: { projectId: \"${project_id}\", dataType: SINGLE_SELECT, name: \"${field_name}\", singleSelectOptions: ${options_graphql} }) { projectV2Field { ... on ProjectV2SingleSelectField { id name } } } }"
+        
+        response=$(gh api graphql -f query="${mutation}" 2>&1)
         exit_code=$?
 
         if [[ ${exit_code} -eq 0 ]]; then
             local field_id
-            field_id=$(echo "${response}" | yq eval '.id' - 2>/dev/null || echo "")
+            field_id=$(echo "${response}" | yq eval '.data.createProjectV2Field.projectV2Field.id' - 2>/dev/null || echo "")
             if [[ -n "${field_id}" ]]; then
                 log_success "Created field: ${field_name} (ID: ${field_id})"
                 if [[ -n "${default_value}" ]]; then
@@ -847,19 +872,18 @@ create_number_field() {
     local exit_code=0
 
     while [[ ${attempt} -lt ${max_retries} ]]; do
-        # GitHub Projects v2 API - create custom field
-        response=$(gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            "projects/${project_id}/fields" \
-            -f "name=${field_name}" \
-            -f "dataType=number" \
-            2>&1)
+        # GitHub Projects v2 API - create custom field using GraphQL
+        # Projects v2 requires GraphQL API for field creation
+        
+        # Build GraphQL mutation
+        local mutation="mutation { createProjectV2Field(input: { projectId: \"${project_id}\", dataType: NUMBER, name: \"${field_name}\" }) { projectV2Field { ... on ProjectV2NumberField { id name } } } }"
+        
+        response=$(gh api graphql -f query="${mutation}" 2>&1)
         exit_code=$?
 
         if [[ ${exit_code} -eq 0 ]]; then
             local field_id
-            field_id=$(echo "${response}" | yq eval '.id' - 2>/dev/null || echo "")
+            field_id=$(echo "${response}" | yq eval '.data.createProjectV2Field.projectV2Field.id' - 2>/dev/null || echo "")
             if [[ -n "${field_id}" ]]; then
                 log_success "Created field: ${field_name} (ID: ${field_id})"
                 echo "${field_id}"
