@@ -165,6 +165,14 @@ validate_prerequisites() {
         log_info "Run: gh auth login"
         errors=$((errors + 1))
     else
+        # Check for admin:org scope (required for creating issue types)
+        local auth_status_output
+        auth_status_output=$(gh auth status 2>&1 || echo "")
+        if [[ -z "${auth_status_output}" ]] || ! echo "${auth_status_output}" | grep -qi "admin:org"; then
+            log_warning "GitHub CLI authentication may be missing 'admin:org' scope"
+            log_info "Issue Types require organization admin permissions"
+            log_info "If you encounter permission errors, run: gh auth refresh -s admin:org"
+        fi
         log_verbose "GitHub CLI is authenticated"
     fi
 
