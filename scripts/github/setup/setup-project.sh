@@ -805,13 +805,18 @@ create_single_select_field() {
             fi
             
             # Add to GraphQL options array
+            # GraphQL requires: name, color, and description for each option
             if [[ -n "${opt_name}" && -n "${opt_color}" ]]; then
                 if [[ "${first}" == "true" ]]; then
                     first=false
                 else
                     options_graphql+=","
                 fi
-                options_graphql+="{name:\"${opt_name}\",color:${opt_color}}"
+                # Use option name as description (required field)
+                # Escape quotes in option name for GraphQL
+                local opt_name_escaped
+                opt_name_escaped=$(echo "${opt_name}" | sed 's/"/\\"/g')
+                options_graphql+="{name:\"${opt_name_escaped}\",color:${opt_color},description:\"${opt_name_escaped}\"}"
             fi
         done
         options_graphql+="]"
