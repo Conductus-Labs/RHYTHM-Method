@@ -54,7 +54,6 @@ $ScriptDir = $PSScriptRoot
 $RepoRoot = Resolve-Path (Join-Path $ScriptDir "..\..\..")
 $ConfigFile = Join-Path $RepoRoot ".baton\github-config.yml"
 $FieldIdsFile = Join-Path $RepoRoot ".baton\github-field-ids.yml"
-$ProjectConfigFile = Join-Path $RepoRoot ".baton\project.config.yml"
 
 # Set error action preference
 $ErrorActionPreference = "Stop"
@@ -149,7 +148,7 @@ VALIDATION CHECKS:
     - Parent-child relationships: Checks parent issues exist and are correct type
     - Dependencies: Validates native dependencies match issue body metadata
     - Dependency graph: Checks for circular dependencies
-    - Projects v2: Verifies issues are linked to project
+    - Projects v2: Verifies project exists and custom fields are configured
 
 EXIT CODES:
     0 = All valid
@@ -740,9 +739,6 @@ function Test-CircularDependencies {
         [string]$Repo,
         [string]$IssueNumber
     )
-
-    $visited = @{}
-    $path = @()
 
     # Recursive function to check cycles
     function Test-Cycle {

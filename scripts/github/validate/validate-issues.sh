@@ -49,7 +49,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CONFIG_FILE="${REPO_ROOT}/.baton/github-config.yml"
 FIELD_IDS_FILE="${REPO_ROOT}/.baton/github-field-ids.yml"
-PROJECT_CONFIG_FILE="${REPO_ROOT}/.baton/project.config.yml"
 
 # Flags
 VERBOSE=false
@@ -152,7 +151,7 @@ VALIDATION CHECKS:
     - Parent-child relationships: Checks parent issues exist and are correct type
     - Dependencies: Validates native dependencies match issue body metadata
     - Dependency graph: Checks for circular dependencies
-    - Projects v2: Verifies issues are linked to project
+    - Projects v2: Verifies project exists and custom fields are configured
 
 EXIT CODES:
     0 = All valid
@@ -781,8 +780,6 @@ validate_dependencies_match() {
 check_circular_dependencies() {
     local repo=$1
     local issue_number=$2
-    local visited=()
-    local path=()
 
     # Recursive function to check cycles
     local check_cycle
