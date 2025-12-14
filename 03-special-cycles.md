@@ -455,8 +455,8 @@ The RA uses multiple automated detection methods:
 ### Dependency-Driven Prioritisation Flow
 
 **TRIGGERED BY:**
-- New task added
-- Task completed
+- New Agent Task added
+- Agent Task completed
 - Dependency change
 - Specification change
 
