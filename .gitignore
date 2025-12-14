@@ -30,7 +30,6 @@ temp/
 
 # Node.js dependencies
 node_modules/
-package-lock.json
 
 _repository_review.md
 todo.md
