@@ -283,8 +283,7 @@ Project Manifest (One per project)
 
 ## Navigation
 
-**Previous:** [Error Handling](13-error-handling.md) - Error handling and failure recovery  
-**Next:** [Workflow Example](14-workflow-example.md) - End-to-end workflow example
+**Previous:** [Workflow Examples](16-workflow-examples.md) - End-to-end workflow example
 
 ---
 

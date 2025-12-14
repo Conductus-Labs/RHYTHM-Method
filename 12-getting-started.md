@@ -446,8 +446,8 @@ After getting started:
 
 ## Navigation
 
-**Previous:** [Overview](01-overview.md) - Documentation index
-**Next:** [Dictionary](03-dictionary.md) - Key terms and concepts
+**Previous:** [Project Setup](11-project-setup.md) - Project configuration and setup
+**Next:** [Best Practices](13-best-practices.md) - RHYTHM Method best practices
 
 ---
 

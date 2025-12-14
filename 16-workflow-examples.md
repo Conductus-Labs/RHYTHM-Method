@@ -725,8 +725,8 @@ Users need to create accounts and log in to access personalized features, view o
 
 ## Navigation
 
-**Previous:** [Error Handling](13-error-handling.md) - Error handling and failure recovery  
-**Next:** [Quick Reference](15-quick-reference.md) - Formulas and decision trees
+**Previous:** [Error Handling](15-error-handling.md) - Error handling and failure recovery
+**Next:** [Quick Reference](17-quick-reference.md) - Formulas and decision trees
 
 ---
 

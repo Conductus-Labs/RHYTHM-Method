@@ -583,8 +583,8 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 
 ## Navigation
 
-**Previous:** [Principles](04-principles.md) - Core principles of RHYTHM Method  
-**Next:** [Workflows](06-workflows.md) - RHYTHM Method workflows and processes
+**Previous:** [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization
+**Next:** [Project Setup](11-project-setup.md) - Project configuration and setup
 
 ---
 

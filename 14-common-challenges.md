@@ -265,10 +265,10 @@ See [Getting Started](02-getting-started.md) for complete migration guide.
 
 ## Navigation
 
-**Previous:** [Tooling](11-tooling.md) - Tools and integrations  
-**Next:** [Error Handling](13-error-handling.md) - Error handling and failure recovery
+**Previous:** [Best Practices](13-best-practices.md) - RHYTHM Method best practices
+**Next:** [Error Handling](15-error-handling.md) - Error handling and failure recovery
 
-**See Also:** [Quick Reference](15-quick-reference.md) - Formulas and decision trees
+**See Also:** [Quick Reference](17-quick-reference.md) - Formulas and decision trees
 
 ---
 

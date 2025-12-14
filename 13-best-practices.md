@@ -373,8 +373,8 @@ RHYTHM Method best practices focus on leveraging agent capabilities (TEMPO, Flow
 
 ## Navigation
 
-**Previous:** [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization  
-**Next:** [Tooling](11-tooling.md) - Tools and integrations
+**Previous:** [Getting Started](12-getting-started.md) - How to adopt RHYTHM Method
+**Next:** [Common Challenges](14-common-challenges.md) - Common challenges and solutions
 
 ---
 

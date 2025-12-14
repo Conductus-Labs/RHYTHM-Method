@@ -624,8 +624,8 @@ Dependency management in RHYTHM Method uses dependency-driven prioritization to 
 
 ## Navigation
 
-**Previous:** [Estimation](08-estimation.md) - Token-based estimation methodology  
-**Next:** [Best Practices](10-best-practices.md) - RHYTHM Method best practices
+**Previous:** [Token Estimation](08-token-estimation.md) - Token-based estimation methodology
+**Next:** [TEMPO Configuration](10-tempo-configuration.md) - TEMPO levels and configuration
 
 ---
 

@@ -59,7 +59,7 @@ This documentation is being developed to provide comprehensive guidance for impl
 
 ## Navigation
 
-**Next:** [Getting Started](02-getting-started.md) - How to adopt RHYTHM Method
+**Next:** [Core Concepts](02-core-concepts.md) - Fundamental RHYTHM Method concepts
 
 ---
 

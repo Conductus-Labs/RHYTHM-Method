@@ -546,8 +546,8 @@ The RHYTHM Method WBS provides a hierarchical structure (Project Manifest → Fe
 
 ## Navigation
 
-**Previous:** [Workflows](06-workflows.md) - RHYTHM Method workflows and processes  
-**Next:** [Estimation](08-estimation.md) - Token-based estimation methodology
+**Previous:** [State Management](06-state-management.md) - State transitions
+**Next:** [Token Estimation](08-token-estimation.md) - Token-based estimation methodology
 
 ---
 
