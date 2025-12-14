@@ -1,0 +1,22 @@
+{
+    "name": "rhythm-method-docs",
+    "version": "1.0.0",
+    "description": "RHYTHM Method Documentation - Validation and Linting Tools",
+    "scripts": {
+        "lint": "markdownlint-cli2 '**/*.md' '#node_modules' '#.baton' '#.claude' '#.cursor' '#.gemini'",
+        "lint:fix": "markdownlint-cli2-fix '**/*.md' '#node_modules' '#.baton' '#.claude' '#.cursor' '#.gemini'",
+        "validate:links": "node scripts/validate-links.js",
+        "validate:all": "npm run lint && npm run validate:links",
+        "test": "npm run validate:all"
+    },
+    "keywords": [
+        "rhythm-method",
+        "documentation",
+        "validation"
+    ],
+    "author": "Conductus Labs",
+    "license": "MIT",
+    "devDependencies": {
+        "markdownlint-cli2": "^0.12.1"
+    }
+}

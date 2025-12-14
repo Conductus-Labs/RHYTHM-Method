@@ -73,37 +73,79 @@ implementation experience with 5 projects, coordination adds ~8% overhead.
 - Reviewed by 2 team members
 ```
 
-## Markdown Linting
+## Documentation Validation
 
-All markdown files must pass linting checks. We use standard markdown linting rules to ensure consistency and quality.
+All markdown files must pass validation checks before merging. We provide automated tools to ensure consistency and quality.
 
-### Running Markdown Linting Locally
+### Prerequisites
 
-Before submitting a PR, run markdown linting on your changes:
+Install Node.js dependencies:
 
 ```bash
-# Install markdownlint-cli if you haven't already
-npm install -g markdownlint-cli
-
-# Lint all markdown files
-markdownlint '**/*.md' --ignore node_modules
-
-# Lint specific file
-markdownlint your-file.md
+npm install
 ```
 
-### Common Linting Issues
+### Running Validation Locally
 
-- **MD001**: Heading levels should increment by one level at a time
-- **MD003**: Heading style should be consistent (we use ATX style: `#`)
-- **MD004**: Unordered list style should be consistent (we use `-`)
-- **MD007**: Unordered list indentation (we use 2 spaces)
-- **MD009**: No trailing spaces
-- **MD010**: No hard tabs
-- **MD012**: No multiple consecutive blank lines
-- **MD022**: Headings should be surrounded by blank lines
-- **MD025**: Only one top-level heading (H1) per document
-- **MD032**: Lists should be surrounded by blank lines
+Before submitting a PR, run all validation checks:
+
+```bash
+# Run all validation (linting + link checking)
+npm test
+
+# Or run individually:
+npm run lint              # Markdown linting
+npm run lint:fix          # Auto-fix linting issues
+npm run validate:links    # Check for broken links
+```
+
+### Validation Tools
+
+#### 1. Markdown Linting
+
+Ensures consistent markdown formatting and style.
+
+**Configuration:** `.markdownlint.json`
+
+**Common Rules:**
+- **MD001**: Heading levels increment by one
+- **MD003**: ATX-style headings (`#`)
+- **MD004**: Dash-style lists (`-`)
+- **MD007**: 2-space list indentation
+- **MD013**: Line length (disabled for flexibility)
+- **MD025**: One H1 per document
+- **MD033**: HTML allowed (for mermaid diagrams)
+- **MD040**: Fenced code blocks must specify language
+
+**Auto-fix:** Many issues can be auto-fixed with `npm run lint:fix`
+
+#### 2. Link Validation
+
+Checks all internal markdown links for:
+- File existence
+- Valid anchor references
+- No broken cross-references
+
+**Script:** `scripts/validate-links.js`
+
+**What it checks:**
+- `[text](file.md)` - File exists
+- `[text](file.md#heading)` - File exists AND heading exists
+- `[text](#heading)` - Heading exists in current file
+
+**Ignored:**
+- External links (http://, https://)
+- File protocol links (file://)
+- Directories in .gitignore
+
+### CI/CD Validation
+
+All PRs automatically run validation via GitHub Actions:
+- Markdown linting
+- Link validation
+- Results reported in PR checks
+
+**Workflow:** `.github/workflows/validate-docs.yml`
 
 ## Style Guidelines
 
