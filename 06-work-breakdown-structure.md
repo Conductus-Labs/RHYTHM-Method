@@ -55,7 +55,7 @@ The top-level container for all work in a RHYTHM Method project.
 
 - **One per project**: Mandatory, single Project Manifest per project
 - **Purpose**: Serves as the single source of truth for project requirements
-- **Contains**: All [Features](03-dictionary.md#feature) in the project
+- **Contains**: All [terminology](17-dictionary.md) in the project
 - **Roles**: 
   1. Top-level container for all Features
   2. Project information repository
@@ -122,8 +122,8 @@ A required deliverable unit of functionality that provides business value.
 - **Purpose**: Deliverable functionality that provides business value
 - **Deployment**: Can be deployed independently
 - **Validation**: Has clear validation criteria
-- **Contains**: One or more [Work Units](03-dictionary.md#work-unit)
-- **Estimation**: Rolled up from Work Units using [token estimation](08-estimation.md)
+- **Contains**: One or more [terminology](17-dictionary.md)
+- **Estimation**: Rolled up from Work Units using [token estimation](07-token-estimation.md)
 
 **Feature Requirements:**
 
@@ -134,13 +134,13 @@ A required deliverable unit of functionality that provides business value.
 
 ### Level 3: Work Unit
 
-A specific piece of work that should be completed in a single [execution cycle](03-dictionary.md#execution-cycle) (target: up to 8 hours, some cycles may be less than 2 hours).
+A specific piece of work that should be completed in a single [terminology](17-dictionary.md) (target: up to 8 hours, some cycles may be less than 2 hours).
 
 **Characteristics:**
 
 - **Duration**: Up to 8 hours per execution cycle (guideline, not hard limit; cycles can be shorter)
-- **Assignment**: Atomic unit of work assignment to specialized [agents](03-dictionary.md#agent)
-- **Contains**: One or more [Agent Tasks](03-dictionary.md#agent-task)
+- **Assignment**: Atomic unit of work assignment to specialized [terminology](17-dictionary.md)
+- **Contains**: One or more [terminology](17-dictionary.md)
 - **Dependencies**: Can have dependencies on other Work Units
 - **Estimation**: Rolled up from Agent Tasks using [token estimation](08-estimation.md)
 
@@ -155,7 +155,7 @@ A specific piece of work that should be completed in a single [execution cycle](
 
 - **Target**: Up to 8 hours per execution cycle (some cycles may be less than 2 hours)
 - **If estimation exceeds 8 hours**: Split Work Unit into smaller units (preferred) or extend execution cycle with approval
-- **See [Estimation](08-estimation.md) for detailed duration guidelines and splitting criteria**
+- **See [Token Estimation](07-token-estimation.md) for detailed duration guidelines and splitting criteria**
 
 **Execution Cycle Duration: Realistic Expectations**
 
@@ -238,9 +238,9 @@ The smallest unit of executable work in RHYTHM Method.
 **Characteristics:**
 
 - **Duration**: Typically 30 minutes to 2 hours
-- **Assignment**: Completed by a single specialized [agent](03-dictionary.md#agent)
+- **Assignment**: Completed by a single specialized [terminology](17-dictionary.md)
 - **Scope**: Smallest executable unit
-- **Estimation**: Direct [token estimation](08-estimation.md) at this level
+- **Estimation**: Direct [token estimation](07-token-estimation.md) at this level
 
 **Agent Task Requirements:**
 
@@ -475,7 +475,7 @@ RHYTHM Method prevents scope creep by clearly distinguishing:
 
 - **Work Units** can have dependencies on other Work Units
 - **Agent Tasks** can have dependencies on other Agent Tasks
-- Dependencies are tracked in the [dependency graph](03-dictionary.md#dependency-graph)
+- Dependencies are tracked in the [terminology](17-dictionary.md)
 
 ### Related Relationships
 
@@ -526,9 +526,11 @@ Token estimation flows from bottom to top:
 3. **Features**: Roll-up from Work Units
 4. **Project Manifest**: Roll-up from Features
 
-See [Estimation](08-estimation.md) for detailed information on token-based estimation.
+See [Token Estimation](07-token-estimation.md) for detailed information on token-based estimation.
 
-## Dependency Management and WBS
+---
+
+## Dependency Relationships
 
 Dependencies are tracked at the Work Unit and Agent Task levels:
 
@@ -536,7 +538,7 @@ Dependencies are tracked at the Work Unit and Agent Task levels:
 - **Agent Task Dependencies**: Block individual tasks within a Work Unit
 - **Dependency Graph**: Automatically maintained and visualized
 
-See [Dependency Management](09-dependency-management.md) for detailed information on dependency-driven prioritization.
+See [Dependency Management](08-dependency-management.md) for detailed information on dependency-driven prioritization.
 
 ## Summary
 
@@ -546,8 +548,8 @@ The RHYTHM Method WBS provides a hierarchical structure (Project Manifest → Fe
 
 ## Navigation
 
-**Previous:** [State Management](06-state-management.md) - State transitions
-**Next:** [Token Estimation](08-token-estimation.md) - Token-based estimation methodology
+**Previous:** [State Management](05-state-management.md) - State transitions
+**Next:** [Token Estimation](07-token-estimation.md) - Token-based estimation methodology
 
 ---
 

@@ -39,7 +39,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 
 **See Also:**
 - [Project Interview Process](05-processes.md#project-interview-process)
-- [Project Setup](11-project-setup.md)
+- [Project Setup](10-project-setup.md)
 
 ---
 
@@ -85,8 +85,8 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 - Acceptance criteria definition
 
 **See Also:**
-- [Feature Interview Process](05-processes.md#feature-interview-process)
-- [Work Breakdown Structure](07-work-breakdown-structure.md#feature)
+- [Feature Interview Process](04-processes.md#feature-interview-process)
+- [Work Breakdown Structure](06-work-breakdown-structure.md#feature)
 
 ---
 
@@ -128,8 +128,8 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 - Dependencies between Work Units should be minimized
 
 **See Also:**
-- [Work Breakdown Structure](07-work-breakdown-structure.md#work-unit)
-- [Dependency Management](09-dependency-management.md)
+- [Work Breakdown Structure](06-work-breakdown-structure.md#work-unit)
+- [Dependency Management](08-dependency-management.md)
 
 ---
 
@@ -239,8 +239,8 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 - Peer review improves specification quality
 
 **See Also:**
-- [Core Concepts - Loop Protection](02-core-concepts.md#loop-protection)
-- [Common Challenges](14-common-challenges.md)
+- [Core Concepts - Loop Protection](01-core-concepts.md#loop-protection)
+- [Common Challenges](13-common-challenges.md)
 
 ---
 
@@ -318,8 +318,8 @@ Feature: Sum of all Work Unit estimated tokens
 ```
 
 **See Also:**
-- [Token Estimation](08-token-estimation.md)
-- [Work Breakdown Structure](07-work-breakdown-structure.md#agent-task)
+- [Token Estimation](07-token-estimation.md)
+- [Work Breakdown Structure](06-work-breakdown-structure.md#agent-task)
 
 ---
 
@@ -515,10 +515,10 @@ Feature: Sum of all Work Unit actual tokens with variance analysis
 ```
 
 **See Also:**
-- [Quality Check Cycle](04-special-cycles.md#quality-check-cycle)
-- [Dependency-driven Prioritisation Cycle](04-special-cycles.md#dependency-driven-prioritisation-cycle)
-- [Token Estimation](08-token-estimation.md)
-- [Dependency Management](09-dependency-management.md)
+- [Quality Check Cycle](03-special-cycles.md#quality-check-cycle)
+- [Dependency-driven Prioritisation Cycle](03-special-cycles.md#dependency-driven-prioritisation-cycle)
+- [Token Estimation](07-token-estimation.md)
+- [Dependency Management](08-dependency-management.md)
 
 ---
 
@@ -554,16 +554,16 @@ Task Execution (per Agent Task batch)
 - Task Execution depends on Task Breakdown
 
 **See Also:**
-- [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
-- [Processes](05-processes.md) - Supporting processes used within cycles
-- [State Management](06-state-management.md) - State transitions triggered by cycles
+- [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
+- [Processes](04-processes.md) - Supporting processes used within cycles
+- [State Management](05-state-management.md) - State transitions triggered by cycles
 
 ---
 
 ## Navigation
 
-**Previous:** [Core Concepts](02-core-concepts.md) - Fundamental concepts
-**Next:** [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
+**Previous:** [Core Concepts](01-core-concepts.md) - Fundamental concepts
+**Next:** [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
 
 ---
 

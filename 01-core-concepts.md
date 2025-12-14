@@ -250,7 +250,7 @@ Feature (sum of Work Unit estimated tokens)
 
 ### Estimation Formulas
 
-See [Token Estimation](08-token-estimation.md) for detailed formulas and complexity factors.
+See [Token Estimation](07-token-estimation.md) for detailed formulas and complexity factors.
 
 ---
 
@@ -422,7 +422,7 @@ States transition based on:
 - Work completion (e.g., All Agent Tasks complete → IN REVIEW)
 - Quality gate results (e.g., Quality gates pass → COMPLETE)
 
-See [State Management](06-state-management.md) for complete state flow diagrams and transition rules.
+See [State Management](05-state-management.md) for complete state flow diagrams and transition rules.
 
 ---
 
@@ -465,7 +465,7 @@ RHYTHM Method uses two key configuration files:
 
 **Stability:** Changes more frequently - operational configuration
 
-See [Project Setup](11-project-setup.md) for detailed templates and examples.
+See [Project Setup](10-project-setup.md) for detailed templates and examples.
 
 ---
 
@@ -483,14 +483,13 @@ These core concepts form the foundation of RHYTHM Method:
 8. **Continuous Improvement**: Cycle review and learning integration
 9. **Configuration**: Project.Manifest and Project.Config guide all agents
 
-Understanding these concepts is essential before diving into the [Flow Cycles](03-flow-cycles.md) and [Processes](05-processes.md).
+Understanding these concepts is essential before diving into the [Flow Cycles](02-flow-cycles.md) and [Processes](04-processes.md).
 
 ---
 
 ## Navigation
 
-**Previous:** [Overview](01-overview.md) - Documentation index
-**Next:** [Flow Cycles](03-flow-cycles.md) - Main execution cycles
+**Next:** [Flow Cycles](02-flow-cycles.md) - Main execution cycles
 
 ---
 

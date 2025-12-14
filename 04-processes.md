@@ -25,7 +25,7 @@ This document details the supporting processes used within the RHYTHM Method flo
 - `.baton/project.config.yml` - Project configuration, TEMPO settings, integrations
 
 **See Also:**
-- [Project Setup](11-project-setup.md) for detailed templates
+- [Project Setup](10-project-setup.md) for detailed templates
 - [Project Initialisation Cycle](03-flow-cycles.md#cycle-project-initialisation)
 
 ---
@@ -207,7 +207,7 @@ This document details the supporting processes used within the RHYTHM Method flo
 
 **See Also:**
 - [Core Concepts - Continuous Improvement](02-core-concepts.md#cycle-review-and-continuous-improvement)
-- [Best Practices](13-best-practices.md)
+- [Best Practices](12-best-practices.md)
 
 ---
 
@@ -341,7 +341,7 @@ HITL checkpoints are fully configurable in Project.Config:
 
 **See Also:**
 - [Core Concepts - HITL](02-core-concepts.md#human-in-the-loop-hitl)
-- [TEMPO Configuration](10-tempo-configuration.md)
+- [TEMPO Configuration](09-tempo-configuration.md)
 
 ---
 
@@ -366,16 +366,16 @@ All processes integrate with the main flow cycles:
 - Enables: Strategic human oversight
 
 **See Also:**
-- [Flow Cycles](03-flow-cycles.md)
-- [Special Cycles](04-special-cycles.md)
-- [Best Practices](13-best-practices.md)
+- [Flow Cycles](02-flow-cycles.md)
+- [Special Cycles](03-special-cycles.md)
+- [Best Practices](12-best-practices.md)
 
 ---
 
 ## Navigation
 
-**Previous:** [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
-**Next:** [State Management](06-state-management.md) - State transitions
+**Previous:** [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
+**Next:** [State Management](05-state-management.md) - State transitions
 
 ---
 

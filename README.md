@@ -38,15 +38,15 @@ Just as a conductor (human) guides an orchestra (agents) to create harmonious mu
 
 ### For Developers
 
-1. **Understand the Fundamentals**: Read [01-overview.md](01-overview.md) and [02-core-concepts.md](02-core-concepts.md)
-2. **Learn the Cycles**: Review [03-flow-cycles.md](03-flow-cycles.md) to understand the execution model
-3. **Set Up Your Project**: Follow [12-getting-started.md](12-getting-started.md) to adopt RHYTHM Method
+1. **Understand the Fundamentals**: Read [Core Concepts](01-core-concepts.md) to understand RHYTHM Method
+2. **Learn the Cycles**: Review [Flow Cycles](02-flow-cycles.md) to understand the execution model
+3. **Set Up Your Project**: Follow [Getting Started](11-getting-started.md) to adopt RHYTHM Method
 
 ### For Project Managers
 
-1. **Learn the Methodology**: Start with [01-overview.md](01-overview.md) and [02-core-concepts.md](02-core-concepts.md)
-2. **Understand TEMPO**: Review [10-tempo-configuration.md](10-tempo-configuration.md) to control agent speed
-3. **Configure Your Project**: Use [11-project-setup.md](11-project-setup.md) to create project configuration
+1. **Learn the Methodology**: Start with [Core Concepts](01-core-concepts.md) to understand RHYTHM Method fundamentals
+2. **Understand TEMPO**: Review [TEMPO Configuration](09-tempo-configuration.md) to control agent speed
+3. **Configure Your Project**: Use [Project Setup](10-project-setup.md) to create project configuration
 
 ---
 
@@ -56,48 +56,48 @@ Just as a conductor (human) guides an orchestra (agents) to create harmonious mu
 
 **Start here to understand RHYTHM Method fundamentals:**
 
-1. [Overview](01-overview.md) - Introduction and philosophy
-2. [Core Concepts](02-core-concepts.md) - Agents (BA/RA/WA), TEMPO, HITL, Token estimation
+1. [Core Concepts](01-core-concepts.md) - Agents (BA/RA/WA), TEMPO, HITL, Token estimation
 
 ### Execution Model
 
 **Learn how RHYTHM Method orchestrates work:**
 
-3. [Flow Cycles](03-flow-cycles.md) - The 6 main cycles (Project Init, Feature Spec, Work Unit Creation, Challenge, Task Breakdown, Task Execution)
-4. [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation cycles
-5. [Processes](05-processes.md) - Supporting processes (Project Interview, Feature Interview, Cycle Review, HITL Check)
-6. [State Management](06-state-management.md) - State transitions for Projects, Features, Work Units, Agent Tasks, Bugs
+2. [Flow Cycles](02-flow-cycles.md) - The 6 main cycles (Project Init, Feature Spec, Work Unit Creation, Challenge, Task Breakdown, Task Execution)
+3. [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation cycles
+4. [Processes](04-processes.md) - Supporting processes (Project Interview, Feature Interview, Cycle Review, HITL Check)
+5. [State Management](05-state-management.md) - State transitions for Projects, Features, Work Units, Agent Tasks, Bugs
 
 ### Work Breakdown and Estimation
 
 **Understand how work is structured and estimated:**
 
-7. [Work Breakdown Structure](07-work-breakdown-structure.md) - Project, Feature, Work Unit, Agent Task, Bug hierarchy
-8. [Token Estimation](08-token-estimation.md) - Token-based estimation methodology and formulas
-9. [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization and detection
+6. [Work Breakdown Structure](06-work-breakdown-structure.md) - Project, Feature, Work Unit, Agent Task, Bug hierarchy
+7. [Token Estimation](07-token-estimation.md) - Token-based estimation methodology and formulas
+8. [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization and detection
 
 ### Configuration and Setup
 
 **Configure RHYTHM Method for your project:**
 
-10. [TEMPO Configuration](10-tempo-configuration.md) - Understanding and configuring TEMPO levels
-11. [Project Setup](11-project-setup.md) - Project.Manifest and Project.Config templates and setup
+9. [TEMPO Configuration](09-tempo-configuration.md) - Understanding and configuring TEMPO levels
+10. [Project Setup](10-project-setup.md) - Project.Manifest and Project.Config templates and setup
 
 ### Practical Guidance
 
 **Best practices and real-world application:**
 
-12. [Getting Started](12-getting-started.md) - Step-by-step guide to adopting RHYTHM Method
-13. [Best Practices](13-best-practices.md) - Proven patterns and recommendations
-14. [Common Challenges](14-common-challenges.md) - Common challenges and solutions
-15. [Error Handling](15-error-handling.md) - Error handling and failure recovery strategies
+11. [Getting Started](11-getting-started.md) - Step-by-step guide to adopting RHYTHM Method
+12. [Best Practices](12-best-practices.md) - Proven patterns and recommendations
+13. [Common Challenges](13-common-challenges.md) - Common challenges and solutions
+14. [Error Handling](14-error-handling.md) - Error handling and failure recovery strategies
 
 ### Examples and Reference
 
 **Quick reference and examples:**
 
-16. [Workflow Examples](16-workflow-examples.md) - End-to-end workflow walkthroughs
-17. [Quick Reference](17-quick-reference.md) - Formulas, decision trees, and key information
+15. [Workflow Examples](15-workflow-examples.md) - End-to-end workflow walkthroughs
+16. [Quick Reference](16-quick-reference.md) - Formulas, decision trees, and key information
+17. [Dictionary](17-dictionary.md) - Comprehensive terminology guide
 
 ---
 
@@ -171,33 +171,34 @@ This repository contains pure documentation in a numbered format for easy sequen
 
 ```text
 RHYTHM-Method/
-├── 01-overview.md                    # Introduction and philosophy
-├── 02-core-concepts.md               # Fundamental concepts (Agents, TEMPO, HITL, Tokens)
-├── 03-flow-cycles.md                 # Main execution cycles
-├── 04-special-cycles.md              # Quality Check and Dependency-driven Prioritisation
-├── 05-processes.md                   # Supporting processes
-├── 06-state-management.md            # State transitions for all work items
-├── 07-work-breakdown-structure.md    # Work hierarchy (Project → Feature → Work Unit → Task)
-├── 08-token-estimation.md            # Token-based estimation methodology
-├── 09-dependency-management.md       # Dependency detection and prioritization
-├── 10-tempo-configuration.md         # TEMPO levels and configuration
-├── 11-project-setup.md               # Project.Manifest and Project.Config setup
-├── 12-getting-started.md             # Adoption guide
-├── 13-best-practices.md              # Proven patterns and recommendations
-├── 14-common-challenges.md           # Common issues and solutions
-├── 15-error-handling.md              # Error handling and recovery
-├── 16-workflow-examples.md           # End-to-end workflow examples
-├── 17-quick-reference.md             # Quick reference guide
+├── 01-core-concepts.md               # Fundamental concepts (Agents, TEMPO, HITL, Tokens)
+├── 02-flow-cycles.md                 # Main execution cycles
+├── 03-special-cycles.md              # Quality Check and Dependency-driven Prioritisation
+├── 04-processes.md                   # Supporting processes
+├── 05-state-management.md            # State transitions for all work items
+├── 06-work-breakdown-structure.md    # Work hierarchy (Project → Feature → Work Unit → Task)
+├── 07-token-estimation.md            # Token-based estimation methodology
+├── 08-dependency-management.md       # Dependency detection and prioritization
+├── 09-tempo-configuration.md         # TEMPO levels and configuration
+├── 10-project-setup.md               # Project.Manifest and Project.Config setup
+├── 11-getting-started.md             # Adoption guide
+├── 12-best-practices.md              # Proven patterns and recommendations
+├── 13-common-challenges.md           # Common issues and solutions
+├── 14-error-handling.md              # Error handling and recovery
+├── 15-workflow-examples.md           # End-to-end workflow examples
+├── 16-quick-reference.md             # Quick reference guide
+├── 17-dictionary.md                  # Comprehensive terminology guide
+├── CONTRIBUTING.md                   # Contribution guidelines
 ├── README.md                         # This file
 └── LICENSE                           # MIT License
 ```
 
 **Reading Path:**
 
-- **Quick Start**: 01 → 02 → 12 (Overview, Core Concepts, Getting Started)
+- **Quick Start**: 01 → 02 → 11 (Core Concepts, Flow Cycles, Getting Started)
 - **Complete Understanding**: Read sequentially 01-17
-- **Implementation Focus**: 11 → 12 → 13 → 16 (Setup, Getting Started, Best Practices, Examples)
-- **Reference**: 17 for quick lookups
+- **Implementation Focus**: 10 → 11 → 12 → 15 (Setup, Getting Started, Best Practices, Examples)
+- **Reference**: 16 for quick lookups, 17 for terminology
 
 ---
 

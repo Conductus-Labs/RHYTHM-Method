@@ -359,16 +359,16 @@ States are persisted in the project's work tracking system:
 
 ## See Also
 
-- [Flow Cycles](03-flow-cycles.md) - Cycles that trigger state transitions
-- [Work Breakdown Structure](07-work-breakdown-structure.md) - Work item type definitions
-- [Quality Check Cycle](04-special-cycles.md#quality-check-cycle) - Quality validation states
+- [Flow Cycles](02-flow-cycles.md) - Cycles that trigger state transitions
+- [Work Breakdown Structure](06-work-breakdown-structure.md) - Work item type definitions
+- [Quality Check Cycle](03-special-cycles.md#quality-check-cycle) - Quality validation states
 
 ---
 
 ## Navigation
 
-**Previous:** [Processes](05-processes.md) - Supporting processes
-**Next:** [Work Breakdown Structure](07-work-breakdown-structure.md) - WBS hierarchy and relationships
+**Previous:** [Processes](04-processes.md) - Supporting processes
+**Next:** [Work Breakdown Structure](06-work-breakdown-structure.md) - WBS hierarchy and relationships
 
 ---
 

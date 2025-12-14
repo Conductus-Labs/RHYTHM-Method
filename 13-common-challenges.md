@@ -34,7 +34,7 @@ Teams struggle with fast TEMPO because it represents a fundamental shift from tr
 - Visualize dependency graph
 - Prioritize dependency resolution
 - Human review of critical dependencies
-- See [Dependency Management](09-dependency-management.md) for detailed information
+- See [Dependency Management](08-dependency-management.md) for detailed information
 
 ## Challenge 3: Token Estimation
 
@@ -61,7 +61,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - Refine estimation models based on actual vs. estimated variance
 - Use pattern recognition to match similar work
 - Calibrate multipliers and factors based on project-specific data
-- See [Estimation](08-estimation.md) for detailed information and improvement strategies
+- See [Estimation](07-token-estimation.md) for detailed information and improvement strategies
 
 ## Challenge 4: Human Integration
 
@@ -110,7 +110,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - Use automated approval for well-defined, low-risk work
 - Batch approvals to reduce human overhead
 - Start with Moderate TEMPO and increase automation as team gains experience
-- See [Workflows](06-workflows.md) for workflow optimization strategies
+- See  for workflow optimization strategies
 
 ## Challenge 8: Project Manifest Sync Issues
 
@@ -122,7 +122,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - **Single source of truth**: Markdown file (`.baton/project.manifest.md`) is the source of truth
 - **Conceptual relationships**: Features in PM tools are conceptually parented to Project Manifest
 - **Commit to source control**: Add exceptions to `.gitignore` to commit Project Manifest and Project Config
-- See [Work Breakdown Structure](07-work-breakdown-structure.md) for implementation details
+- See [Work Breakdown Structure](06-work-breakdown-structure.md) for implementation details
 
 ## Challenge 9: Estimation Overhead
 
@@ -135,7 +135,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - **Parallel processing**: Multiple tasks can be estimated simultaneously
 - **Trust automation**: Review estimates only for high-value/high-risk work
 - **Historical learning**: Use historical data to improve accuracy over time
-- See [Estimation](08-estimation.md) for automated estimation details
+- See [Estimation](07-token-estimation.md) for automated estimation details
 
 ## Frequently Asked Questions (FAQ)
 
@@ -163,7 +163,7 @@ See [Principles](04-principles.md) for detailed comparison.
 2. **Alternative:** Extend the execution cycle (requires human approval)
 3. **Alternative:** Reduce scope to fit within 8 hours
 
-See [Work Breakdown Structure](07-work-breakdown-structure.md) for detailed guidance.
+See [Work Breakdown Structure](06-work-breakdown-structure.md) for detailed guidance.
 
 ### Q: How do I convert from story points to tokens?
 
@@ -203,7 +203,7 @@ See [TEMPO](05-tempo.md) for detailed decision matrix and [Quick Reference](15-q
 - **Parented to Work Unit:** Bug found during development → Fixed within current execution cycle (part of Work Unit scope)
 - **Related to Feature:** Bug found in production → Requires new Work Unit to fix (separate work item)
 
-This distinction prevents scope creep and eliminates "is it a bug?" debates. See [Work Breakdown Structure](07-work-breakdown-structure.md) for complete bug lifecycle.
+This distinction prevents scope creep and eliminates "is it a bug?" debates. See [Work Breakdown Structure](06-work-breakdown-structure.md) for complete bug lifecycle.
 
 ### Q: How does dependency-driven prioritization work?
 
@@ -214,7 +214,7 @@ This distinction prevents scope creep and eliminates "is it a bug?" debates. See
 3. **Level N:** Work with dependencies on Level N-1
 4. **Within Level:** Business value determines order
 
-This ensures prerequisites are completed before dependent work begins. See [Dependency Management](09-dependency-management.md) for details.
+This ensures prerequisites are completed before dependent work begins. See [Dependency Management](08-dependency-management.md) for details.
 
 ### Q: Can I use RHYTHM Method without the Baton Framework?
 
@@ -225,7 +225,7 @@ This ensures prerequisites are completed before dependent work begins. See [Depe
 - Integration with project management tools
 - Consistent communication
 
-Using Baton Framework is recommended but not required. See [Overview](01-overview.md) for Baton Framework details.
+Using Baton Framework is recommended but not required. See the README for Baton Framework details.
 
 ### Q: How accurate is token estimation initially?
 
@@ -236,7 +236,7 @@ Using Baton Framework is recommended but not required. See [Overview](01-overvie
 - Refinement of complexity factors
 - Agent performance tracking
 
-Start with rough estimates and refine as you build historical data. See [Estimation](08-estimation.md) for improvement strategies.
+Start with rough estimates and refine as you build historical data. See [Estimation](07-token-estimation.md) for improvement strategies.
 
 ### Q: What if multiple agents need the same resource?
 
@@ -265,10 +265,10 @@ See [Getting Started](02-getting-started.md) for complete migration guide.
 
 ## Navigation
 
-**Previous:** [Best Practices](13-best-practices.md) - RHYTHM Method best practices
-**Next:** [Error Handling](15-error-handling.md) - Error handling and failure recovery
+**Previous:** [Best Practices](12-best-practices.md) - RHYTHM Method best practices
+**Next:** [Error Handling](14-error-handling.md) - Error handling and failure recovery
 
-**See Also:** [Quick Reference](17-quick-reference.md) - Formulas and decision trees
+**See Also:** [Quick Reference](16-quick-reference.md) - Formulas and decision trees
 
 ---
 

@@ -316,15 +316,15 @@ project-root/
 
 - [Project Initialisation Cycle](03-flow-cycles.md#cycle-project-initialisation)
 - [Project Interview Process](05-processes.md#project-interview-process)
-- [TEMPO Configuration](10-tempo-configuration.md)
-- [Getting Started](12-getting-started.md)
+- [TEMPO Configuration](09-tempo-configuration.md)
+- [Getting Started](11-getting-started.md)
 
 ---
 
 ## Navigation
 
-**Previous:** [TEMPO Configuration](10-tempo-configuration.md) - TEMPO levels and configuration
-**Next:** [Getting Started](12-getting-started.md) - How to adopt RHYTHM Method
+**Previous:** [TEMPO Configuration](09-tempo-configuration.md) - TEMPO levels and configuration
+**Next:** [Getting Started](11-getting-started.md) - How to adopt RHYTHM Method
 
 ---
 

@@ -583,8 +583,8 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 
 ## Navigation
 
-**Previous:** [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization
-**Next:** [Project Setup](11-project-setup.md) - Project configuration and setup
+**Previous:** [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization
+**Next:** [Project Setup](10-project-setup.md) - Project configuration and setup
 
 ---
 

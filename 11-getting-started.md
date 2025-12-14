@@ -315,7 +315,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 
 **Resources:**
 
-- **Documentation**: See [Dictionary](03-dictionary.md), [Principles](04-principles.md), [Workflows](06-workflows.md)
+- **Documentation**: See [Dictionary](17-dictionary.md), 
 - **Best Practices**: See [Best Practices](10-best-practices.md)
 - **Common Challenges**: See [Common Challenges](12-common-challenges.md)
 - **Tooling**: See [Tooling](11-tooling.md) for tool setup
@@ -333,10 +333,10 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 
 Before implementing, understand the core concepts:
 
-- **Read the [Dictionary](03-dictionary.md)**: Understand key terms and concepts
-- **Review the [Principles](04-principles.md)**: Understand the six core principles
+- **Read the [Dictionary](17-dictionary.md)**: Understand key terms and concepts
+- **Review the **: Understand the six core principles
 - **Learn about [TEMPO](05-tempo.md)**: Understand agent speed and control
-- **Study the [Workflows](06-workflows.md)**: Understand RHYTHM Method workflows
+- **Study the **: Understand RHYTHM Method workflows
 
 ### Step 2: Set Up Your Project Management Tool
 
@@ -378,14 +378,14 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 1. Define business value and objectives
 2. Document user requirements
 3. Define validation criteria
-4. Analyze dependencies (see [Dependency Management](09-dependency-management.md))
+4. Analyze dependencies (see [Dependency Management](08-dependency-management.md))
 
 **Break Down into Work Units:**
 
-1. Identify Work Units (up to 8 hour execution cycles, some may be less than 2 hours) - see [Work Breakdown Structure](07-work-breakdown-structure.md)
+1. Identify Work Units (up to 8 hour execution cycles, some may be less than 2 hours) - see [Work Breakdown Structure](06-work-breakdown-structure.md)
 2. Define Work Unit specifications
 3. Identify dependencies
-4. Estimate tokens (see [Estimation](08-estimation.md))
+4. Estimate tokens (see [Estimation](07-token-estimation.md))
 
 **Execute First Cycle:**
 
@@ -425,9 +425,9 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 
 **Additional Examples:**
 
-- See [Estimation](08-estimation.md) for token estimation examples
-- See [Dependency Management](09-dependency-management.md) for dependency examples
-- See [Work Breakdown Structure](07-work-breakdown-structure.md) for WBS examples
+- See [Estimation](07-token-estimation.md) for token estimation examples
+- See [Dependency Management](08-dependency-management.md) for dependency examples
+- See [Work Breakdown Structure](06-work-breakdown-structure.md) for WBS examples
 - See [Quick Reference](15-quick-reference.md) for formulas and decision trees
 
 ## Next Steps
@@ -435,7 +435,7 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 After getting started:
 
 1. **See a Complete Example**: Review the [Workflow Example](14-workflow-example.md) to see RHYTHM Method in practice
-2. **Understand Key Terms**: See [Dictionary](03-dictionary.md) for key terms and concepts
+2. **Understand Key Terms**: See [Dictionary](17-dictionary.md) for key terms and concepts
 3. **Quick Reference**: Use the [Quick Reference](15-quick-reference.md) for formulas and decision trees
 4. **Learn Best Practices**: See [Best Practices](10-best-practices.md) for detailed guidance
 5. **Explore Tooling**: See [Tooling](11-tooling.md) for tool integrations
@@ -446,8 +446,8 @@ After getting started:
 
 ## Navigation
 
-**Previous:** [Project Setup](11-project-setup.md) - Project configuration and setup
-**Next:** [Best Practices](13-best-practices.md) - RHYTHM Method best practices
+**Previous:** [Project Setup](10-project-setup.md) - Project configuration and setup
+**Next:** [Best Practices](12-best-practices.md) - RHYTHM Method best practices
 
 ---
 

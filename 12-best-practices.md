@@ -364,17 +364,17 @@ RHYTHM Method best practices focus on leveraging agent capabilities (TEMPO, Flow
 
 **Note**: For detailed information on specific topics, see the relevant documentation:
 
-- **Estimation**: See [Estimation](08-estimation.md) for detailed token estimation methodology
-- **Workflows**: See [Workflows](06-workflows.md) for detailed workflow processes
-- **Dependency Management**: See [Dependency Management](09-dependency-management.md) for dependency-driven prioritization
-- **Work Breakdown Structure**: See [Work Breakdown Structure](07-work-breakdown-structure.md) for WBS hierarchy
+- **Estimation**: See [Estimation](07-token-estimation.md) for detailed token estimation methodology
+- **Workflows**: See  for detailed workflow processes
+- **Dependency Management**: See [Dependency Management](08-dependency-management.md) for dependency-driven prioritization
+- **Work Breakdown Structure**: See [Work Breakdown Structure](06-work-breakdown-structure.md) for WBS hierarchy
 
 ---
 
 ## Navigation
 
-**Previous:** [Getting Started](12-getting-started.md) - How to adopt RHYTHM Method
-**Next:** [Common Challenges](14-common-challenges.md) - Common challenges and solutions
+**Previous:** [Getting Started](11-getting-started.md) - How to adopt RHYTHM Method
+**Next:** [Common Challenges](13-common-challenges.md) - Common challenges and solutions
 
 ---
 

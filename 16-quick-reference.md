@@ -275,15 +275,15 @@ Project Manifest (One per project)
 - [Getting Started](02-getting-started.md) - How to adopt RHYTHM Method
 - [Dictionary](03-dictionary.md) - Complete terminology
 - [TEMPO](05-tempo.md) - Detailed TEMPO documentation
-- [Estimation](08-estimation.md) - Complete token estimation guide
-- [Workflows](06-workflows.md) - Detailed workflow processes
+- [Estimation](07-token-estimation.md) - Complete token estimation guide
+-  - Detailed workflow processes
 - [Best Practices](10-best-practices.md) - Implementation guidance
 
 ---
 
 ## Navigation
 
-**Previous:** [Workflow Examples](16-workflow-examples.md) - End-to-end workflow example
+**Previous:** [Workflow Examples](15-workflow-examples.md) - End-to-end workflow example
 
 ---
 

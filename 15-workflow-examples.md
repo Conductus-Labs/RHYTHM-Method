@@ -714,10 +714,10 @@ Users need to create accounts and log in to access personalized features, view o
 
 ## See Also
 
-- [Workflows](06-workflows.md) - Detailed workflow processes
-- [Work Breakdown Structure](07-work-breakdown-structure.md) - WBS hierarchy and relationships
-- [Estimation](08-estimation.md) - Token estimation methodology
-- [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization
+-  - Detailed workflow processes
+- [Work Breakdown Structure](06-work-breakdown-structure.md) - WBS hierarchy and relationships
+- [Estimation](07-token-estimation.md) - Token estimation methodology
+- [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization
 - [TEMPO](05-tempo.md) - Understanding execution speed
 - [Best Practices](10-best-practices.md) - Implementation guidance
 
@@ -725,8 +725,8 @@ Users need to create accounts and log in to access personalized features, view o
 
 ## Navigation
 
-**Previous:** [Error Handling](15-error-handling.md) - Error handling and failure recovery
-**Next:** [Quick Reference](17-quick-reference.md) - Formulas and decision trees
+**Previous:** [Error Handling](14-error-handling.md) - Error handling and failure recovery
+**Next:** [Quick Reference](16-quick-reference.md) - Formulas and decision trees
 
 ---
 

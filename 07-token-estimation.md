@@ -714,8 +714,8 @@ Token-based estimation in RHYTHM Method provides precise, measurable estimates t
 
 ## Navigation
 
-**Previous:** [Work Breakdown Structure](07-work-breakdown-structure.md) - WBS hierarchy and relationships
-**Next:** [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization
+**Previous:** [Work Breakdown Structure](06-work-breakdown-structure.md) - WBS hierarchy and relationships
+**Next:** [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization
 
 ---
 
