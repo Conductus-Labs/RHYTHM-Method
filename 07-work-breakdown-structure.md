@@ -1,9 +1,5 @@
 # Work Breakdown Structure (WBS)
 
-**Version:** 1.2.0  
-**Last Updated:** 2025-11-26  
-**Status:** Updated with Bug Lifecycle and Relationship Clarification
-
 ## Overview
 
 The Work Breakdown Structure (WBS) in RHYTHM Method provides a hierarchical organization of work that enables precise estimation, dependency tracking, and agent assignment. Unlike traditional WBS structures, RHYTHM Method's WBS is designed specifically for agentic development environments.
@@ -562,3 +558,4 @@ The RHYTHM Method WBS provides a hierarchical structure (Project Manifest → Fe
 | 1.0.0   | 2025-11-24 | Initial             | Initial WBS documentation                                                                                                                                              |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Clarified Work Unit duration: 2-8 hours is a guideline (not hard limit), added guidance for when estimation exceeds 8 hours                                            |
 | 1.2.0   | 2025-11-26 | rhythm-expert-agent | Expanded bug handling: clarified parented vs related distinction, added complete bug lifecycle by workflow stage, bug prioritization rules, and bug handling workflows |
+| 1.3.0   | 2025-12-14 | Agent               | Migrated to numbered format in RHYTHM-Method documentation repository structure                                                                                        |

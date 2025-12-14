@@ -65,6 +65,7 @@ This documentation is being developed to provide comprehensive guidance for impl
 
 ## Change History
 
-| Version | Date       | Author  | Description                    |
-| ------- | ---------- | ------- | ------------------------------ |
-| 1.0.0   | 2025-11-24 | Initial | Initial documentation overview |
+| Version | Date       | Author  | Description                                                                     |
+| ------- | ---------- | ------- | ------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial | Initial documentation overview                                                  |
+| 1.1.0   | 2025-12-14 | Agent   | Migrated to numbered format in RHYTHM-Method documentation repository structure |

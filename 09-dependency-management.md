@@ -1,9 +1,5 @@
 # Dependency Management
 
-**Version:** 1.1.0  
-**Last Updated:** 2025-11-26  
-**Status:** Updated with Detailed Dependency Detection
-
 ## Overview
 
 Dependency management in RHYTHM Method uses **dependency-driven prioritization** to ensure work happens in the correct order. Dependencies are automatically detected, tracked, and resolved, with human oversight at critical decision points.
@@ -639,3 +635,4 @@ Dependency management in RHYTHM Method uses dependency-driven prioritization to 
 | ------- | ---------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | 1.0.0   | 2025-11-24 | Initial             | Initial dependency management docs                                                                                       |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed dependency detection methods, tools, examples, false positive/negative handling, and edge case management |
+| 1.2.0   | 2025-12-14 | Agent               | Migrated to numbered format in RHYTHM-Method documentation repository structure                                          |

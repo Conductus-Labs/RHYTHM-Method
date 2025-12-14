@@ -2,9 +2,11 @@
 
 **R**apid, **H**igh-**Y**ield, **T**oken-based, **H**uman-in-loop, **M**anagement
 
-A project management methodology specifically designed for agents with human integration.
+A project management methodology specifically designed for AI agents with strategic human integration.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
 
 ## Overview
 
@@ -19,6 +21,8 @@ Just as a conductor (human) guides an orchestra (agents) to create harmonious mu
 
 **Key Philosophy:** Agents work at a fast tempo, but RHYTHM ensures control, flow, and Human-in-the-Loop (HITL) integration.
 
+---
+
 ## Core Differentiators
 
 - **TEMPO**: Agents operate at fast computational speeds (hours, not weeks)
@@ -28,114 +32,74 @@ Just as a conductor (human) guides an orchestra (agents) to create harmonious mu
 - **Precision**: Token-based estimation replaces abstract story points
 - **Adaptive**: Methodology evolves based on real-time learnings
 
+---
+
 ## Quick Start
 
 ### For Developers
 
-1. **Read the Documentation**: Start with the [Getting Started Guide](docs/02-getting-started.md)
-2. **Understand the Concepts**: Review the [Dictionary](docs/03-dictionary.md) and [Principles](docs/04-principles.md)
-3. **Set Up Your System**: Use the setup scripts for your project management tool:
-   - [GitHub Setup](scripts/github/)
-   - [Azure DevOps Setup](scripts/azure-devops/)
-   - [Jira Setup](scripts/jira/)
-   - [Custom Integration](scripts/custom/)
+1. **Understand the Fundamentals**: Read [01-overview.md](01-overview.md) and [02-core-concepts.md](02-core-concepts.md)
+2. **Learn the Cycles**: Review [03-flow-cycles.md](03-flow-cycles.md) to understand the execution model
+3. **Set Up Your Project**: Follow [12-getting-started.md](12-getting-started.md) to adopt RHYTHM Method
 
 ### For Project Managers
 
-1. **Learn the Methodology**: Read the [Documentation Overview](docs/01-overview.md) and [Workflows](docs/06-workflows.md)
-2. **Understand TEMPO**: Review [TEMPO documentation](docs/05-tempo.md) to understand agent speed
-3. **Configure Your Tools**: Use the setup scripts to integrate RHYTHM into your existing tools
+1. **Learn the Methodology**: Start with [01-overview.md](01-overview.md) and [02-core-concepts.md](02-core-concepts.md)
+2. **Understand TEMPO**: Review [10-tempo-configuration.md](10-tempo-configuration.md) to control agent speed
+3. **Configure Your Project**: Use [11-project-setup.md](11-project-setup.md) to create project configuration
 
-## Repository Structure
-
-```text
-RHYTHM-Method/
-├── docs/                    # Complete RHYTHM Method documentation
-│   ├── overview.md          # Introduction and philosophy
-│   ├── dictionary.md        # Key terms and concepts
-│   ├── principles.md        # Core principles
-│   ├── tempo.md             # Understanding TEMPO
-│   ├── workflows.md         # RHYTHM Method workflows
-│   ├── work-breakdown-structure.md  # WBS hierarchy
-│   ├── estimation.md        # Token-based estimation
-│   ├── dependency-management.md     # Dependency-driven prioritization
-│   ├── getting-started.md   # Getting started guide
-│   ├── best-practices.md    # Best practices and patterns
-│   └── tooling.md           # Tools and integrations
-│
-└── scripts/                 # Setup scripts for different systems
-    ├── github/              # GitHub integration scripts
-    ├── azure-devops/        # Azure DevOps integration scripts
-    ├── jira/                # Jira integration scripts
-    └── custom/              # Custom integration templates
-```
+---
 
 ## Documentation
 
-See the [Documentation Overview](docs/01-overview.md) for complete documentation index.
+### Foundational Concepts
 
-### Getting Started
+**Start here to understand RHYTHM Method fundamentals:**
 
-- **[Getting Started Guide](docs/02-getting-started.md)** - How to adopt RHYTHM Method in your project
-- **[Dictionary](docs/03-dictionary.md)** - Key terms and concepts
-- **[Principles](docs/04-principles.md)** - Core principles of RHYTHM Method
+1. [Overview](01-overview.md) - Introduction and philosophy
+2. [Core Concepts](02-core-concepts.md) - Agents (BA/RA/WA), TEMPO, HITL, Token estimation
 
-### Core Concepts
+### Execution Model
 
-- **[TEMPO](docs/05-tempo.md)** - Understanding TEMPO: the speed/pace at which agents operate
-- **[Workflows](docs/06-workflows.md)** - RHYTHM Method workflows and processes
+**Learn how RHYTHM Method orchestrates work:**
 
-### Methodology
+3. [Flow Cycles](03-flow-cycles.md) - The 6 main cycles (Project Init, Feature Spec, Work Unit Creation, Challenge, Task Breakdown, Task Execution)
+4. [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation cycles
+5. [Processes](05-processes.md) - Supporting processes (Project Interview, Feature Interview, Cycle Review, HITL Check)
+6. [State Management](06-state-management.md) - State transitions for Projects, Features, Work Units, Agent Tasks, Bugs
 
-- **[Work Breakdown Structure](docs/07-work-breakdown-structure.md)** - WBS hierarchy (Project Manifest, Feature, Work Unit, Agent Task, Bug)
-- **[Estimation](docs/08-estimation.md)** - Token-based estimation methodology
-- **[Dependency Management](docs/09-dependency-management.md)** - Dependency-driven prioritization
+### Work Breakdown and Estimation
 
-### Best Practices and Reference
+**Understand how work is structured and estimated:**
 
-- **[Best Practices](docs/10-best-practices.md)** - RHYTHM Method best practices and patterns
-- **[Tooling](docs/11-tooling.md)** - Tools and integrations for RHYTHM Method
-- **[Common Challenges](docs/12-common-challenges.md)** - Common challenges and solutions
-- **[Error Handling](docs/13-error-handling.md)** - Error handling and failure recovery
-- **[Workflow Example](docs/14-workflow-example.md)** - End-to-end workflow walkthrough
-- **[Quick Reference](docs/15-quick-reference.md)** - Formulas, decision trees, and key information
+7. [Work Breakdown Structure](07-work-breakdown-structure.md) - Project, Feature, Work Unit, Agent Task, Bug hierarchy
+8. [Token Estimation](08-token-estimation.md) - Token-based estimation methodology and formulas
+9. [Dependency Management](09-dependency-management.md) - Dependency-driven prioritization and detection
 
-## Setup Scripts
+### Configuration and Setup
 
-RHYTHM Method can be integrated with various project management tools:
+**Configure RHYTHM Method for your project:**
 
-### GitHub
+10. [TEMPO Configuration](10-tempo-configuration.md) - Understanding and configuring TEMPO levels
+11. [Project Setup](11-project-setup.md) - Project.Manifest and Project.Config templates and setup
 
-Setup scripts for GitHub Issues, Projects, and Actions:
+### Practical Guidance
 
-- [GitHub Setup Guide](scripts/github/overview.md)
-- [GitHub Issues Integration](scripts/github/issues/)
-- [GitHub Projects Integration](scripts/github/projects/)
-- [GitHub Actions Workflows](scripts/github/actions/)
+**Best practices and real-world application:**
 
-### Azure DevOps
+12. [Getting Started](12-getting-started.md) - Step-by-step guide to adopting RHYTHM Method
+13. [Best Practices](13-best-practices.md) - Proven patterns and recommendations
+14. [Common Challenges](14-common-challenges.md) - Common challenges and solutions
+15. [Error Handling](15-error-handling.md) - Error handling and failure recovery strategies
 
-Setup scripts for Azure DevOps Boards, Pipelines, and Repos:
+### Examples and Reference
 
-- [Azure DevOps Setup Guide](scripts/azure-devops/overview.md)
-- [Azure Boards Integration](scripts/azure-devops/boards/)
-- [Azure Pipelines Integration](scripts/azure-devops/pipelines/)
+**Quick reference and examples:**
 
-### Jira
+16. [Workflow Examples](16-workflow-examples.md) - End-to-end workflow walkthroughs
+17. [Quick Reference](17-quick-reference.md) - Formulas, decision trees, and key information
 
-Setup scripts for Jira Software, Jira Service Management, and Automation:
-
-- [Jira Setup Guide](scripts/jira/overview.md)
-- [Jira Software Integration](scripts/jira/software/)
-- [Jira Automation Rules](scripts/jira/automation/)
-
-### Custom Integration
-
-Templates and guides for integrating RHYTHM Method with other tools:
-
-- [Custom Integration Guide](scripts/custom/overview.md)
-- [API Templates](scripts/custom/api-templates/)
-- [Webhook Templates](scripts/custom/webhook-templates/)
+---
 
 ## Key Features
 
@@ -155,11 +119,15 @@ Templates and guides for integrating RHYTHM Method with other tools:
 - **Control**: Configurable approval gates and overrides
 - **Collaboration**: Human-AI partnership, not replacement
 
+---
+
 ## Why RHYTHM Method?
 
 Traditional project management methodologies were designed for human teams. When applied to AI agent teams, they create friction, overhead, and missed opportunities. Conversely, pure agentic processes designed for computational efficiency exclude humans and create information overload.
 
 **RHYTHM Method bridges this gap** by creating a methodology that leverages agent capabilities while maintaining essential human oversight and strategic input.
+
+---
 
 ## Is RHYTHM Method Right for You?
 
@@ -181,6 +149,8 @@ RHYTHM Method may not be ideal for:
 
 **Recommendation:** Start with a pilot project to evaluate RHYTHM Method's fit for your organization. Use Moderate TEMPO initially, focus on well-defined work, and build historical data to improve estimation accuracy over time.
 
+---
+
 ## Alternative to Traditional Methodologies
 
 RHYTHM Method is an **alternative** to:
@@ -192,6 +162,44 @@ RHYTHM Method is an **alternative** to:
 - Traditional project management
 
 RHYTHM Method is **not** a modification of these methodologies—it's a new methodology designed specifically for agents with human integration.
+
+---
+
+## Documentation Structure
+
+This repository contains pure documentation in a numbered format for easy sequential reading:
+
+```text
+RHYTHM-Method/
+├── 01-overview.md                    # Introduction and philosophy
+├── 02-core-concepts.md               # Fundamental concepts (Agents, TEMPO, HITL, Tokens)
+├── 03-flow-cycles.md                 # Main execution cycles
+├── 04-special-cycles.md              # Quality Check and Dependency-driven Prioritisation
+├── 05-processes.md                   # Supporting processes
+├── 06-state-management.md            # State transitions for all work items
+├── 07-work-breakdown-structure.md    # Work hierarchy (Project → Feature → Work Unit → Task)
+├── 08-token-estimation.md            # Token-based estimation methodology
+├── 09-dependency-management.md       # Dependency detection and prioritization
+├── 10-tempo-configuration.md         # TEMPO levels and configuration
+├── 11-project-setup.md               # Project.Manifest and Project.Config setup
+├── 12-getting-started.md             # Adoption guide
+├── 13-best-practices.md              # Proven patterns and recommendations
+├── 14-common-challenges.md           # Common issues and solutions
+├── 15-error-handling.md              # Error handling and recovery
+├── 16-workflow-examples.md           # End-to-end workflow examples
+├── 17-quick-reference.md             # Quick reference guide
+├── README.md                         # This file
+└── LICENSE                           # MIT License
+```
+
+**Reading Path:**
+
+- **Quick Start**: 01 → 02 → 12 (Overview, Core Concepts, Getting Started)
+- **Complete Understanding**: Read sequentially 01-17
+- **Implementation Focus**: 11 → 12 → 13 → 16 (Setup, Getting Started, Best Practices, Examples)
+- **Reference**: 17 for quick lookups
+
+---
 
 ## Contributing
 
@@ -209,9 +217,7 @@ Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING
 
 Please open an issue to share your feedback. Your input helps make RHYTHM Method better for everyone.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
 
 ## Baton Framework Integration
 
@@ -225,9 +231,17 @@ While RHYTHM Method works best with Baton Framework, the methodology itself is f
 
 ### Related Projects
 
-- **[Baton Framework](https://github.com/Conductus-Labs/baton-framework)** - The foundational instruction architecture that underlies RHYTHM Method
+- **[Baton Framework](https://github.com/Conductus-Labs/baton-framework)** - The foundational instruction architecture for RHYTHM Method
 - **[Baton CLI](https://github.com/Conductus-Labs/baton-framework)** - Tooling for scaffolding RHYTHM Method into projects
-- **[Baton Platform](https://baton.conductuslabs.com)** - Full Agentic Development Environment with RHYTHM Method workflows
+- **[Baton Platform](https://baton.conductuslabs.com)** - Full Agentic Development Environment (Coming Soon)
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 
 ## About Conductus Labs
 
@@ -235,6 +249,7 @@ RHYTHM Method is developed by **Conductus Labs Ltd**, a UK-based AI application 
 
 - **Website**: [conductuslabs.com](https://conductuslabs.com)
 - **Product**: [Baton Platform](https://baton.conductuslabs.com) - AI Orchestration Platform (SaaS) - Coming Soon
+- **GitHub**: [github.com/Conductus-Labs](https://github.com/Conductus-Labs)
 
 ---
 

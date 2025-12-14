@@ -1,9 +1,5 @@
 # Token-Based Estimation
 
-**Version:** 1.1.0  
-**Last Updated:** 2025-11-26  
-**Status:** Updated with Detailed Formulas
-
 ## Overview
 
 RHYTHM Method uses **token-based estimation** to replace abstract story points with precise, measurable factors. Token estimation leverages agent capabilities for accurate analysis and enables precise capacity planning.
@@ -729,3 +725,4 @@ Token-based estimation in RHYTHM Method provides precise, measurable estimates t
 | ------- | ---------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1.0.0   | 2025-11-24 | Initial             | Initial estimation documentation                                                                                                               |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added detailed formulas, multipliers, overhead percentages, baseline throughput rates, calibration guidance, and Work Unit duration guidelines |
+| 1.2.0   | 2025-12-14 | Agent               | Migrated to numbered format in RHYTHM-Method documentation repository structure                                                                |

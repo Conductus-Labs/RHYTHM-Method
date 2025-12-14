@@ -1,9 +1,5 @@
 # Common Challenges with RHYTHM Method
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-26  
-**Status:** Initial Draft - For Review
-
 ## Overview
 
 This document addresses common challenges teams face when adopting RHYTHM Method and provides practical solutions to overcome them.
@@ -278,7 +274,8 @@ See [Getting Started](02-getting-started.md) for complete migration guide.
 
 ## Change History
 
-| Version | Date       | Author                 | Description                             |
-| ------- | ---------- | ---------------------- | --------------------------------------- |
-| 1.0.0   | 2025-11-24 | Initial                | Initial common challenges guide         |
-| 1.1.0   | 2025-11-26 | technical-writer-agent | Added FAQ section with common questions |
+| Version | Date       | Author                 | Description                                                                     |
+| ------- | ---------- | ---------------------- | ------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-24 | Initial                | Initial common challenges guide                                                 |
+| 1.1.0   | 2025-11-26 | technical-writer-agent | Added FAQ section with common questions                                         |
+| 1.2.0   | 2025-12-14 | Agent                  | Migrated to numbered format in RHYTHM-Method documentation repository structure |

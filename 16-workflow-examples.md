@@ -1,9 +1,5 @@
 # End-to-End Workflow Example
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-11-26  
-**Status:** Complete Workflow Walkthrough
-
 This document provides a complete, realistic example of RHYTHM Method in practice, walking through a feature from specification to completion with actual content and decisions.
 
 ## Overview
@@ -736,6 +732,7 @@ Users need to create accounts and log in to access personalized features, view o
 
 ## Change History
 
-| Version | Date       | Author                 | Description                         |
-| ------- | ---------- | ---------------------- | ----------------------------------- |
-| 1.0.0   | 2025-11-26 | technical-writer-agent | Initial end-to-end workflow example |
+| Version | Date       | Author                 | Description                                                                     |
+| ------- | ---------- | ---------------------- | ------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-26 | technical-writer-agent | Initial end-to-end workflow example                                             |
+| 1.1.0   | 2025-12-14 | Agent                  | Migrated to numbered format in RHYTHM-Method documentation repository structure |

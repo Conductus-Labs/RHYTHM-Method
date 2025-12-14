@@ -1,9 +1,5 @@
 # TEMPO: The Speed of Agentic Development
 
-**Version:** 1.1.0  
-**Last Updated:** 2025-11-26  
-**Status:** Updated with TEMPO Configurations
-
 ## What is TEMPO?
 
 **TEMPO** is a concept within the RHYTHM Method that describes the **speed/pace at which agents operate**. Just as tempo in music determines the speed of a piece, TEMPO in RHYTHM Method describes how fast agents work.
@@ -598,3 +594,4 @@ RHYTHM Method emphasizes both fast TEMPO (automation) and human control (HITL). 
 | ------- | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------- |
 | 1.0.0   | 2025-11-24 | Initial             | Initial TEMPO concept docs                                                                                |
 | 1.1.0   | 2025-11-26 | rhythm-expert-agent | Added TEMPO level definitions, HITL gate configurations, decision matrix, and user configuration guidance |
+| 1.2.0   | 2025-12-14 | Agent               | Migrated to numbered format in RHYTHM-Method documentation repository structure                           |
