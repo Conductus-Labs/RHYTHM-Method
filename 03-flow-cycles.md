@@ -560,6 +560,13 @@ Task Execution (per Agent Task batch)
 
 ---
 
+## Navigation
+
+**Previous:** [Core Concepts](02-core-concepts.md) - Fundamental concepts
+**Next:** [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
+
+---
+
 ## Change History
 
 | Version | Date       | Author | Description                                          |

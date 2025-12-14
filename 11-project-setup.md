@@ -321,6 +321,13 @@ project-root/
 
 ---
 
+## Navigation
+
+**Previous:** [TEMPO Configuration](10-tempo-configuration.md) - TEMPO levels and configuration
+**Next:** [Getting Started](12-getting-started.md) - How to adopt RHYTHM Method
+
+---
+
 ## Change History
 
 | Version | Date       | Author | Description                                                     |

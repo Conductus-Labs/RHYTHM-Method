@@ -365,6 +365,13 @@ States are persisted in the project's work tracking system:
 
 ---
 
+## Navigation
+
+**Previous:** [Processes](05-processes.md) - Supporting processes
+**Next:** [Work Breakdown Structure](07-work-breakdown-structure.md) - WBS hierarchy and relationships
+
+---
+
 ## Change History
 
 | Version | Date       | Author | Description                                                  |

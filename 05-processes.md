@@ -372,6 +372,13 @@ All processes integrate with the main flow cycles:
 
 ---
 
+## Navigation
+
+**Previous:** [Special Cycles](04-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
+**Next:** [State Management](06-state-management.md) - State transitions
+
+---
+
 ## Change History
 
 | Version | Date       | Author | Description                                            |

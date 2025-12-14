@@ -765,6 +765,13 @@ All special cycles integrate seamlessly with the main flow cycles:
 
 ---
 
+## Navigation
+
+**Previous:** [Flow Cycles](03-flow-cycles.md) - Main execution cycles
+**Next:** [Processes](05-processes.md) - Supporting processes
+
+---
+
 ## Change History
 
 | Version | Date       | Author | Description                                                               |
