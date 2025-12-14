@@ -456,9 +456,8 @@ These terms are from traditional methodologies and should NOT be used in RHYTHM 
 | ❌ Avoid | ✅ Use Instead |
 |---------|---------------|
 | Epic | Project Manifest |
-| User Story | Feature |
+| Story | Work Unit |
 | Task | Agent Task |
-| Unit of Work | Work Unit |
 | Sprint | Execution Cycle |
 | Story Points | Tokens |
 | Iteration | Execution Cycle |
