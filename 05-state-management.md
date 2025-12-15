@@ -9,6 +9,7 @@ This document defines the state transitions for all work item types in RHYTHM Me
 RHYTHM Method uses structured state transitions to track progress, enable coordination between agents, and provide visibility into work status.
 
 **Key Principles:**
+
 1. States can only transition forward (except for failure loops)
 2. State transitions are triggered by specific cycle completions or agent actions
 3. HITL checkpoints can occur at state transitions (configured by TEMPO)
@@ -34,6 +35,7 @@ OPEN → CLOSED
 | **CLOSED** | Project is complete and no further work planned | RA or User | All Features complete, project archived |
 
 **Triggered By:**
+
 - **OPEN**: BA during Project Initialisation cycle
 - **CLOSED**: User or RA when project complete
 
@@ -66,12 +68,14 @@ NEW → READY → IN PROGRESS → IN REVIEW → COMPLETE
 | **COMPLETE** | Feature-level quality gates passed and approved | RA | Feature quality gates pass and HITL approval |
 
 **Failure Loop:**
+
 - **IN REVIEW → IN PROGRESS**: When Feature-level quality gates fail
   - Affected Work Units are reset to IN PROGRESS
   - Development Engineers fix issues
   - Loop back through Task Execution
 
 **HITL Checkpoints:**
+
 - **READY**: Feature specification approval
 - **COMPLETE**: Feature completion approval (Moderate/Controlled TEMPO)
 
@@ -106,12 +110,14 @@ NEW → REVIEWED → READY → IN PROGRESS → IN REVIEW → COMPLETE
 | **COMPLETE** | All quality gates passed and approved | RA | Quality gates pass and HITL approval |
 
 **Failure Loop:**
+
 - **IN REVIEW → IN PROGRESS**: When Agent Task quality gates fail
   - Failed Agent Tasks reset to IN PROGRESS (or earlier state)
   - Development Engineers fix issues
   - Loop back through review and quality validation
 
 **HITL Checkpoints:**
+
 - **REVIEWED**: Work Unit challenge approval (Moderate/Controlled TEMPO)
 - **READY**: Task breakdown validation (Moderate/Controlled TEMPO)
 - **COMPLETE**: Work Unit completion approval (Controlled TEMPO)
@@ -142,11 +148,13 @@ NEW → READY → IN PROGRESS → IN REVIEW → COMPLETE
 | **COMPLETE** | Review and quality validation passed | RA | Quality Check Cycle passes |
 
 **Loop Protection:**
+
 - Review loop and quality loop thresholds prevent infinite loops
 - HITL triggered when thresholds exceeded
 - No explicit state for loop condition (handled within IN REVIEW state)
 
 **HITL Checkpoints:**
+
 - None at Agent Task level (WA Review/Quality Engineers handle validation)
 - HITL only triggered when loop thresholds exceeded
 
@@ -203,28 +211,34 @@ NEW → READY → IN PROGRESS → IN REVIEW → COMPLETE
 ### HITL Checkpoint States (Typical)
 
 **Feature:**
+
 - **READY**: After specification (High/Moderate/Controlled)
 - **IN REVIEW**: After Feature quality gates (Moderate/Controlled)
 - **COMPLETE**: After approval (Moderate/Controlled)
 
 **Work Unit:**
+
 - **REVIEWED**: After challenge (Moderate/Controlled)
 - **READY**: After breakdown (Moderate/Controlled)
 - **COMPLETE**: After all Agent Tasks complete (Controlled)
 
 **Agent Task:**
+
 - No typical HITL checkpoints (WA Review/Quality Engineers handle validation)
 - HITL only when loop thresholds exceeded
 
 ### Quality Gate States
 
 **Agent Tasks:**
+
 - **IN REVIEW**: WA Review Engineer + WA Quality Engineer validate before COMPLETE
 
 **Work Units:**
+
 - No explicit quality gate state (aggregation of complete Agent Tasks)
 
 **Features:**
+
 - **IN REVIEW**: WA Quality Engineer validates all Work Units before COMPLETE
 
 ---
@@ -343,12 +357,14 @@ Features WHERE state = COMPLETE
 States are persisted in the project's work tracking system:
 
 **Storage Options:**
+
 - GitHub Issues (with labels for states)
 - Jira (using status fields)
 - Azure DevOps Boards (using state fields)
 - Local files (YAML/JSON)
 
 **State Metadata:**
+
 - Current state
 - State transition history (audit trail)
 - Timestamp of each transition

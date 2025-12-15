@@ -29,6 +29,7 @@ Performed within Task Execution Cycle by specialized WAs after development work 
 **Purpose:** Validate code quality and standards compliance
 
 **Process:**
+
 - WA (Review Engineer) reviews Pull Request
 - Examines:
   - Code quality and standards compliance
@@ -40,10 +41,12 @@ Performed within Task Execution Cycle by specialized WAs after development work 
   - `ANY ISSUES => REJECTED WITH DETAILS`
 
 **Outputs:**
+
 - APPROVED: Continue to Quality Validation
 - REJECTED: Loop back to Development Engineer for fixes
 
 **Loop Protection:**
+
 - Review loop threshold (default: 3)
 - HITL triggered when threshold exceeded
 
@@ -54,6 +57,7 @@ Performed within Task Execution Cycle by specialized WAs after development work 
 **Purpose:** Validate work against Work Unit specification and run automated quality gates
 
 **Process:**
+
 - WA (Quality Engineer) validates work
 - Runs automated quality gates:
   - Integration testing with other Agent Tasks
@@ -65,10 +69,12 @@ Performed within Task Execution Cycle by specialized WAs after development work 
   - `FAIL WITH DETAILS => Loop to fixes`
 
 **Outputs:**
+
 - PASS: Agent Task marked COMPLETE
 - FAIL: Loop back to Development Engineer for fixes
 
 **Loop Protection:**
+
 - Quality loop threshold (default: 3)
 - HITL triggered when threshold exceeded
 
@@ -83,6 +89,7 @@ Performed when all Work Units for a Feature are complete.
 **Purpose:** Comprehensive end-to-end validation of complete Feature
 
 **Process:**
+
 - WA (Quality Engineer) runs Feature-level quality gates:
   - End-to-end integration testing across ALL Work Units
   - Feature specification compliance validation
@@ -95,6 +102,7 @@ Performed when all Work Units for a Feature are complete.
   - `FAIL WITH WORK UNIT DETAILS => Affected Work Units reopened`
 
 **Outputs:**
+
 - PASS: Feature marked COMPLETE (after HITL approval)
 - FAIL: Affected Work Units returned to IN PROGRESS state
 
@@ -109,12 +117,14 @@ Quality failures are classified by severity and handled accordingly:
 **Definition:** Block work immediately, require HITL intervention
 
 **Examples:**
+
 - Security vulnerabilities
 - System crashes
 - Data corruption
 - Critical specification violations
 
 **Handling:**
+
 - Cannot proceed without human approval
 - May require emergency override with post-validation
 - Emergency priority HITL checkpoint
@@ -126,12 +136,14 @@ Quality failures are classified by severity and handled accordingly:
 **Definition:** Flag work, require human review before proceeding
 
 **Examples:**
+
 - Performance degradation
 - Major specification violations
 - Breaking changes to APIs
 - Significant test coverage gaps
 
 **Handling:**
+
 - Requires risk assessment and mitigation plan
 - High-priority HITL checkpoint
 - May proceed with documented risks after human review
@@ -142,12 +154,14 @@ Quality failures are classified by severity and handled accordingly:
 **Definition:** Flag work, allow continuation with notification
 
 **Examples:**
+
 - Code style violations
 - Minor performance issues
 - Non-critical specification deviations
 - Documentation incompleteness
 
 **Handling:**
+
 - Schedule post-validation
 - Normal-priority notification
 - Fix in next iteration or Work Unit
@@ -158,12 +172,14 @@ Quality failures are classified by severity and handled accordingly:
 **Definition:** Log for review, allow continuation
 
 **Examples:**
+
 - Documentation gaps
 - Minor test failures
 - Code comment issues
 - Non-functional improvements
 
 **Handling:**
+
 - Review during Cycle Review Process
 - Low-priority notification
 - Optional fix
@@ -178,12 +194,14 @@ Quality failures are classified by severity and handled accordingly:
 **Definition:** Temporary issues that may resolve on retry
 
 **Examples:**
+
 - Network timeouts
 - Temporary service unavailability
 - Rate limiting
 - Flaky tests
 
 **Handling:**
+
 - Automatic retry (1-2 attempts)
 - Exponential backoff for network issues
 - Log retry attempts
@@ -194,12 +212,14 @@ Quality failures are classified by severity and handled accordingly:
 **Definition:** Consistent failures that require investigation and resolution
 
 **Examples:**
+
 - Specification ambiguity causing repeated review rejections
 - Architectural constraints blocking implementation
 - Insufficient Agent Task specification
 - Missing dependencies or tools
 
 **Handling:**
+
 - Root cause analysis required
 - Process review to identify systemic issues
 - Escalation to HITL for guidance
@@ -215,6 +235,7 @@ Quality failures are classified by severity and handled accordingly:
 **Purpose:** Allow human to override quality gate failures when justified
 
 **Requirements:**
+
 - Human approval required
 - Justification documented
 - Risk assessment provided
@@ -222,12 +243,14 @@ Quality failures are classified by severity and handled accordingly:
 - Post-validation scheduled (if applicable)
 
 **Use Cases:**
+
 - Known limitations with planned future fixes
 - Technical debt accepted for velocity
 - External constraints preventing full compliance
 - Regulatory or business exceptions
 
 **Process:**
+
 1. WA (Quality Engineer) flags failure for override consideration
 2. HITL checkpoint triggered (High priority)
 3. User reviews:
@@ -247,6 +270,7 @@ Quality failures are classified by severity and handled accordingly:
 RA logs quality metrics for Cycle Review Process:
 
 #### Review Metrics
+
 - Review rejection rates by WA (Review Engineer)
 - Common review issues and patterns
 - Review cycle time (time from PR creation to approval)
@@ -254,6 +278,7 @@ RA logs quality metrics for Cycle Review Process:
 - Review loop threshold triggers
 
 #### Quality Gate Metrics
+
 - Quality gate failure rates by WA (Quality Engineer)
 - Failure severity distribution (Critical, High, Medium, Low)
 - Common failure patterns and root causes
@@ -262,19 +287,22 @@ RA logs quality metrics for Cycle Review Process:
 - Quality loop threshold triggers
 
 #### Override Metrics
+
 - Override frequency and reasons
 - Override justifications and risk assessments
 - Post-validation completion rates
 - Technical debt tracking from overrides
 
 #### Time Metrics
+
 - Time to quality approval per Agent Task
 - Time to remediation per failure type
 - Review throughput (Agent Tasks per time period)
 - Quality gate throughput
 
 **See Also:**
-- [Cycle Review Process](05-processes.md#cycle-review-process)
+
+- [Cycle Review Process](04-processes.md#cycle-review-process)
 - [Error Handling](14-error-handling.md)
 
 ---
@@ -292,6 +320,7 @@ RA logs quality metrics for Cycle Review Process:
 ### Overview
 
 The Dependency-driven Prioritisation Cycle maintains a real-time dependency graph and continuously prioritizes work to ensure:
+
 - Dependencies are completed before dependent work
 - Parallel execution is maximized
 - Critical path is identified and protected
@@ -308,11 +337,13 @@ The RA detects and manages four types of dependencies:
 **Definition:** Code, APIs, infrastructure
 
 **Examples:**
+
 - Work Unit B imports code from Work Unit A
 - Agent Task depends on function created in another Agent Task
 - Component requires API endpoint from another Work Unit
 
 **Detection Methods:**
+
 - Code analysis (imports, function calls, type references)
 - Static analysis tools (AST parsing)
 - Module dependency graphs
@@ -322,11 +353,13 @@ The RA detects and manages four types of dependencies:
 **Definition:** Database schemas, data models, migrations
 
 **Examples:**
+
 - Work Unit C requires database schema from Work Unit D
 - Agent Task needs data migration to complete first
 - Feature requires specific data models
 
 **Detection Methods:**
+
 - Code analysis (database queries, ORM models)
 - Specification analysis (data model references)
 - Migration file dependencies
@@ -336,11 +369,13 @@ The RA detects and manages four types of dependencies:
 **Definition:** External services, third-party APIs, system integrations
 
 **Examples:**
+
 - Work Unit E integrates with payment service from Work Unit F
 - Agent Task requires authentication service to be deployed
 - Feature depends on external API configuration
 
 **Detection Methods:**
+
 - API contract analysis (OpenAPI/Swagger, GraphQL schemas)
 - Service dependency analysis
 - Configuration file analysis
@@ -350,11 +385,13 @@ The RA detects and manages four types of dependencies:
 **Definition:** Domain understanding, architectural decisions, design decisions
 
 **Examples:**
+
 - Work Unit G requires ADR decision before proceeding
 - Agent Task needs architectural pattern decision
 - Feature depends on technology stack decision
 
 **Detection Methods:**
+
 - Specification analysis (ADR references, decision mentions)
 - Decision log analysis
 - May require manual identification and HITL validation
@@ -370,6 +407,7 @@ The RA uses multiple automated detection methods:
 **Tools:** Static code analysis (AST parsing), dependency graph tools
 
 **Detects:**
+
 - Imports and module dependencies
 - Function calls and type references
 - File and directory dependencies
@@ -382,6 +420,7 @@ The RA uses multiple automated detection methods:
 **Tools:** Natural language processing, pattern matching
 
 **Detects:**
+
 - Explicit dependency mentions ("Requires Feature X", "Depends on Y")
 - Implicit references ("Uses API from Z", "Must work with W")
 - Specification cross-references
@@ -393,6 +432,7 @@ The RA uses multiple automated detection methods:
 **Tools:** API schema parsers (OpenAPI, GraphQL, gRPC)
 
 **Detects:**
+
 - API contract dependencies
 - Interface definitions
 - Service dependencies
@@ -405,6 +445,7 @@ The RA uses multiple automated detection methods:
 **Tools:** Machine learning, historical analysis
 
 **Detects:**
+
 - Common dependency patterns from past work
 - Typical sequences (e.g., "authentication always before authorization")
 - Dependency patterns by work type
@@ -420,6 +461,7 @@ The RA uses multiple automated detection methods:
 **Trigger:** Critical or ambiguous dependencies detected
 
 **Process:**
+
 1. RA generates dependency detection report
 2. RA flags critical dependencies for User review
 3. HITL checkpoint triggered (Moderate/Controlled TEMPO)
@@ -429,6 +471,7 @@ The RA uses multiple automated detection methods:
 7. RA updates dependency graph with corrections
 
 **When Triggered:**
+
 - Critical path dependencies
 - Ambiguous specification references
 - Conflicting dependency signals
@@ -438,6 +481,7 @@ The RA uses multiple automated detection methods:
 #### Continuous Improvement
 
 **Process:**
+
 1. RA logs manual corrections from HITL reviews
 2. RA analyzes patterns in false positives/negatives
 3. RA updates detection rules based on corrections
@@ -445,6 +489,7 @@ The RA uses multiple automated detection methods:
 5. RA improves accuracy over time
 
 **Metrics Tracked:**
+
 - False positive rate (dependencies detected but not real)
 - False negative rate (dependencies missed by automation)
 - Manual correction frequency
@@ -455,6 +500,7 @@ The RA uses multiple automated detection methods:
 ### Dependency-Driven Prioritisation Flow
 
 **TRIGGERED BY:**
+
 - New Agent Task added
 - Agent Task completed
 - Dependency change
@@ -464,13 +510,13 @@ The RA uses multiple automated detection methods:
 
 - RA retrieves current dependency graph
   `Real-time graph maintained throughout execution`
-- **IF** *CHANGE IS BATCHED*
+- **IF** _CHANGE IS BATCHED_
   `Multiple changes within batching window (5-15 minutes)`
   - RA queues change for batch processing
-  - **WHEN** *BATCH THRESHOLD REACHED OR TIMEOUT*
+  - **WHEN** _BATCH THRESHOLD REACHED OR TIMEOUT_
     - RA processes all queued changes together
     - Reduces thrashing from frequent small changes
-- **ELSE IF** *CRITICAL CHANGE*
+- **ELSE IF** _CRITICAL CHANGE_
   `Critical dependency resolved, high-priority work added, work unit failure`
   - RA processes immediately
   - No batching delay
@@ -479,7 +525,7 @@ The RA uses multiple automated detection methods:
     `Periodic validation every N minutes (configurable)`
 - RA performs incremental dependency graph update
   `Only update affected subgraph, not full recalculation`
-  - **IF** *NEW TASK ADDED*
+  - **IF** _NEW TASK ADDED_
     - RA detects dependencies for new task:
       - Code analysis (imports, function calls, type references)
       - Specification analysis (explicit mentions, implicit references)
@@ -491,17 +537,17 @@ The RA uses multiple automated detection methods:
     - RA adds task to dependency graph
     - RA assigns dependency level
       `Level 0 = no dependencies, Level N = depends on Level N-1`
-  - **ELSE IF** *TASK COMPLETED*
+  - **ELSE IF** _TASK COMPLETED_
     - RA marks dependencies as resolved
     - RA updates dependent tasks' status
       `Set to READY if all dependencies resolved`
     - RA identifies newly unblocked work
     - RA notifies User of unblocked critical path work (if applicable)
-  - **ELSE IF** *DEPENDENCY ADDED/REMOVED*
+  - **ELSE IF** _DEPENDENCY ADDED/REMOVED_
     - RA updates affected subgraph only
     - RA recalculates dependency levels for affected tasks
     - RA identifies newly blocked or unblocked work
-  - **ELSE IF** *SPECIFICATION CHANGED*
+  - **ELSE IF** _SPECIFICATION CHANGED_
     - RA re-analyzes dependencies for changed task
     - RA updates dependency graph
     - RA detects new or removed dependencies
@@ -513,11 +559,11 @@ The RA uses multiple automated detection methods:
   - **RULE 3**: Parallel execution where possible (same level, no conflicts)
 - RA updates work queue order
   `Reorder based on new priorities`
-- **IF** *HIGH-IMPACT REPLANNING*
+- **IF** _HIGH-IMPACT REPLANNING_
   `Affects approved work or in-progress work`
   - [[Human-in-the-Loop Check Process]]
     `TEMPO: High/Moderate/Controlled - human approval required`
-  - **IF** *HUMAN DENIES*
+  - **IF** _HUMAN DENIES_
     - RA reverts prioritization change
     - RA logs override reason
     - RA maintains previous priority order
@@ -529,7 +575,7 @@ The RA uses multiple automated detection methods:
   - RA updates work queue
 - RA detects blocked work
   `Tasks with unresolved dependencies`
-  - **IF** *CRITICAL PATH BLOCKED*
+  - **IF** _CRITICAL PATH BLOCKED_
     - [[Human-in-the-Loop Check Process]]
       `TEMPO: High/Moderate/Controlled - immediate notification`
     - User reviews blocker and provides resolution:
@@ -537,7 +583,7 @@ The RA uses multiple automated detection methods:
       - Expedite blocking work
       - Modify specifications to eliminate dependency
       - Implement workaround
-  - **ELSE IF** *WORK BLOCKED > THRESHOLD TIME*
+  - **ELSE IF** _WORK BLOCKED > THRESHOLD TIME_
     `Configurable threshold (default: 24 hours)`
     - RA notifies user of long-blocked work
     - User can choose to:
@@ -570,6 +616,7 @@ Level N (depends on Level N-1)
 When multiple tasks are at the same dependency level, prioritize by business value:
 
 **Business Value Factors:**
+
 - User impact (high impact > low impact)
 - Critical path (critical path > non-critical)
 - Risk reduction (risk mitigation > feature addition)
@@ -584,12 +631,14 @@ When tasks are at the same dependency level and have no resource conflicts:
 **Execute in parallel to maximize throughput.**
 
 **Resource Conflicts:**
+
 - Same file modifications
 - Shared infrastructure components
 - Database schema changes
 - API contract modifications
 
 **Conflict Resolution:**
+
 - RA detects resource conflicts
 - RA serializes conflicting work
 - RA prioritizes by business value
@@ -602,11 +651,13 @@ When tasks are at the same dependency level and have no resource conflicts:
 **Definition:** The sequence of dependent tasks that determines the minimum time to complete a Feature.
 
 **Critical Path Characteristics:**
+
 - Longest dependency chain from start to completion
 - Any delay in critical path delays entire Feature
 - Critical path changes as work completes or specifications change
 
 **Critical Path Tracking:**
+
 1. RA calculates critical path for each Feature
 2. RA identifies Agent Tasks on critical path
 3. RA prioritizes critical path work
@@ -614,6 +665,7 @@ When tasks are at the same dependency level and have no resource conflicts:
 5. RA notifies User of critical path changes
 
 **Critical Path Alerts:**
+
 - **Critical Path Blocked**: Immediate High-priority HITL notification
 - **Critical Path Delayed**: Normal-priority notification with impact assessment
 - **Critical Path Changed**: Informational notification (unless becomes blocked)
@@ -631,6 +683,7 @@ To avoid thrashing from frequent dependency graph updates:
 **Purpose:** Group multiple small changes for batch processing
 
 **Process:**
+
 1. Changes queued during batching window
 2. When threshold reached or timeout occurs:
    - Process all queued changes together
@@ -638,6 +691,7 @@ To avoid thrashing from frequent dependency graph updates:
    - Single work queue reorder
 
 **Benefits:**
+
 - Reduces computation overhead
 - Prevents priority thrashing
 - Maintains stability
@@ -647,12 +701,14 @@ To avoid thrashing from frequent dependency graph updates:
 **Purpose:** Only update affected portions of dependency graph
 
 **Process:**
+
 1. Identify affected subgraph (tasks with changed dependencies)
 2. Recalculate only affected portion
 3. Leave unaffected portions unchanged
 4. Merge updated subgraph back
 
 **Benefits:**
+
 - Fast updates for large projects
 - Scalable to hundreds of tasks
 - Minimal computational overhead
@@ -662,11 +718,13 @@ To avoid thrashing from frequent dependency graph updates:
 **Purpose:** Bypass batching for critical changes
 
 **Triggers:**
+
 - Critical dependency resolved (unblocks critical path)
 - High-priority work added
 - Work Unit failure (affects dependencies)
 
 **Process:**
+
 1. Immediate processing (no batching delay)
 2. Incremental update applied
 3. Work queue reordered immediately
@@ -679,32 +737,37 @@ To avoid thrashing from frequent dependency graph updates:
 RA logs prioritization metrics for Cycle Review Process:
 
 #### Dependency Metrics
+
 - Dependency detection accuracy (false positives/negatives)
 - Dependency types distribution (Technical, Data, Integration, Knowledge)
 - Manual correction frequency
 - Dependency detection method effectiveness
 
 #### Resolution Metrics
+
 - Dependency resolution time (average time to resolve dependencies)
 - Blocked work frequency (how often work is blocked)
 - Critical path changes (frequency and impact)
 - Blocked work duration (average time work spends blocked)
 
 #### Efficiency Metrics
+
 - Parallel execution efficiency (percentage of work executed in parallel)
 - Work queue throughput (tasks completed per time period)
 - Critical path optimization (actual vs. theoretical minimum time)
 - Resource conflict frequency
 
 #### Process Metrics
+
 - Replanning frequency (how often priorities change)
 - High-impact replanning frequency (requiring HITL)
 - Batching effectiveness (changes per batch, batch frequency)
 - Incremental update performance (update time, affected subgraph size)
 
 **See Also:**
+
 - [Dependency Management](08-dependency-management.md)
-- [Cycle Review Process](05-processes.md#cycle-review-process)
+- [Cycle Review Process](04-processes.md#cycle-review-process)
 
 ---
 
@@ -719,6 +782,7 @@ RA logs prioritization metrics for Cycle Review Process:
 **Note:** This cycle is mentioned in the Overview but not detailed. It represents the ongoing planning adjustments as work progresses.
 
 **Key Activities:**
+
 - Update token usage forecasts based on actual vs. estimated
 - Adjust remaining work estimates
 - Recalculate Feature completion forecasts
@@ -726,12 +790,14 @@ RA logs prioritization metrics for Cycle Review Process:
 - Identify risks based on trends
 
 **Triggers:**
+
 - Agent Task completion
 - Work Unit completion
 - Significant variance detected (actual vs. estimated)
 - Critical path changes
 
 **Outputs:**
+
 - Updated forecasts
 - Risk alerts (if trends are concerning)
 - Resource reallocation recommendations
@@ -744,21 +810,25 @@ RA logs prioritization metrics for Cycle Review Process:
 All special cycles integrate seamlessly with the main flow cycles:
 
 **Quality Check Cycle:**
+
 - Integrated into Task Execution Cycle
 - Runs for every Agent Task and Feature
 - Provides feedback to Cycle Review
 
 **Dependency-driven Prioritisation Cycle:**
+
 - Runs continuously during Task Execution
 - Updates work queue in real-time
 - Provides metrics to Cycle Review
 
 **Continuous Planning Cycle:**
+
 - Runs continuously during Task Execution
 - Updates forecasts and plans
 - Provides metrics to Cycle Review
 
 **See Also:**
+
 - [Flow Cycles](02-flow-cycles.md)
 - [Processes](04-processes.md)
 - [Best Practices](12-best-practices.md)

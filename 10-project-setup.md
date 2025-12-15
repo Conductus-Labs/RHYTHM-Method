@@ -25,6 +25,7 @@ These files guide all agent activity throughout the project lifecycle.
 ### Purpose
 
 High-level project understanding that captures:
+
 - **WHAT**: What we're building
 - **WHY**: Business value and objectives
 - **WHO**: Stakeholders and team members
@@ -132,6 +133,7 @@ web-app
 ### Purpose
 
 Operational configuration that agents use to understand:
+
 - Available tools and resources
 - Source control and project management integration
 - GenAI configuration (models, token budgets)
@@ -218,16 +220,19 @@ rhythm:
 ```
 
 **TEMPO Values:**
+
 - `"high"`: ~3-5 HITL gates per feature cycle (fast, high autonomy)
 - `"moderate"`: ~8-12 HITL gates per feature cycle (balanced, default)
 - `"controlled"`: ~15-20 HITL gates per feature cycle (comprehensive oversight)
 
 **Loop Thresholds:**
+
 - Define how many iterations before HITL intervention
 - Default: 3 for all loop types
 - Adjustable based on team preference and work complexity
 
 **HITL Triggers:**
+
 - Define conditions that trigger HITL checkpoints
 - Can be customized per project
 - Supports quality scores, conflicts, blockers
@@ -314,8 +319,8 @@ project-root/
 
 ## See Also
 
-- [Project Initialisation Cycle](03-flow-cycles.md#cycle-project-initialisation)
-- [Project Interview Process](05-processes.md#project-interview-process)
+- [Project Initialisation Cycle](02-flow-cycles.md#cycle-project-initialisation)
+- [Project Interview Process](04-processes.md#project-interview-process)
 - [TEMPO Configuration](09-tempo-configuration.md)
 - [Getting Started](11-getting-started.md)
 

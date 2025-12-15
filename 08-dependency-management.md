@@ -10,7 +10,7 @@ Dependency management in RHYTHM Method uses **dependency-driven prioritization**
 
 Dependency-driven prioritization is a mandatory prioritization rule in RHYTHM Method where:
 
-1. **Dependencies First**: Work is ordered by [dependency graph](03-dictionary.md#dependency-graph) first
+1. **Dependencies First**: Work is ordered by dependency graph first
 2. **Business Value Second**: Within the same dependency level, work is ordered by business value
 3. **Mandatory Rule**: Dependencies must be resolved before dependent work can begin
 
@@ -320,7 +320,7 @@ Humans can manually identify dependencies that automation misses:
 
 ### Graph Structure
 
-The [dependency graph](03-dictionary.md#dependency-graph) is a real-time visualization of all dependencies:
+The dependency graph is a real-time visualization of all dependencies:
 
 - **Nodes**: Work Units or Agent Tasks
 - **Edges**: Dependencies between work items
@@ -381,7 +381,7 @@ The dependency graph is automatically maintained:
 - **Update Time**: 15-60 seconds for incremental updates
 - **Query Time**: < 5 seconds for critical path calculation (with caching)
 - **Memory**: 200MB-1GB for graph storage
-- **Strategy**: 
+- **Strategy**:
   - Incremental updates with change batching
   - Cached critical path (recalculated periodically, not on every change)
   - Graph partitioning (separate graphs for Features or Work Unit groups)
@@ -589,32 +589,25 @@ Regular dependency reports:
 
 ## Best Practices
 
-For comprehensive dependency management best practices, see [Best Practices](10-best-practices.md#dependency-management-best-practices).
+For comprehensive dependency management best practices, see [Best Practices](12-best-practices.md#dependency-management-best-practices).
 
 **Key Practices:**
 
-- Identify Dependencies Early: Identify during Feature Specification, Work Unit Creation, and Breakdown
-- Minimize Dependencies: Design independent Features and parallel Work Units where possible
-- Visualize Dependencies: Use real-time dependency graphs and critical path visualization
-- Track Dependencies Continuously: Real-time dependency graph updates
-- Automatic dependency detection
-- Manual dependency identification
-
-### 4. Resolve Dependencies Proactively
-
-Proactively resolve dependencies:
-
-- Prioritize prerequisite work
-- Parallel execution where possible
-- Early dependency resolution
-
-### 5. Human Oversight
-
-Maintain human oversight:
-
-- Review critical dependencies
-- Approve dependency overrides
-- Strategic dependency decisions
+1. **Identify Dependencies Early**: Identify during Feature Specification, Work Unit Creation, and Breakdown
+2. **Minimize Dependencies**: Design independent Features and parallel Work Units where possible
+3. **Visualize Dependencies**: Use real-time dependency graphs and critical path visualization
+4. **Track Dependencies Continuously**:
+   - Real-time dependency graph updates
+   - Automatic dependency detection
+   - Manual dependency identification
+5. **Resolve Dependencies Proactively**:
+   - Prioritize prerequisite work
+   - Parallel execution where possible
+   - Early dependency resolution
+6. **Maintain Human Oversight**:
+   - Review critical dependencies
+   - Approve dependency overrides
+   - Strategic dependency decisions
 
 ## Summary
 

@@ -20,8 +20,7 @@ const IGNORE_PATTERNS = [
     '.claude',
     '.cursor',
     '.gemini',
-    '.git',
-    '_repository_review.md'
+    '.git'
 ];
 
 // Results tracking
@@ -128,6 +127,13 @@ function validateLink(link, sourceFile, sourceDir) {
     totalLinks++;
 
     const { url, text, line } = link;
+
+    // Skip example links in CONTRIBUTING.md (lines 140-142)
+    const relativePath = path.relative(DOCS_DIR, sourceFile);
+    if (relativePath === 'CONTRIBUTING.md' && line >= 140 && line <= 142) {
+        totalLinks--; // Don't count these as they're examples
+        return;
+    }
 
     // Split URL into file path and anchor
     const [filePath, anchor] = url.split('#');

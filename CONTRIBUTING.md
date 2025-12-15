@@ -20,6 +20,7 @@ If you have suggestions for improvements, found errors, or want to discuss poten
    - Potential impact on existing documentation
 
 **Issue Types:**
+
 - **Bug/Error**: Typos, broken links, incorrect information
 - **Enhancement**: Suggestions for improving existing content
 - **New Content**: Proposals for new documentation sections
@@ -32,9 +33,11 @@ If you'd like to directly contribute changes:
 
 1. **Fork the repository**
 2. **Create a feature branch** from `main`
+
    ```bash
    git checkout -b feature/your-descriptive-branch-name
    ```
+
 3. **Make your changes**
 4. **Write a detailed commit message** explaining your changes
 5. **Ensure your changes pass markdown linting** (see below)
@@ -46,13 +49,15 @@ If you'd like to directly contribute changes:
 > All Pull Requests MUST pass markdown linting before they can be merged.
 
 **PR Description Must Include:**
+
 - **What**: Clear description of what you changed
 - **Why**: Detailed explanation of why this change should be made
 - **Impact**: How this affects existing documentation or methodology
 - **Testing**: How you verified your changes (link checking, etc.)
 
 **Example PR Message:**
-```
+
+```markdown
 ## What
 Updated token estimation formulas in 08-token-estimation.md to include 
 overhead calculations for multi-agent coordination.
@@ -108,6 +113,7 @@ Ensures consistent markdown formatting and style.
 **Configuration:** `.markdownlint.json`
 
 **Common Rules:**
+
 - **MD001**: Heading levels increment by one
 - **MD003**: ATX-style headings (`#`)
 - **MD004**: Dash-style lists (`-`)
@@ -122,6 +128,7 @@ Ensures consistent markdown formatting and style.
 #### 2. Link Validation
 
 Checks all internal markdown links for:
+
 - File existence
 - Valid anchor references
 - No broken cross-references
@@ -129,11 +136,13 @@ Checks all internal markdown links for:
 **Script:** `scripts/validate-links.js`
 
 **What it checks:**
+
 - `[text](file.md)` - File exists
 - `[text](file.md#heading)` - File exists AND heading exists
 - `[text](#heading)` - Heading exists in current file
 
 **Ignored:**
+
 - External links (http://, https://)
 - File protocol links (file://)
 - Directories in .gitignore
@@ -141,6 +150,7 @@ Checks all internal markdown links for:
 ### CI/CD Validation
 
 All PRs automatically run validation via GitHub Actions:
+
 - Markdown linting
 - Link validation
 - Results reported in PR checks
@@ -160,6 +170,7 @@ All PRs automatically run validation via GitHub Actions:
 ### Terminology
 
 Use consistent terminology as defined in RHYTHM Method:
+
 - **User** (not "customer" or "stakeholder")
 - **Agent Task** (not "Task")
 - **Work Unit** (not "Unit of Work")

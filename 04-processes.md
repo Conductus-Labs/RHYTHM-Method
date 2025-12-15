@@ -21,12 +21,14 @@ This document details the supporting processes used within the RHYTHM Method flo
 4. Create `Project.Config` from template
 
 **Outputs:**
+
 - `.baton/Project.Manifest.md` - Project overview, goals, stakeholders, standards
 - `.baton/project.config.yml` - Project configuration, TEMPO settings, integrations
 
 **See Also:**
+
 - [Project Setup](10-project-setup.md) for detailed templates
-- [Project Initialisation Cycle](03-flow-cycles.md#cycle-project-initialisation)
+- [Project Initialisation Cycle](02-flow-cycles.md#cycle-project-initialisation)
 
 ---
 
@@ -72,31 +74,34 @@ This document details the supporting processes used within the RHYTHM Method flo
   - Human-readable documentation
 - [[Human-in-the-Loop Check Process]]
   `TEMPO: High/Moderate/Controlled - Feature Specification Approval`
-- **IF** *User approves*
+- **IF** _User approves_
   - RA sets Feature state to **READY**
   - RA adds Feature to Project.Manifest
   - RA updates dependency graph
   - RA calculates impact on existing Features
   - RA logs Feature specification for future context
-- **ELSE IF** *User rejects*
+- **ELSE IF** _User rejects_
   - RA refines specification based on User feedback
   - Loop back to Feature Specification creation
 
 **Inputs:**
+
 - Project.Manifest
 - Project.Config
 - Existing Features and Work Units
 - User requirements
 
 **Outputs:**
+
 - Feature specification (YAML/JSON + markdown)
 - Feature state: **READY**
 - Updated dependency graph
 - Feature added to Project.Manifest
 
 **See Also:**
-- [Feature Specification Cycle](03-flow-cycles.md#cycle-feature-specification)
-- [Work Breakdown Structure - Feature](07-work-breakdown-structure.md#feature)
+
+- [Feature Specification Cycle](02-flow-cycles.md#cycle-feature-specification)
+- [Work Breakdown Structure - Feature](06-work-breakdown-structure.md#level-2-feature)
 
 ---
 
@@ -159,14 +164,14 @@ This document details the supporting processes used within the RHYTHM Method flo
   - Prioritize improvements by impact
   - Agree on action items for next cycle
   - Document learnings and decisions
-- **IF** *TEMPO: Moderate or Controlled*
+- **IF** _TEMPO: Moderate or Controlled_
   - [[Human-in-the-Loop Check Process]]
     `TEMPO: Moderate/Controlled - Cycle Review Approval`
   - User reviews cycle analysis and metrics
   - User approves or adjusts process improvement suggestions
   - User provides strategic guidance
   - User decides on methodology changes
-- **ELSE IF** *TEMPO: High*
+- **ELSE IF** _TEMPO: High_
   - RA and WAs implement approved improvements automatically
   - User receives summary notification
   - User can optionally review if desired
@@ -184,6 +189,7 @@ This document details the supporting processes used within the RHYTHM Method flo
   - Support continuous methodology improvement
 
 **Inputs:**
+
 - Cycle execution metrics
 - Token usage data (estimated vs. actual)
 - Dependency resolution data
@@ -192,6 +198,7 @@ This document details the supporting processes used within the RHYTHM Method flo
 - Loop threshold trigger events
 
 **Outputs:**
+
 - Cycle analysis report
 - Improvement recommendations
 - Updated Project.Config (if approved)
@@ -201,12 +208,14 @@ This document details the supporting processes used within the RHYTHM Method flo
 - Documented learnings
 
 **Frequency:**
+
 - After Feature completion (mandatory)
 - After significant Work Unit batches (optional, TEMPO-dependent)
 - Periodic review (weekly/sprint-based, configurable)
 
 **See Also:**
-- [Core Concepts - Continuous Improvement](02-core-concepts.md#cycle-review-and-continuous-improvement)
+
+- [Core Concepts - Continuous Improvement](01-core-concepts.md#cycle-review-and-continuous-improvement)
 - [Best Practices](12-best-practices.md)
 
 ---
@@ -268,35 +277,35 @@ This document details the supporting processes used within the RHYTHM Method flo
 - **User provides decision:**
   - Options: Approval | Rejection | Modification | Escalation | Defer
 - **RA handles User decision:**
-  - **IF** *APPROVED*
+  - **IF** _APPROVED_
     - RA proceeds with cycle
     - RA updates work item states
     - RA logs approval for audit trail
     - Continue to next step in cycle
-  - **ELSE IF** *REJECTED*
+  - **ELSE IF** _REJECTED_
     - RA updates work item state appropriately
     - RA communicates feedback to relevant agents
     - RA triggers revision cycle
     - Loop back to appropriate cycle step
-  - **ELSE IF** *MODIFIED*
+  - **ELSE IF** _MODIFIED_
     - RA applies User modifications
     - RA updates specifications/configurations
     - RA communicates changes to agents
     - Continue with modifications applied
-  - **ELSE IF** *ESCALATED*
+  - **ELSE IF** _ESCALATED_
     - RA routes to appropriate stakeholder
     - RA pauses work until escalation resolved
-  - **ELSE IF** *DEFERRED*
+  - **ELSE IF** _DEFERRED_
     - RA queues work for later review
     - RA logs deferral reason
     - RA notifies affected agents
-- **IF** *TIMEOUT EXCEEDED*
-  - **IF** *Low-Risk Work (Normal/Low Priority)*
+- **IF** _TIMEOUT EXCEEDED_
+  - **IF** _Low-Risk Work (Normal/Low Priority)_
     - Auto-approve after timeout (with notification)
       `Conditions: Work is low-risk, well-defined, agent confidence is high`
     - RA logs auto-approval
     - User can override auto-approval later if needed
-  - **ELSE IF** *High-Risk Work (High Priority/Emergency)*
+  - **ELSE IF** _High-Risk Work (High Priority/Emergency)_
     - Queue work, wait for human response
     - Escalate to backup approver (if configured in Project.Config)
     - **Escalation Levels:**
@@ -340,7 +349,8 @@ HITL checkpoints are fully configurable in Project.Config:
 7. Configure availability windows based on timezone
 
 **See Also:**
-- [Core Concepts - HITL](02-core-concepts.md#human-in-the-loop-hitl)
+
+- [Core Concepts - HITL](01-core-concepts.md#human-in-the-loop-hitl)
 - [TEMPO Configuration](09-tempo-configuration.md)
 
 ---
@@ -350,22 +360,27 @@ HITL checkpoints are fully configurable in Project.Config:
 All processes integrate with the main flow cycles:
 
 **Project Interview Process:**
+
 - Used in: Project Initialisation cycle
 - Creates: Project.Manifest, Project.Config
 
 **Feature Interview Process:**
+
 - Used in: Feature Specification cycle
 - Creates: Feature specifications
 
 **Cycle Review Process:**
+
 - Used in: After all major cycles
 - Outputs: Process improvements, updated models
 
 **Human-in-the-Loop Check Process:**
+
 - Used in: Throughout all cycles at checkpoints
 - Enables: Strategic human oversight
 
 **See Also:**
+
 - [Flow Cycles](02-flow-cycles.md)
 - [Special Cycles](03-special-cycles.md)
 - [Best Practices](12-best-practices.md)

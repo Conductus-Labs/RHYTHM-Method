@@ -56,48 +56,48 @@ Just as a conductor (human) guides an orchestra (agents) to create harmonious mu
 
 **Start here to understand RHYTHM Method fundamentals:**
 
-1. [Core Concepts](01-core-concepts.md) - Agents (BA/RA/WA), TEMPO, HITL, Token estimation
+- [Core Concepts](01-core-concepts.md) - Agents (BA/RA/WA), TEMPO, HITL, Token estimation
 
 ### Execution Model
 
 **Learn how RHYTHM Method orchestrates work:**
 
-2. [Flow Cycles](02-flow-cycles.md) - The 6 main cycles (Project Init, Feature Spec, Work Unit Creation, Challenge, Task Breakdown, Task Execution)
-3. [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation cycles
-4. [Processes](04-processes.md) - Supporting processes (Project Interview, Feature Interview, Cycle Review, HITL Check)
-5. [State Management](05-state-management.md) - State transitions for Projects, Features, Work Units, Agent Tasks, Bugs
+- [Flow Cycles](02-flow-cycles.md) - The 6 main cycles (Project Init, Feature Spec, Work Unit Creation, Challenge, Task Breakdown, Task Execution)
+- [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation cycles
+- [Processes](04-processes.md) - Supporting processes (Project Interview, Feature Interview, Cycle Review, HITL Check)
+- [State Management](05-state-management.md) - State transitions for Projects, Features, Work Units, Agent Tasks, Bugs
 
 ### Work Breakdown and Estimation
 
 **Understand how work is structured and estimated:**
 
-6. [Work Breakdown Structure](06-work-breakdown-structure.md) - Project, Feature, Work Unit, Agent Task, Bug hierarchy
-7. [Token Estimation](07-token-estimation.md) - Token-based estimation methodology and formulas
-8. [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization and detection
+- [Work Breakdown Structure](06-work-breakdown-structure.md) - Project, Feature, Work Unit, Agent Task, Bug hierarchy
+- [Token Estimation](07-token-estimation.md) - Token-based estimation methodology and formulas
+- [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization and detection
 
 ### Configuration and Setup
 
 **Configure RHYTHM Method for your project:**
 
-9. [TEMPO Configuration](09-tempo-configuration.md) - Understanding and configuring TEMPO levels
-10. [Project Setup](10-project-setup.md) - Project.Manifest and Project.Config templates and setup
+- [TEMPO Configuration](09-tempo-configuration.md) - Understanding and configuring TEMPO levels
+- [Project Setup](10-project-setup.md) - Project.Manifest and Project.Config templates and setup
 
 ### Practical Guidance
 
 **Best practices and real-world application:**
 
-11. [Getting Started](11-getting-started.md) - Step-by-step guide to adopting RHYTHM Method
-12. [Best Practices](12-best-practices.md) - Proven patterns and recommendations
-13. [Common Challenges](13-common-challenges.md) - Common challenges and solutions
-14. [Error Handling](14-error-handling.md) - Error handling and failure recovery strategies
+- [Getting Started](11-getting-started.md) - Step-by-step guide to adopting RHYTHM Method
+- [Best Practices](12-best-practices.md) - Proven patterns and recommendations
+- [Common Challenges](13-common-challenges.md) - Common challenges and solutions
+- [Error Handling](14-error-handling.md) - Error handling and failure recovery strategies
 
 ### Examples and Reference
 
 **Quick reference and examples:**
 
-15. [Workflow Examples](15-workflow-examples.md) - End-to-end workflow walkthroughs
-16. [Quick Reference](16-quick-reference.md) - Formulas, decision trees, and key information
-17. [Dictionary](17-dictionary.md) - Comprehensive terminology guide
+- [Workflow Examples](15-workflow-examples.md) - End-to-end workflow walkthroughs
+- [Quick Reference](16-quick-reference.md) - Formulas, decision trees, and key information
+- [Dictionary](17-dictionary.md) - Comprehensive terminology guide
 
 ---
 

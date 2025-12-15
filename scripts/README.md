@@ -7,11 +7,13 @@ This directory contains validation scripts for RHYTHM Method documentation.
 ### validate-links.js
 
 Validates all internal markdown links to ensure:
+
 - Referenced files exist
 - Anchor links point to valid headings
 - No broken cross-references
 
 **Usage:**
+
 ```bash
 node scripts/validate-links.js
 # or
@@ -19,6 +21,7 @@ npm run validate:links
 ```
 
 **Features:**
+
 - Recursively scans all markdown files
 - Validates file paths and anchor links
 - Ignores external links and gitignored directories
@@ -26,7 +29,8 @@ npm run validate:links
 - Exit code 0 on success, 1 on errors (CI/CD friendly)
 
 **Example Output:**
-```
+
+```text
 🔍 RHYTHM Method Documentation - Link Validator
 
 Scanning for markdown files...

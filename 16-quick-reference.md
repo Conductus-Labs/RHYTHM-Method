@@ -6,13 +6,13 @@ This quick reference provides essential formulas, decision trees, and key inform
 
 ### Basic Token Count Formula
 
-```
+```text
 Total Tokens = Code Tokens + Analysis Tokens + Documentation Tokens + Validation Tokens
 ```
 
 ### Code Token Calculation
 
-```
+```text
 Code Tokens = Base LOC Tokens × Complexity Multiplier × Pattern Multiplier × Integration Multiplier
 ```
 
@@ -42,19 +42,19 @@ Code Tokens = Base LOC Tokens × Complexity Multiplier × Pattern Multiplier × 
 
 **Work Unit Tokens:**
 
-```
+```text
 Work Unit Tokens = Sum of all Agent Task Tokens + Work Unit Overhead (6%)
 ```
 
 **Feature Tokens:**
 
-```
+```text
 Feature Tokens = Sum of all Work Unit Tokens + Feature Overhead (12%)
 ```
 
 **Project Manifest Tokens:**
 
-```
+```text
 Project Manifest Tokens = Sum of all Feature Tokens + Project Overhead (17%)
 ```
 
@@ -207,7 +207,7 @@ flowchart TD
 
 ## WBS Hierarchy Quick Reference
 
-```
+```text
 Project Manifest (One per project)
   └── Feature (Deliverable functionality)
       └── Work Unit (Single execution cycle, up to 8 hours)
@@ -272,18 +272,17 @@ Project Manifest (One per project)
 
 ## Quick Links
 
-- [Getting Started](02-getting-started.md) - How to adopt RHYTHM Method
-- [Dictionary](03-dictionary.md) - Complete terminology
-- [TEMPO](05-tempo.md) - Detailed TEMPO documentation
+- [Core Concepts](01-core-concepts.md) - Fundamental concepts
+- [Getting Started](11-getting-started.md) - How to adopt RHYTHM Method
+- [Dictionary](17-dictionary.md) - Complete terminology
 - [Estimation](07-token-estimation.md) - Complete token estimation guide
--  - Detailed workflow processes
-- [Best Practices](10-best-practices.md) - Implementation guidance
 
 ---
 
 ## Navigation
 
 **Previous:** [Workflow Examples](15-workflow-examples.md) - End-to-end workflow example
+**Next:** [Dictionary](17-dictionary.md) - Comprehensive terminology guide
 
 ---
 

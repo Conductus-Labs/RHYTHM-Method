@@ -8,7 +8,7 @@ RHYTHM Method uses **token-based estimation** to replace abstract story points w
 
 ## What is Token Estimation?
 
-Token estimation calculates work based on measurable factors ([tokens](03-dictionary.md#token)) rather than abstract concepts (story points). Tokens represent:
+Token estimation calculates work based on measurable factors (tokens) rather than abstract concepts (story points). Tokens represent:
 
 - **Code Generation**: Lines of code, complexity, patterns
 - **Analysis**: Requirements analysis, dependency analysis, design work
@@ -35,9 +35,9 @@ Token estimation calculates work based on measurable factors ([tokens](03-dictio
 
 ### Basic Token Count
 
-For a [Work Unit](03-dictionary.md#work-unit) or [Agent Task](03-dictionary.md#agent-task):
+For a Work Unit or Agent Task:
 
-```
+```text
 Total Tokens = Code Tokens + Analysis Tokens + Documentation Tokens + Validation Tokens
 ```
 
@@ -75,7 +75,7 @@ Total Tokens = Code Tokens + Analysis Tokens + Documentation Tokens + Validation
 
 Code tokens are calculated using the following formula:
 
-```
+```text
 Code Tokens = Base LOC Tokens × Complexity Multiplier × Pattern Multiplier × Integration Multiplier
 ```
 
@@ -134,23 +134,23 @@ Code Tokens = Base LOC Tokens × Complexity Multiplier × Pattern Multiplier × 
 
 ### 1. Agent Task Estimation
 
-Estimation starts at the [Agent Task](03-dictionary.md#agent-task) level:
+Estimation starts at the Agent Task level:
 
 1. **Analyze Task Requirements**
-   
+
    - Review task specification
    - Identify code, analysis, documentation, validation needs
    - Assess complexity factors
 
 2. **Calculate Token Components**
-   
+
    - Estimate Code Tokens
    - Estimate Analysis Tokens
    - Estimate Documentation Tokens
    - Estimate Validation Tokens
 
 3. **Calculate Total Tokens**
-   
+
    - Sum all token components
    - Apply complexity adjustments
    - Validate against similar tasks
@@ -161,19 +161,19 @@ Token estimates roll up from lower levels to higher levels:
 
 **Work Unit Estimation:**
 
-```
+```text
 Work Unit Tokens = Sum of all Agent Task Tokens + Work Unit Overhead
 ```
 
 **Feature Estimation:**
 
-```
+```text
 Feature Tokens = Sum of all Work Unit Tokens + Feature Overhead
 ```
 
 **Project Manifest Estimation:**
 
-```
+```text
 Project Manifest Tokens = Sum of all Feature Tokens + Project Overhead
 ```
 
@@ -211,9 +211,9 @@ Overhead accounts for coordination, integration, and management:
 
 ### Agent Throughput
 
-Each [agent](03-dictionary.md#agent) has a [token throughput rate](03-dictionary.md#token-throughput-rate) measured in tokens per hour:
+Each agent has a token throughput rate measured in tokens per hour:
 
-```
+```text
 Throughput Rate = Tokens Processed / Time (hours)
 ```
 
@@ -268,19 +268,19 @@ Throughput rates vary based on:
 **Capacity Constraints:**
 
 1. **User Availability for HITL Checkpoints**
-   
+
    - How often can the user review and approve work?
    - What are the user's availability windows?
    - Expected response times for approvals?
 
 2. **HITL Gate Configuration**
-   
+
    - High TEMPO: Fewer HITL gates → more work can flow
    - Moderate TEMPO: Balanced HITL gates → steady flow
    - Controlled TEMPO: More HITL gates → slower flow, more control
 
 3. **Work Queue Sizing**
-   
+
    - Size work queue based on user's capacity to review/approve
    - Consider user's availability patterns (daily, weekly)
    - Account for user response time expectations
@@ -385,7 +385,7 @@ Track actual tokens used for each component during execution:
 
 **Tracking Format:**
 
-```
+```yaml
 Agent Task: [Task Name]
 Estimated Tokens: [Total]
 Actual Tokens:
@@ -478,21 +478,21 @@ Variance %: [(actual - estimated) / estimated × 100]
 **If Work Unit estimation exceeds 8 hours:**
 
 1. **Preferred: Split the Work Unit** (Recommended)
-   
+
    - Break into smaller Work Units that each fit within 8 hours
    - Maintain logical boundaries and clear dependencies
    - Each resulting Work Unit should be independently valuable
    - Example: 9-hour Work Unit → Split into 4-hour and 5-hour Work Units
 
 2. **Alternative: Extend Execution Cycle** (Requires Approval)
-   
+
    - If work cannot be reasonably split, extend execution cycle beyond 8 hours
    - Requires human approval and justification
    - Should be exception, not standard practice
    - Consider impact on TEMPO and continuous execution model
 
 3. **Alternative: Reduce Scope**
-   
+
    - Reduce Work Unit scope to fit within 8 hours
    - Defer remaining work to subsequent Work Units
    - Maintain clear boundaries and completion criteria
@@ -597,7 +597,7 @@ See [Work Unit Duration Guidelines](#work-unit-duration-guidelines) for detailed
 
 ## Estimation Best Practices
 
-For comprehensive estimation best practices, see [Best Practices](10-best-practices.md#estimation-best-practices).
+For comprehensive estimation best practices, see [Best Practices](12-best-practices.md#estimation-best-practices).
 
 **Key Practices:**
 
@@ -692,7 +692,7 @@ The time agents spend performing estimation is **included in Analysis Tokens**:
 - **Feature (multiple Work Units)**: Estimated in minutes to hours (depending on complexity)
 - **Parallel Estimation**: Multiple tasks can be estimated simultaneously
 
-**For detailed best practices, see [Best Practices](10-best-practices.md#estimation-best-practices).**
+**For detailed best practices, see [Best Practices](12-best-practices.md#estimation-best-practices).**
 
 ### Estimation Dashboards
 

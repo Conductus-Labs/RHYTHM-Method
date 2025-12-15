@@ -674,31 +674,31 @@ Users need to create accounts and log in to access personalized features, view o
 ### Methodology in Practice
 
 1. **Dependency-Driven Prioritization Works:**
-   
+
    - Work Units executed in correct order automatically
    - No blocked work waiting unnecessarily
    - Parallel execution maximized where possible
 
 2. **Token Estimation is Accurate:**
-   
+
    - All Work Units within 5% of estimates
    - Historical data improves accuracy over time
    - Pattern recognition helps with similar work
 
 3. **Quality Gates Catch Issues Early:**
-   
+
    - Code review feedback addressed before deployment
    - Security validation caught potential issues
    - Integration tests validated end-to-end flows
 
 4. **Work Unit Review is Valuable:**
-   
+
    - Caught specification issues before breakdown
    - Clarified ambiguous requirements
    - Improved Work Unit quality
 
 5. **Continuous Planning Adapts:**
-   
+
    - Work queue updated automatically as dependencies resolved
    - Parallel execution opportunities identified
    - No manual replanning needed
@@ -714,12 +714,10 @@ Users need to create accounts and log in to access personalized features, view o
 
 ## See Also
 
--  - Detailed workflow processes
+- Detailed workflow processes
 - [Work Breakdown Structure](06-work-breakdown-structure.md) - WBS hierarchy and relationships
 - [Estimation](07-token-estimation.md) - Token estimation methodology
 - [Dependency Management](08-dependency-management.md) - Dependency-driven prioritization
-- [TEMPO](05-tempo.md) - Understanding execution speed
-- [Best Practices](10-best-practices.md) - Implementation guidance
 
 ---
 

@@ -11,6 +11,7 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 **Expertise:** Baton Framework specialist
 
 **Responsibilities:**
+
 - Project initialization and setup
 - Baton Framework configuration
 - Agent file creation and management
@@ -20,6 +21,7 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 - Integration with Baton ecosystem
 
 **When BA is Used:**
+
 - Project Initialisation cycle
 - Project Interview Process
 - Setting up `.baton/` directory structure
@@ -30,6 +32,7 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 **Expertise:** RHYTHM Method specialist
 
 **Responsibilities:**
+
 - Method orchestration across all cycles
 - Feature specification and management
 - Work Unit creation and coordination
@@ -40,6 +43,7 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 - Metric collection and analysis
 
 **When RA is Used:**
+
 - Feature Specification cycle
 - Work Unit Creation cycle
 - Challenge Cycle (orchestration)
@@ -55,11 +59,13 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 **Expertise:** Specialized execution
 
 **Sub-roles:**
+
 - **Development Engineer**: Writes code, creates documentation, performs implementation work
 - **Review Engineer**: Reviews code quality, validates standards compliance
 - **Quality Engineer**: Runs quality gates, validates specifications, performs testing
 
 **Responsibilities:**
+
 - Execute Agent Tasks
 - Review work from other WAs
 - Validate quality gates
@@ -68,6 +74,7 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 - Provide specialized domain expertise
 
 **When WA is Used:**
+
 - Challenge Cycle (reviews and challenges)
 - Task Breakdown cycle (creating Agent Tasks)
 - Task Execution cycle (all three sub-roles)
@@ -84,6 +91,7 @@ RHYTHM Method uses three distinct agent types, each with specific expertise and 
 RHYTHM Method defines three TEMPO levels that control HITL checkpoint frequency:
 
 #### High TEMPO
+
 - **HITL Checkpoints:** ~3-5 gates per feature cycle
 - **Focus:** Critical decision points only
 - **Use Case:** Fast iteration, well-understood work, high agent autonomy
@@ -92,6 +100,7 @@ RHYTHM Method defines three TEMPO levels that control HITL checkpoint frequency:
 - **Risk Level:** Higher autonomy, requires mature agents and clear standards
 
 #### Moderate TEMPO (Default)
+
 - **HITL Checkpoints:** ~8-12 gates per feature cycle
 - **Focus:** Key decision points and validation checkpoints
 - **Use Case:** Balanced oversight, typical projects
@@ -100,6 +109,7 @@ RHYTHM Method defines three TEMPO levels that control HITL checkpoint frequency:
 - **Risk Level:** Balanced autonomy and oversight
 
 #### Controlled TEMPO
+
 - **HITL Checkpoints:** ~15-20 gates per feature cycle
 - **Focus:** Comprehensive oversight at every major step
 - **Use Case:** High-risk work, regulatory requirements, learning phase
@@ -135,6 +145,7 @@ rhythm:
 - **Historical accuracy**: Good estimation accuracy → Higher TEMPO
 
 **TEMPO can be adjusted:**
+
 - Per project (in Project.Config)
 - Per feature (override in feature specification)
 - Per Work Unit (override in Work Unit specification)
@@ -157,18 +168,21 @@ rhythm:
 ### HITL Checkpoint Types
 
 #### Approval Checkpoints
+
 - Feature specification approval
 - Work Unit completion approval
 - Feature completion approval
 - High-impact replanning approval
 
 #### Validation Checkpoints
+
 - Challenge loop threshold exceeded
 - Review loop threshold exceeded
 - Quality loop threshold exceeded
 - Critical dependency validation
 
 #### Decision Checkpoints
+
 - External blocker resolution
 - Critical path blocked
 - Quality failure severity assessment
@@ -186,11 +200,13 @@ rhythm:
 ### Timeout Behavior
 
 **Low-Risk Work (Normal/Low Priority):**
+
 - Auto-approve after timeout with notification
 - Conditions: Work is low-risk, well-defined, agent confidence is high
 - User can override auto-approval later if needed
 
 **High-Risk Work (High Priority/Emergency):**
+
 - Queue work, wait for human response
 - Escalate to backup approver (if configured)
 - Critical work blocked until approval received
@@ -211,12 +227,14 @@ rhythm:
 ### Why Tokens?
 
 **Traditional story points are abstract:**
+
 - "3 points" means different things to different teams
 - No direct correlation to actual effort
 - Difficult to compare across projects
 - Not meaningful for AI agents
 
 **Tokens are precise:**
+
 - Direct measurement of AI model consumption
 - Consistent across all agents
 - Measurable and trackable
@@ -244,6 +262,7 @@ Feature (sum of Work Unit estimated tokens)
 ```
 
 **Estimated vs. Actual:**
+
 - **Estimated**: Calculated during Task Breakdown cycle
 - **Actual**: Tracked during Task Execution cycle
 - **Variance Analysis**: Comparison of estimated vs. actual for continuous improvement
@@ -288,6 +307,7 @@ The RA uses multiple automated detection methods:
 3. **RULE 3**: Parallel execution where possible (same level, no conflicts)
 
 **Dependency Levels:**
+
 - Level 0: No dependencies (can start immediately)
 - Level 1: Depends on Level 0 work
 - Level N: Depends on Level N-1 work
@@ -297,6 +317,7 @@ The RA uses multiple automated detection methods:
 **Definition:** The sequence of dependent tasks that determines the minimum time to complete a Feature.
 
 **Critical Path Management:**
+
 - RA calculates and tracks critical path
 - Critical path changes trigger HITL notifications
 - Blocked critical path is high-priority HITL checkpoint
@@ -394,6 +415,7 @@ To prevent infinite loops, RHYTHM Method enforces configurable loop thresholds:
 - **Quality Loop**: Default 3 iterations (triggers HITL)
 
 When threshold exceeded:
+
 1. RA flags work for HITL intervention
 2. User reviews issue and provides guidance
 3. RA resets loop count after HITL resolution
@@ -417,6 +439,7 @@ When threshold exceeded:
 ### State Transition Triggers
 
 States transition based on:
+
 - Cycle completion (e.g., Challenge Cycle completes → REVIEWED)
 - HITL approval (e.g., Feature approval → READY)
 - Work completion (e.g., All Agent Tasks complete → IN REVIEW)
@@ -437,6 +460,7 @@ RHYTHM Method uses two key configuration files:
 **Purpose:** High-level project understanding - the WHAT, WHY, WHO, and SUCCESS METRICS
 
 **Key Sections:**
+
 - Project Overview
 - Stakeholders
 - Goals & Success Metrics
@@ -455,6 +479,7 @@ RHYTHM Method uses two key configuration files:
 **Purpose:** Project configuration for agents - tools, resources, workflows, settings
 
 **Key Sections:**
+
 - Project metadata
 - Source control configuration
 - Project management integration
@@ -489,6 +514,7 @@ Understanding these concepts is essential before diving into the [Flow Cycles](0
 
 ## Navigation
 
+**Previous:** [README](README.md) - Documentation overview
 **Next:** [Flow Cycles](02-flow-cycles.md) - Main execution cycles
 
 ---

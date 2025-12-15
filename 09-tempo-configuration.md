@@ -287,7 +287,7 @@ flowchart TB
 1. **Start with Moderate TEMPO** (default) unless you have specific reasons to change
 
 2. **Choose High TEMPO** when:
-   
+
    - Work is well-defined and low-risk
    - User has limited availability
    - Team is experienced with the domain
@@ -295,7 +295,7 @@ flowchart TB
    - Similar work has been done before
 
 3. **Choose Controlled TEMPO** when:
-   
+
    - Work is critical or high-risk
    - User wants frequent oversight
    - Team is new to domain or technology
@@ -304,7 +304,7 @@ flowchart TB
    - Complex integrations or dependencies
 
 4. **Adjust TEMPO** during project:
-   
+
    - Increase TEMPO (reduce gates) as team gains experience
    - Decrease TEMPO (add gates) for critical phases
    - Use different TEMPO for different features/work units
@@ -321,23 +321,23 @@ flowchart TB
 **Configuration Options:**
 
 1. **Per-Project Configuration:**
-   
+
    - Set default TEMPO level for entire project
    - Override for specific features/work units
 
 2. **Per-Gate Configuration:**
-   
+
    - Enable/disable specific gates regardless of TEMPO level
    - Set gates as required, optional, or skipped
 
 3. **Dynamic Configuration:**
-   
+
    - Adjust gates based on work complexity
    - Add gates for critical work
    - Remove gates for routine work
 
 4. **User Availability-Based:**
-   
+
    - Configure gates based on user availability schedule
    - Batch approvals for efficiency
    - Async approval workflows

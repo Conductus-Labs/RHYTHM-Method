@@ -55,8 +55,8 @@ The top-level container for all work in a RHYTHM Method project.
 
 - **One per project**: Mandatory, single Project Manifest per project
 - **Purpose**: Serves as the single source of truth for project requirements
-- **Contains**: All [terminology](17-dictionary.md) in the project
-- **Roles**: 
+- **Contains**: All **Features** in the project
+- **Roles**:
   1. Top-level container for all Features
   2. Project information repository
   3. Decision log for architectural decisions and requirement changes
@@ -79,7 +79,7 @@ The top-level container for all work in a RHYTHM Method project.
 
 - **Recommended**: Add exceptions to `.gitignore` to commit Project Manifest and Project Config:
   
-  ```
+  ```text
   .baton/
   !.baton/project.manifest.md
   !.baton/project.config.yml
@@ -122,7 +122,7 @@ A required deliverable unit of functionality that provides business value.
 - **Purpose**: Deliverable functionality that provides business value
 - **Deployment**: Can be deployed independently
 - **Validation**: Has clear validation criteria
-- **Contains**: One or more [terminology](17-dictionary.md)
+- **Contains**: One or more **Work Units**
 - **Estimation**: Rolled up from Work Units using [token estimation](07-token-estimation.md)
 
 **Feature Requirements:**
@@ -134,15 +134,15 @@ A required deliverable unit of functionality that provides business value.
 
 ### Level 3: Work Unit
 
-A specific piece of work that should be completed in a single [terminology](17-dictionary.md) (target: up to 8 hours, some cycles may be less than 2 hours).
+A specific piece of work that should be completed in a single **execution cycle** (target: up to 8 hours, some cycles may be less than 2 hours).
 
 **Characteristics:**
 
 - **Duration**: Up to 8 hours per execution cycle (guideline, not hard limit; cycles can be shorter)
-- **Assignment**: Atomic unit of work assignment to specialized [terminology](17-dictionary.md)
-- **Contains**: One or more [terminology](17-dictionary.md)
+- **Assignment**: Atomic unit of work assignment to specialized **agents**
+- **Contains**: One or more **Agent Tasks**
 - **Dependencies**: Can have dependencies on other Work Units
-- **Estimation**: Rolled up from Agent Tasks using [token estimation](08-estimation.md)
+- **Estimation**: Rolled up from Agent Tasks using [token estimation](07-token-estimation.md)
 
 **Work Unit Requirements:**
 
@@ -238,7 +238,7 @@ The smallest unit of executable work in RHYTHM Method.
 **Characteristics:**
 
 - **Duration**: Typically 30 minutes to 2 hours
-- **Assignment**: Completed by a single specialized [terminology](17-dictionary.md)
+- **Assignment**: Completed by a single specialized **agent**
 - **Scope**: Smallest executable unit
 - **Estimation**: Direct [token estimation](07-token-estimation.md) at this level
 
@@ -311,7 +311,7 @@ Bugs are handled differently in RHYTHM Method's WBS and require clear relationsh
 **Quality Assurance Stage:**
 
 - **Bugs Found**: Integration issues, quality gate failures
-- **Handling**: 
+- **Handling**:
   - If found before Work Unit completion → **Parented to Work Unit** (fix in current cycle)
   - If found after Work Unit completion → **Related to Feature** (requires new Work Unit)
 - **Relationship**: Depends on timing (before/after Work Unit completion)
@@ -475,7 +475,7 @@ RHYTHM Method prevents scope creep by clearly distinguishing:
 
 - **Work Units** can have dependencies on other Work Units
 - **Agent Tasks** can have dependencies on other Agent Tasks
-- Dependencies are tracked in the [terminology](17-dictionary.md)
+- Dependencies are tracked in the **dependency graph**
 
 ### Related Relationships
 
@@ -487,25 +487,25 @@ RHYTHM Method prevents scope creep by clearly distinguishing:
 ### Creating the WBS
 
 1. **Start with Project Manifest**
-   
+
    - Create the single Project Manifest for the project
    - Define project scope and objectives
    - Establish decision log
 
 2. **Break Down into Features**
-   
+
    - Identify deliverable units of functionality
    - Ensure Features provide business value
    - Define validation criteria for each Feature
 
 3. **Break Down Features into Work Units**
-   
+
    - Identify work that can be completed in a single execution cycle
    - Ensure Work Units are properly scoped
    - Identify dependencies between Work Units
 
 4. **Break Down Work Units into Agent Tasks**
-   
+
    - Identify smallest executable units
    - Assign to specialized agents
    - Estimate tokens for each task

@@ -20,25 +20,27 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 
 **Process:**
 
-- **IF** *EXISTING PROJECT*
+- **IF** _EXISTING PROJECT_
   - BA executes scans & analyse project files
   - Baton Agent executes [[Project Interview Process]] with findings
   - [[Human-in-the-Loop Check Process]]
    `TEMPO: High/Moderate/Controlled`
   - User & BA run complete [[Cycle Review Process]]
-- **ELSE IF** *NEW PROJECT*
+- **ELSE IF** _NEW PROJECT_
   - BA runs [[Project Interview Process]]
   - [[Human-in-the-Loop Check Process]]
    `TEMPO: High/Moderate/Controlled`
   - User & BA run complete [[Cycle Review Process]]
 
 **Outputs:**
+
 - `Project.Manifest.md` - Project overview, goals, stakeholders, standards
 - `Project.Config.yml` - Project configuration, TEMPO settings, integrations
 - Project state set to **OPEN**
 
 **See Also:**
-- [Project Interview Process](05-processes.md#project-interview-process)
+
+- [Project Interview Process](04-processes.md#project-interview-process)
 - [Project Setup](10-project-setup.md)
 
 ---
@@ -53,7 +55,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 
 **Process:**
 
-- **IF** *EXISTING PROJECT*
+- **IF** _EXISTING PROJECT_
   - RA scan project for existing features
   - RA present list of found features
   - User to correct
@@ -63,21 +65,24 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
   `TEMPO: High/Moderate/Controlled`
 - RA sets Feature state to **READY**
 - User & RA run complete [[Cycle Review Process]]
-- *OPTIONAL*: Add more features
+- _OPTIONAL_: Add more features
 
 **Inputs:**
+
 - Project.Manifest
 - Project.Config
 - Existing Features (if any)
 - User requirements
 
 **Outputs:**
+
 - Feature specification (YAML/JSON + markdown)
 - Feature state: **READY**
 - Updated dependency graph
 - Feature added to Project.Manifest
 
 **Key Activities:**
+
 - Structured interview with User
 - Automated dependency analysis
 - Business value assessment
@@ -85,8 +90,9 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 - Acceptance criteria definition
 
 **See Also:**
+
 - [Feature Interview Process](04-processes.md#feature-interview-process)
-- [Work Breakdown Structure](06-work-breakdown-structure.md#feature)
+- [Work Breakdown Structure](06-work-breakdown-structure.md#level-2-feature)
 
 ---
 
@@ -101,7 +107,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 **Process:**
 
 - RA generates a list of Work Units for a feature
-- **FOR EACH** *WORK UNIT*
+- **FOR EACH** _WORK UNIT_
   - RA breaks feature into deliverable Work Units
   - [[Human-in-the-Loop Check Process]]
    `TEMPO: Moderate/Controlled`
@@ -110,25 +116,29 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
   `Include user if Tempo set to Moderate or Controlled`
 
 **Inputs:**
+
 - Feature specification (READY state)
 - Project.Manifest
 - Project.Config
 - Existing Work Units and dependencies
 
 **Outputs:**
+
 - Work Unit specifications
 - Work Unit state: **NEW**
 - Updated dependency graph
 - Dependency levels assigned
 
 **Key Principles:**
+
 - Each Work Unit should be independently deliverable
 - Work Units should have clear interfaces
 - Work Units should be sized for completion within single execution cycle
 - Dependencies between Work Units should be minimized
 
 **See Also:**
-- [Work Breakdown Structure](06-work-breakdown-structure.md#work-unit)
+
+- [Work Breakdown Structure](06-work-breakdown-structure.md#level-3-work-unit)
 - [Dependency Management](08-dependency-management.md)
 
 ---
@@ -144,7 +154,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 **Process:**
 
 - RA generates list of Work Units needing reviewed
-- **FOR EACH** *WORK UNIT*
+- **FOR EACH** _WORK UNIT_
   - **DO**
     - RA analyses Work Unit specification and requirements
     - RA identifies required domain knowledge and specializations
@@ -153,7 +163,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
       - Technical specializations needed
       - Standards knowledge relevant to the Work Unit
       - Previous experience with similar Work Units
-    - **FOR EACH** *SELECTED WA (Reviewer)*
+    - **FOR EACH** _SELECTED WA (Reviewer)_
       - WA reviews Work Unit specification using:
         - **Standards**: Coding standards, architectural patterns, best practices
         - **Domain Knowledge**: Business domain expertise, technical domain knowledge
@@ -168,8 +178,8 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
         `APPROVED (100% Agreed - no issues found)`
         `CHALLENGED (with specific details and rationale)`
     - RA reviews all comments from WAs
-    - **IF** *ANY WA CHALLENGED (RA's work OR other WAs' comments)*
-      - **IF** *CHALLENGE LOOP COUNT GREATER THAN MAX CHALLENGE LOOP*
+    - **IF** _ANY WA CHALLENGED (RA's work OR other WAs' comments)_
+      - **IF** _CHALLENGE LOOP COUNT GREATER THAN MAX CHALLENGE LOOP_
         `Default: 3 (configurable in Project.Config)`
         - [[Human-in-the-Loop Check Process]]
           `TEMPO: High/Moderate/Controlled - challenge loop threshold exceeded`
@@ -182,7 +192,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
       - **ELSE**
         - **RA CHALLENGE EVALUATION:**
           - RA evaluates each WA challenge for validity
-          - **IF** *RA HAS VALID REASON TO CHALLENGE WA's CHALLENGE*
+          - **IF** _RA HAS VALID REASON TO CHALLENGE WA's CHALLENGE_
             - RA challenges WA's challenge with:
               - Specific rationale and evidence
               - References to Standards or Domain Knowledge
@@ -190,48 +200,52 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
               - Supporting documentation or examples
             - RA documents counter-challenge
             - WAs review RA's counter-challenge
-            - **IF** *WAs ACCEPT RA's COUNTER-CHALLENGE*
+            - **IF** _WAs ACCEPT RA's COUNTER-CHALLENGE_
               - WA challenge is resolved
               - Continue with remaining challenges
-            - **ELSE IF** *WAs REJECT RA's COUNTER-CHALLENGE*
+            - **ELSE IF** _WAs REJECT RA's COUNTER-CHALLENGE_
               - Challenge remains unresolved
               - Continue to challenge resolution
-          - **ELSE** *RA ACCEPTS WA CHALLENGE AS VALID*
+          - **ELSE** _RA ACCEPTS WA CHALLENGE AS VALID_
             - RA addresses all valid challenges:
               - Updates Work Unit specification based on valid feedback
               - Clarifies assumptions and adds missing information
               - Resolves conflicts between WA comments
         - RA increments Challenge Loop count
         - Loop back to WA reviews
-    - **ELSE** *ALL WAs APPROVED*
+    - **ELSE** _ALL WAs APPROVED_
       - RA sets Work Unit to READY
       - [[Human-in-the-Loop Check Process]]
         `TEMPO: Moderate/Controlled`
       - RA sets Work Unit state to **REVIEWED**
       - RA resets Challenge Loop count
-  - **WHILE** *WORK UNIT STATE EQUALS NEW*
+  - **WHILE** _WORK UNIT STATE EQUALS NEW_
 - RA and all WAs complete [[Cycle Review Process]]
   `Include user if HITL Override required`
   `Include user if Tempo set to Moderate or Controlled`
 
 **Inputs:**
+
 - Work Unit specifications (NEW state)
 - Project.Manifest (standards, constraints)
 - Project.Config (challenge loop threshold)
 - Domain knowledge from WAs
 
 **Outputs:**
+
 - Work Unit state: **REVIEWED**
 - Challenge comments and resolutions
 - Updated Work Unit specifications
 - Challenge loop metrics
 
 **Loop Protection:**
+
 - Challenge loop threshold (default: 3)
 - HITL triggered when threshold exceeded
 - Loop count reset after HITL resolution
 
 **Key Benefits:**
+
 - Early detection of issues before task breakdown
 - Leverages specialized domain expertise
 - Reduces rework during execution
@@ -239,6 +253,7 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 - Peer review improves specification quality
 
 **See Also:**
+
 - [Core Concepts - Loop Protection](01-core-concepts.md#loop-protection)
 - [Common Challenges](13-common-challenges.md)
 
@@ -255,19 +270,19 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
 **Process:**
 
 - RA retrieves list of Work Units with state **REVIEWED**
-- **FOR EACH** *WORK UNIT*
+- **FOR EACH** _WORK UNIT_
   - RA analyses approved Work Unit specification
   - RA identifies types of work needed and required specialisations
   - RA assigns specialised agents (WAs) based on work types
   - [[Human-in-the-Loop Check Process]]
     `TEMPO: Moderate/Controlled`
-  - **FOR EACH** *ASSIGNED WA*
+  - **FOR EACH** _ASSIGNED WA_
     - WA analyses Work Unit, Related Work Units, and Feature specification for their area
     - WA creates detailed Agent Task specifications for their work
     - WA defines task acceptance criteria
     - WA determines task dependencies within Work Unit
     - WA estimates task complexity and token requirements
-      `Use token estimation formulas from 08-estimation.md`
+      `Use token estimation formulas from 07-token-estimation.md`
     - WA estimates tokens: Code + Analysis + Documentation + Validation
     - WA sets task priority within Work Unit
     - WA sets Agent Task state to **READY**
@@ -288,12 +303,14 @@ This document details the six main flow cycles that comprise the RHYTHM Method e
   `Include user if Tempo set to Moderate or Controlled`
 
 **Inputs:**
+
 - Work Units (REVIEWED state)
 - Feature specification
 - Project.Manifest (standards)
 - Project.Config (token budgets)
 
 **Outputs:**
+
 - Agent Task specifications with:
   - Detailed requirements
   - Acceptance criteria
@@ -318,8 +335,9 @@ Feature: Sum of all Work Unit estimated tokens
 ```
 
 **See Also:**
+
 - [Token Estimation](07-token-estimation.md)
-- [Work Breakdown Structure](06-work-breakdown-structure.md#agent-task)
+- [Work Breakdown Structure](06-work-breakdown-structure.md#level-4-agent-task)
 
 ---
 
@@ -335,12 +353,12 @@ Feature: Sum of all Work Unit estimated tokens
 
 - RA generates prioritized work queue from Agent Tasks
   `Apply dependency-driven prioritization from 09-dependency-management.md`
-- **WHILE** *WORK QUEUE NOT EMPTY*
+- **WHILE** _WORK QUEUE NOT EMPTY_
   - RA pulls ready Agent Tasks from work queue
     `Verify all dependencies are resolved`
   - [[Human-in-the-Loop Check Process]]
     `TEMPO: Controlled for execution cycle scope approval`
-  - **FOR EACH** *READY AGENT TASK IN PARALLEL*
+  - **FOR EACH** _READY AGENT TASK IN PARALLEL_
     - WA (assigned specialized agent) prepares for task execution
     - WA sets Agent Task state to **IN_PROGRESS**
     - RA sets Work Unit state to **IN PROGRESS** (if not already set)
@@ -365,19 +383,19 @@ Feature: Sum of all Work Unit estimated tokens
       - WA provides real-time status updates
       - WA tracks actual token usage
         `Code tokens, Analysis tokens, Documentation tokens, Validation tokens`
-      - **IF** *TASK BLOCKED*
+      - **IF** _TASK BLOCKED_
         - WA flags task as **BLOCKED**
         - WA identifies blocker type and notifies RA
-        - **IF** *BLOCKER IS DEPENDENCY ON INCOMPLETE TASK*
+        - **IF** _BLOCKER IS DEPENDENCY ON INCOMPLETE TASK_
           - RA updates dependency graph
           - RA moves task back to work queue
           - RA prioritizes blocking task
           `No HITL required - automated dependency management`
-        - **ELSE IF** *BLOCKER IS EXTERNAL OR UNCLEAR*
+        - **ELSE IF** _BLOCKER IS EXTERNAL OR UNCLEAR_
           - [[Human-in-the-Loop Check Process]]
             `TEMPO: High/Moderate/Controlled for blocker resolution`
           - RA updates dependency graph based on resolution
-      - **ELSE** *WORK COMPLETE*
+      - **ELSE** _WORK COMPLETE_
         - WA commits work to version control
         - WA creates Pull Request (PR)
         - WA sets Agent Task state to **IN REVIEW**
@@ -391,9 +409,9 @@ Feature: Sum of all Work Unit estimated tokens
       - WA (Review Engineer) leaves review comments:
         `NO ISSUES => APPROVED`
         `ANY ISSUES => REJECTED WITH DETAILS`
-      - **IF** *REJECTED*
+      - **IF** _REJECTED_
         - RA increments review loop count for Agent Task
-        - **IF** *REVIEW LOOP COUNT > MAX REVIEW LOOP THRESHOLD*
+        - **IF** _REVIEW LOOP COUNT > MAX REVIEW LOOP THRESHOLD_
           `Default threshold: 3 loops (configurable in Project.Config)`
           - RA flags Agent Task for HITL intervention
           - [[Human-in-the-Loop Check Process]]
@@ -408,7 +426,7 @@ Feature: Sum of all Work Unit estimated tokens
           - WA (Development Engineer) addresses review comments
           - WA (Development Engineer) updates PR
           - Loop back to REVIEW
-      - **ELSE IF** *APPROVED*
+      - **ELSE IF** _APPROVED_
         - RA resets review loop count
         - Continue to QUALITY VALIDATION
     - **QUALITY VALIDATION:**
@@ -418,9 +436,9 @@ Feature: Sum of all Work Unit estimated tokens
         - Performance validation
         - Security scanning
         - Specification compliance check
-      - **IF** *QUALITY GATES FAIL*
+      - **IF** _QUALITY GATES FAIL_
         - RA increments quality loop count for Agent Task
-        - **IF** *QUALITY LOOP COUNT > MAX QUALITY LOOP THRESHOLD*
+        - **IF** _QUALITY LOOP COUNT > MAX QUALITY LOOP THRESHOLD_
           `Default threshold: 3 loops (configurable in Project.Config)`
           - RA flags Agent Task for HITL intervention
           - [[Human-in-the-Loop Check Process]]
@@ -436,7 +454,7 @@ Feature: Sum of all Work Unit estimated tokens
           - WA (Quality Engineer) documents failures
           - WA (Development Engineer) fixes issues
           - Loop back to REVIEW
-      - **ELSE IF** *QUALITY GATES PASS*
+      - **ELSE IF** _QUALITY GATES PASS_
         - RA resets quality loop count
         - WA (Quality Engineer) approves Agent Task
         - RA sets Agent Task state to **COMPLETE**
@@ -444,7 +462,7 @@ Feature: Sum of all Work Unit estimated tokens
     `Dependency-driven Prioritisation Cycle triggered`
   - RA triggers [[Continuous Planning Cycle]]
     `Update plans based on progress`
-- **WHEN** *ALL TASKS FOR WORK UNIT COMPLETE*
+- **WHEN** _ALL TASKS FOR WORK UNIT COMPLETE_
   - RA aggregates Work Unit results
   - RA validates Work Unit completion criteria
   - **RA rolls up actual tokens from Agent Tasks to Work Unit:**
@@ -454,7 +472,7 @@ Feature: Sum of all Work Unit estimated tokens
   - [[Human-in-the-Loop Check Process]]
     `TEMPO: Controlled for Work Unit completion approval`
   - RA sets Work Unit state to **COMPLETE**
-- **WHEN** *ALL WORK UNITS FOR FEATURE COMPLETE*
+- **WHEN** _ALL WORK UNITS FOR FEATURE COMPLETE_
   - RA sets Feature state to **IN REVIEW**
   - **FEATURE QUALITY VALIDATION:**
     - **WA (Quality Engineer)** runs comprehensive Feature-level quality gates:
@@ -464,12 +482,12 @@ Feature: Sum of all Work Unit estimated tokens
       - Security validation for complete Feature
       - Documentation completeness check
       - User acceptance criteria validation
-    - **IF** *QUALITY GATES FAIL*
+    - **IF** _QUALITY GATES FAIL_
       - WA (Quality Engineer) documents failures by Work Unit
       - RA sets affected Work Units state to **IN PROGRESS**
       - WAs (Development Engineers) fix issues
       - Loop back to affected Work Units
-    - **ELSE IF** *QUALITY GATES PASS*
+    - **ELSE IF** _QUALITY GATES PASS_
       - **RA rolls up actual tokens from Work Units to Feature:**
         - RA aggregates all Work Unit actual tokens
         - RA stores total actual tokens in Feature
@@ -481,6 +499,7 @@ Feature: Sum of all Work Unit estimated tokens
   `Include user if Tempo set to Moderate or Controlled`
 
 **Inputs:**
+
 - Agent Tasks (READY state)
 - Work Unit specifications
 - Feature specifications
@@ -488,6 +507,7 @@ Feature: Sum of all Work Unit estimated tokens
 - Dependency graph
 
 **Outputs:**
+
 - Completed code, documentation, tests
 - Pull Requests reviewed and merged
 - Agent Task state: **COMPLETE**
@@ -498,6 +518,7 @@ Feature: Sum of all Work Unit estimated tokens
 - Execution metrics for Cycle Review
 
 **Loop Protection:**
+
 - Review loop threshold (default: 3)
 - Quality loop threshold (default: 3)
 - HITL triggered when thresholds exceeded
@@ -515,6 +536,7 @@ Feature: Sum of all Work Unit actual tokens with variance analysis
 ```
 
 **See Also:**
+
 - [Quality Check Cycle](03-special-cycles.md#quality-check-cycle)
 - [Dependency-driven Prioritisation Cycle](03-special-cycles.md#dependency-driven-prioritisation-cycle)
 - [Token Estimation](07-token-estimation.md)
@@ -543,17 +565,20 @@ Task Execution (per Agent Task batch)
 ```
 
 **Parallel Execution:**
+
 - Multiple Features can be in different cycles simultaneously
 - Work Units can be challenged in parallel
 - Agent Tasks execute in parallel (dependency-permitting)
 
 **Cycle Dependencies:**
+
 - Work Unit Creation depends on Feature Specification
 - Challenge Cycle depends on Work Unit Creation
 - Task Breakdown depends on Challenge Cycle completion
 - Task Execution depends on Task Breakdown
 
 **See Also:**
+
 - [Special Cycles](03-special-cycles.md) - Quality Check and Dependency-driven Prioritisation
 - [Processes](04-processes.md) - Supporting processes used within cycles
 - [State Management](05-state-management.md) - State transitions triggered by cycles

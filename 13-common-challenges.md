@@ -22,7 +22,7 @@ Teams struggle with fast TEMPO because it represents a fundamental shift from tr
 - Gradually increase TEMPO as team adapts and gains confidence
 - Use HITL gates strategically to maintain control without slowing execution
 - Provide training on TEMPO concepts and decision-making
-- See [TEMPO](05-tempo.md) for detailed information and decision matrix
+- See [TEMPO Configuration](09-tempo-configuration.md) for detailed information and decision matrix
 
 ## Challenge 2: Dependency Management
 
@@ -73,7 +73,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - Strategic human input at key points
 - Real-time visibility and dashboards
 - Clear approval processes
-- See [Best Practices](10-best-practices.md) for detailed guidance
+- See [Best Practices](12-best-practices.md) for detailed guidance
 
 ## Challenge 5: Team Adoption
 
@@ -97,7 +97,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - Start with one tool at a time
 - Leverage automation where possible
 - Customize integration as needed
-- See [Tooling](11-tooling.md) for detailed information
+- Tooling integrations are being developed and will be available in future releases
 
 ## Challenge 7: Workflow Approval Bottlenecks
 
@@ -110,7 +110,7 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - Use automated approval for well-defined, low-risk work
 - Batch approvals to reduce human overhead
 - Start with Moderate TEMPO and increase automation as team gains experience
-- See  for workflow optimization strategies
+- See [Best Practices](12-best-practices.md) and [Flow Cycles](02-flow-cycles.md) for workflow optimization strategies
 
 ## Challenge 8: Project Manifest Sync Issues
 
@@ -149,11 +149,11 @@ Token estimation accuracy improves over time as historical data accumulates. Ini
 - **Execution:** Continuous vs. discrete sprints
 - **Planning:** Real-time continuous planning vs. sprint planning meetings
 
-See [Principles](04-principles.md) for detailed comparison.
+See [Core Concepts](01-core-concepts.md) for more details on RHYTHM Method principles.
 
 ### Q: Can I use RHYTHM Method with my existing project management tool?
 
-**A:** Yes! RHYTHM Method can be integrated with GitHub, Azure DevOps, Jira, and custom tools. Setup scripts are available (or coming soon) for each tool. See [Tooling](11-tooling.md) for integration options.
+**A:** Yes! RHYTHM Method can be integrated with GitHub, Azure DevOps, Jira, and custom tools. Tooling integrations and setup scripts are being developed and will be available in future releases.
 
 ### Q: What if my Work Unit estimation exceeds 8 hours?
 
@@ -175,7 +175,7 @@ See [Work Breakdown Structure](06-work-breakdown-structure.md) for detailed guid
 - 5 Story Points: ~1000-1500 tokens (very complex work)
 - 8 Story Points: ~1500-2500 tokens (extremely complex work)
 
-**Note:** These are starting points. Calibrate based on your team's historical data. See [Getting Started](02-getting-started.md) for migration guidance.
+**Note:** These are starting points. Calibrate based on your team's historical data. See [Getting Started](11-getting-started.md) for migration guidance.
 
 ### Q: What happens if humans are unavailable for HITL checkpoints?
 
@@ -185,7 +185,7 @@ See [Work Breakdown Structure](06-work-breakdown-structure.md) for detailed guid
 - **High-Risk Work:** Queue work, wait for human response
 - **Critical Work:** Escalate to backup approver or emergency procedures
 
-Response time expectations and timeout configurations are defined in [TEMPO](05-tempo.md).
+Response time expectations and timeout configurations are defined in [TEMPO Configuration](09-tempo-configuration.md).
 
 ### Q: How do I choose the right TEMPO level?
 
@@ -194,7 +194,7 @@ Response time expectations and timeout configurations are defined in [TEMPO](05-
 - **High TEMPO:** Well-defined, low-risk work, experienced team, limited user availability
 - **Controlled TEMPO:** Critical/high-risk work, new team/domain, frequent user availability needed
 
-See [TEMPO](05-tempo.md) for detailed decision matrix and [Quick Reference](15-quick-reference.md) for decision tree.
+See [TEMPO Configuration](09-tempo-configuration.md) for detailed decision matrix and [Quick Reference](16-quick-reference.md) for decision tree.
 
 ### Q: What's the difference between a bug "parented" to a Work Unit vs. "related" to a Feature?
 
@@ -246,20 +246,7 @@ Start with rough estimates and refine as you build historical data. See [Estimat
 - **Human Escalation:** Unresolvable conflicts, strategic decisions, complex multi-factor conflicts
 - **Conflict Prevention:** Clear boundaries, proper dependency management, resource allocation
 
-See [Principles](04-principles.md) for coordination details.
-
-### Q: How do I migrate from Scrum/Kanban to RHYTHM Method?
-
-**A:** Follow the migration guide in [Getting Started](02-getting-started.md):
-
-1. **Assess Current State:** Inventory existing work items
-2. **Map Work Items:** User Stories → Features, Tasks → Work Units, etc.
-3. **Handle In-Progress Work:** Complete current sprint or migrate mid-sprint
-4. **Project Setup:** Create Project Manifest, configure RHYTHM settings
-5. **Gradual Adoption:** Start with new work, migrate existing work gradually
-6. **Team Training:** Provide comprehensive training on RHYTHM Method
-
-See [Getting Started](02-getting-started.md) for complete migration guide.
+See [Core Concepts](01-core-concepts.md) for coordination details.
 
 ---
 

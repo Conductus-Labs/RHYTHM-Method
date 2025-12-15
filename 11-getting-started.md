@@ -24,7 +24,7 @@ The **Baton Framework** is the recommended way to use RHYTHM Method. It provides
 - Automated RHYTHM Method workflows
 - Integration with project management tools
 
-See [Message Formats](../message-format/overview.md) for communication templates.
+The Baton Framework provides standardized message templates (see Baton documentation).
 
 ## Adoption Paths
 
@@ -33,19 +33,19 @@ See [Message Formats](../message-format/overview.md) for communication templates
 Starting a new project with RHYTHM Method:
 
 1. **Project Initialization**
-   
+
    - Create Project Manifest
    - Configure RHYTHM settings
    - Initialize work queue
 
 2. **First Feature**
-   
+
    - Create Feature Specification
    - Break down into Work Units
    - Execute first execution cycle
 
 3. **Iterate and Improve**
-   
+
    - Review execution cycles
    - Refine processes
    - Improve estimation accuracy
@@ -63,7 +63,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Phase 1: Assessment and Planning
 
 1. **Assess Current State**
-   
+
    - **Current Methodology**: Identify current methodology (Scrum, Kanban, Agile, etc.)
    - **Work Items**: Inventory all existing work items (User Stories, Tasks, Bugs, etc.)
    - **In-Progress Work**: Identify work currently in progress (active sprints, in-flight tasks)
@@ -71,7 +71,7 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
    - **Tools**: Identify current project management tools
 
 2. **Plan Migration Strategy**
-   
+
    - **Timeline**: Define migration timeline (gradual vs. immediate)
    - **Scope**: Determine scope (entire project vs. new work only)
    - **Training**: Plan team training on RHYTHM Method
@@ -162,13 +162,13 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 **In-Progress Tasks:**
 
 1. **Assess Completion Status**
-   
+
    - Identify tasks close to completion (complete using existing process)
    - Identify tasks early in progress (migrate to RHYTHM Method)
    - Identify blocked tasks (migrate and resolve blockers)
 
 2. **Migration Decision**
-   
+
    - **Near Completion**: Complete using existing process
    - **Early Stage**: Migrate to RHYTHM Method
    - **Blocked**: Migrate and address blockers in RHYTHM Method
@@ -176,28 +176,28 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 #### Phase 4: Project Setup
 
 1. **Create Project Manifest**
-   
+
    - Consolidate existing project documentation
    - Create single Project Manifest
    - Migrate architectural decisions to decision log
    - Define project scope and objectives
 
 2. **Map Features**
-   
+
    - Map User Stories to Features
    - Define Feature specifications
    - Identify Feature dependencies
    - Set Feature priorities
 
 3. **Organize Work Units**
-   
+
    - Map Tasks to Work Units
    - Split large tasks if needed
    - Identify Work Unit dependencies
    - Convert story points to tokens
 
 4. **Configure RHYTHM Settings**
-   
+
    - Set TEMPO level (start with Moderate)
    - Configure HITL gates
    - Set up dependency tracking
@@ -224,21 +224,21 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 **Training Requirements:**
 
 1. **Core Concepts**
-   
+
    - RHYTHM Method principles
    - TEMPO and RHYTHM concepts
    - Work Breakdown Structure
    - Token-based estimation
 
 2. **Workflows**
-   
+
    - Feature Specification
    - Work Unit Creation and Review
    - Execution cycles
    - Dependency management
 
 3. **Tools and Processes**
-   
+
    - Project management tool setup
    - HITL gate configuration
    - Quality gate configuration
@@ -315,10 +315,9 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 
 **Resources:**
 
-- **Documentation**: See [Dictionary](17-dictionary.md), 
-- **Best Practices**: See [Best Practices](10-best-practices.md)
-- **Common Challenges**: See [Common Challenges](12-common-challenges.md)
-- **Tooling**: See [Tooling](11-tooling.md) for tool setup
+- **Documentation**: See [Dictionary](17-dictionary.md)
+- **Best Practices**: See [Best Practices](12-best-practices.md)
+- **Common Challenges**: See [Common Challenges](13-common-challenges.md)
 
 **Getting Help:**
 
@@ -334,22 +333,15 @@ RHYTHM Method migration involves mapping existing work items to RHYTHM structure
 Before implementing, understand the core concepts:
 
 - **Read the [Dictionary](17-dictionary.md)**: Understand key terms and concepts
-- **Review the **: Understand the six core principles
-- **Learn about [TEMPO](05-tempo.md)**: Understand agent speed and control
-- **Study the **: Understand RHYTHM Method workflows
+- **Review the [Core Concepts](01-core-concepts.md)**: Understand the six core principles
+- **Learn about [TEMPO](09-tempo-configuration.md)**: Understand agent speed and control
+- **Study the [Flow Cycles](02-flow-cycles.md) and [Processes](04-processes.md)**: Understand RHYTHM Method workflows
 
 ### Step 2: Set Up Your Project Management Tool
 
-Use the setup scripts for your tool:
-
-- **GitHub**: See [GitHub Setup](scripts/github/overview.md)
-- **Azure DevOps**: See [Azure DevOps Setup](scripts/azure-devops/overview.md)
-- **Jira**: See [Jira Setup](scripts/jira/overview.md)
-- **Custom**: See [Custom Integration](scripts/custom/overview.md)
+Setup scripts will be available in future releases.
 
 ### Step 3: Project Initialization
-
-Follow the [Project Initialization](06-workflows.md#1-project-initialization) workflow:
 
 **Create Project Manifest:**
 
@@ -360,7 +352,7 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 
 **Configure RHYTHM Settings:**
 
-1. Set TEMPO level (High, Moderate, Controlled) - see [TEMPO](05-tempo.md)
+1. Set TEMPO level (High, Moderate, Controlled) - see [TEMPO](09-tempo-configuration.md)
 2. Configure HITL gates
 3. Define agent capacity
 4. Set quality gate thresholds
@@ -421,26 +413,25 @@ Follow the [Project Initialization](06-workflows.md#1-project-initialization) wo
 
 **End-to-End Workflow Example:**
 
-- **[Workflow Example](14-workflow-example.md)** - Complete walkthrough of User Authentication System feature from specification to deployment, showing actual content and decisions at each step
+- **[Workflow Example](15-workflow-examples.md)** - Complete walkthrough of User Authentication System feature from specification to deployment, showing actual content and decisions at each step
 
 **Additional Examples:**
 
 - See [Estimation](07-token-estimation.md) for token estimation examples
 - See [Dependency Management](08-dependency-management.md) for dependency examples
 - See [Work Breakdown Structure](06-work-breakdown-structure.md) for WBS examples
-- See [Quick Reference](15-quick-reference.md) for formulas and decision trees
+- See [Quick Reference](16-quick-reference.md) for formulas and decision trees
 
 ## Next Steps
 
 After getting started:
 
-1. **See a Complete Example**: Review the [Workflow Example](14-workflow-example.md) to see RHYTHM Method in practice
+1. **See a Complete Example**: Review the [Workflow Example](15-workflow-examples.md) to see RHYTHM Method in practice
 2. **Understand Key Terms**: See [Dictionary](17-dictionary.md) for key terms and concepts
-3. **Quick Reference**: Use the [Quick Reference](15-quick-reference.md) for formulas and decision trees
-4. **Learn Best Practices**: See [Best Practices](10-best-practices.md) for detailed guidance
-5. **Explore Tooling**: See [Tooling](11-tooling.md) for tool integrations
-6. **Review Common Challenges**: See [Common Challenges](12-common-challenges.md) for solutions and FAQ
-7. **Understand Error Handling**: See [Error Handling](13-error-handling.md) for failure recovery
+3. **Quick Reference**: Use the [Quick Reference](16-quick-reference.md) for formulas and decision trees
+4. **Learn Best Practices**: See [Best Practices](12-best-practices.md) for detailed guidance
+5. **Review Common Challenges**: See [Common Challenges](13-common-challenges.md) for solutions and FAQ
+6. **Understand Error Handling**: See [Error Handling](14-error-handling.md) for failure recovery
 
 ---
 
